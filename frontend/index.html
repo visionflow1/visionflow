@@ -191,34 +191,46 @@
       }
       .logo-header {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        margin-top: 12px;
+        margin-top: 8px;
         margin-bottom: 8px;
         gap: 8px;
+        position: relative;
       }
       .vision-logo {
         max-width: 60px;
         padding: 4px 8px;
       }
-      #logout-button, #toggle-theme {
-        float: none;
-        width: 100%;
-        display: block;
-        box-sizing: border-box;
+      #logout-button.logout-icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        padding: 0;
+        background: #FFD700;
+        color: #18122B;
+        border: none;
+        box-shadow: 0 2px 8px #FFD70022;
+        display: none;
+        z-index: 2;
       }
-      #logout-button {
-        margin-top: 0;
-        margin-bottom: 8px;
-        padding: 7px 10px;
-        font-size: 0.95rem;
-        border-radius: 8px;
+      #logout-button.logout-icon.visible {
+        display: block;
       }
       #toggle-theme {
+        width: auto;
+        margin-left: 8px;
+        margin-bottom: 0;
         padding: 7px 10px;
         font-size: 0.95rem;
         border-radius: 8px;
-        margin-bottom: 0;
       }
       .subtitle {
         font-size: 1rem;
@@ -312,10 +324,40 @@
   <style>
     .logo-header {
       display: flex;
-      justify-content: left;
-      align-items: left;
+      justify-content: flex-start;
+      align-items: center;
       margin-top: 36px;
       margin-bottom: 18px;
+      gap: 12px;
+      position: relative;
+    }
+    #logout-button.logout-icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+      margin: 0;
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      min-height: 38px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      padding: 0;
+      background: #FFD700;
+      color: #18122B;
+      border: none;
+      box-shadow: 0 2px 8px #FFD70022;
+      display: none;
+      z-index: 2;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    #logout-button.logout-icon.visible {
+      display: block;
+    }
+    #logout-button.logout-icon:hover, #logout-button.logout-icon:focus {
+      background: #bfa14a;
+      color: #fffbe6;
     }
     .vision-logo {
       max-width: 140px;
@@ -331,6 +373,7 @@
 </head>
 <body>
   <div class="logo-header">
+      <button id="logout-button" class="hidden logout-icon" title="Logout">⎋</button>
       <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
   </div>
   <div class="container">
