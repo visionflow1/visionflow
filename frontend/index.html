@@ -348,7 +348,10 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-const BASE_URL = 'https://visionflow-backend.onrender.com'; // your actual backend URL
+// Use Render backend in production, localhost in development
+const BASE_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:10000'
+  : 'https://visionflow-backend.onrender.com';
 function showPage(page) {
   document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
   document.getElementById(page + '-page').style.display = 'block';
