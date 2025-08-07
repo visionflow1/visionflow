@@ -291,10 +291,12 @@
   </div>
 
   <div id="auth-section">
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
-    <button id="signup-btn">Sign Up</button>
-    <button id="login-btn">Login</button>
+    <form id="login-form" autocomplete="off">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
+      <button id="signup-btn" type="button">Sign Up</button>
+      <button id="login-button" type="submit">Login</button>
+    </form>
   </div>
 
   <button id="logout-button" class="hidden" style="float: right;">Logout</button>
@@ -348,6 +350,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+document.addEventListener("DOMContentLoaded", function () {
 // All API calls use the hardcoded Render backend URL directly
 function showPage(page) {
   document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
@@ -381,9 +384,8 @@ function restoreSession() {
     document.getElementById("logout-button").classList.add("hidden");
   }
 }
-window.addEventListener("DOMContentLoaded", () => {
-  restoreSession();
-  // Default to dark mode on load
+restoreSession();
+// Default to dark mode on load
   document.body.classList.add("dark-mode");
   updateThemeButton();
   attachEventHandlers();
@@ -435,11 +437,13 @@ window.addEventListener("DOMContentLoaded", () => {
     toggleBtn.setAttribute('aria-label', 'Toggle dark/light mode');
     toggleBtn.setAttribute('tabindex', '3');
   }
-});
 
 function attachEventHandlers() {
   document.getElementById("signup-btn").onclick = register;
-  document.getElementById("login-btn").onclick = login;
+  document.getElementById("login-form").onsubmit = function(e) {
+    e.preventDefault();
+    login();
+  };
   document.getElementById("logout-button").onclick = logout;
   document.getElementById("chat-form").onsubmit = handleChatSubmit;
   document.getElementById("view-favorites-btn").onclick = viewFavorites;
