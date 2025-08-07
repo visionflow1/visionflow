@@ -5,5 +5,3 @@ supabase
 requests
 gunicorn
 python-dotenv
-python-dotenv
-python-dotenv

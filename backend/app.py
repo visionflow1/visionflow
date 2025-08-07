@@ -1,7 +1,6 @@
-from dotenv import load_dotenv
 import os
-load_dotenv()  # Load environment variables from .env before anything else
-
+from dotenv import load_dotenv
+import requests
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import openai
@@ -245,8 +244,6 @@ def chat():
         print("[AI ERROR]", traceback.format_exc())
         return jsonify({'error': f'AI error: {str(e)}', 'trace': traceback.format_exc()}), 500
 
-import requests
-
 # --- API: Save Favorite ---
 @app.route('/save-favorite', methods=['POST', 'OPTIONS'])
 def save_favorite():
@@ -378,6 +375,36 @@ def send_message():
         print('[CONTACT US] Exception:', e)
         print(traceback.format_exc())
         return jsonify({"error": str(e), "trace": traceback.format_exc()})
+
+# --- API: Chat History (Missing Endpoints) ---
+@app.route('/chat-history', methods=['POST', 'OPTIONS'])
+def chat_history():
+    if request.method == 'OPTIONS':
+        return ('', 204)
+    data = request.get_json()
+    email = data.get('email')
+    try:
+        result = supabase.table('chat_history').select('*').eq('email', email).execute()
+        if hasattr(result, 'error') and result.error:
+            return jsonify({'error': str(result.error)}), 400
+        history = result.data if hasattr(result, 'data') else []
+        return jsonify({'history': history})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/clear-chat-history', methods=['POST', 'OPTIONS'])
+def clear_chat_history():
+    if request.method == 'OPTIONS':
+        return ('', 204)
+    data = request.get_json()
+    email = data.get('email')
+    try:
+        result = supabase.table('chat_history').delete().eq('email', email).execute()
+        if hasattr(result, 'error') and result.error:
+            return jsonify({'error': str(result.error)}), 400
+        return jsonify({'message': 'Chat history cleared.'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 import os
 if __name__ == "__main__":
