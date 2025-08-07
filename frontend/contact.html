@@ -117,6 +117,7 @@
     &copy; 2025 VisionFlow — All rights reserved.
   </footer>
   <script>
+  const BASE_URL = 'https://visionflow-backend.onrender.com';
   document.getElementById('contact-form').onsubmit = async function(e) {
     e.preventDefault();
     const name = document.getElementById('contact-name').value.trim();
@@ -131,7 +132,7 @@
     }
     status.textContent = 'Sending...';
     try {
-      const res = await fetch('https://visionflow-backend.onrender.com/send-message', {
+      const res = await fetch(`${BASE_URL}/send-message`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message })
