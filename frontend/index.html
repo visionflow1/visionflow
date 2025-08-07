@@ -790,18 +790,7 @@ function loadChatHistory() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email: loggedInUser.email })
   })
-    .then(res => res.json())
-    .then(data => {
-      const history = data.history || [];
-      let output = "\n📜 Chat History\n";
-      if (history.length === 0) output += "No history yet.";
-      else {
-        history.forEach(item => {
-          output += `\n[${item.tool}]\nYou: ${item.user_input}\nVisionFlow: ${item.ai_reply}\n---\n`;
-        });
-      }
-      document.getElementById("chat-box").innerText = output;
-    });
+
 }
 
 function clearChatHistory() {
