@@ -3,16 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Refund Policy - VisionFlow</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Refund Policy | VisionFlow</title>
+  <style>
+    body { background: #18122B; color: #f5f3e7; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: 48px auto 0 auto; background: #23213a; border-radius: 18px; box-shadow: 0 4px 32px #0008; padding: 40px 24px 32px 24px; }
+    h1 { color: #FFD700; margin-bottom: 18px; }
+    h2 { color: #FFD700; margin-top: 32px; }
+    a { color: #FFD700; text-decoration: underline; }
+    p, li { line-height: 1.7; }
+    .back-link { display: inline-block; margin-top: 32px; color: #FFD700; font-weight: 600; }
+  </style>
+  <style>
+    .logo-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    .vision-logo {
+      max-width: 120px;
+      width: 50%;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px #FFD70044, 0 1.5px 8px #0006;
+      border: 2.5px solid #FFD70044;
+      background: #fffbe6;
+      padding: 8px 18px;
+      object-fit: contain;
+    }
+  </style>
 </head>
 <body>
-  <main style="padding: 2rem; font-family: Arial, sans-serif;">
+  <div class="logo-header">
+      <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
+  </div>
+  <div class="container">
     <h1>Refund Policy</h1>
-    <p>We stand behind the quality of VisionFlow. If you're not satisfied with your purchase, you can request a refund within 7 days of your order.</p>
-    <p>To request a refund, contact us at <a href="mailto:yabkalkidmalem15@gmail.com">yabkalkidmalem15@gmail.com</a> with your order details.</p>
-    <p>We’ll respond within 48 hours and issue a refund if it meets our policy conditions.</p>
-    <p>Thanks for trying VisionFlow!</p>
-  </main>
+    <p>We want you to be completely satisfied with your experience using VisionFlow. If you are not satisfied with your purchase, you may be eligible for a refund under the following conditions:</p>
+    <h2>Eligibility for Refunds</h2>
+    <ul>
+      <li>Refund requests must be made within <strong>7 days</strong> of your original purchase date.</li>
+      <li>Only first-time purchases are eligible for a refund. Renewals and upgrades are not eligible.</li>
+      <li>Refunds are not available for accounts that have violated our <a href="terms-of-service.html">Terms of Service</a>.</li>
+    </ul>
+    <h2>How to Request a Refund</h2>
+    <ol>
+      <li>Email us at <a href="mailto:support@visionflow.ai">support@visionflow.ai</a> with your order details and the reason for your request.</li>
+      <li>Our team will review your request and respond within 48 hours.</li>
+      <li>If your request meets our policy, we will process your refund to your original payment method within 5-10 business days.</li>
+    </ol>
+    <h2>Contact Us</h2>
+    <p>If you have any questions about our refund policy, please contact us at <a href="mailto:support@visionflow.ai">support@visionflow.ai</a>.</p>
+    <a href="#" class="back-link" id="back-home-link">&#8592; Back to Home</a>
+  </div>
+  <script>
+    document.getElementById('back-home-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      if (localStorage.getItem('token')) {
+        window.location.href = 'dashboard.html';
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
 </body>
 </html>
