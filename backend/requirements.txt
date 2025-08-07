@@ -4,4 +4,8 @@ openai
 supabase
 requests
 gunicorn
+<<<<<<< HEAD
 python-dotenv
+=======
+python-dotenv
+>>>>>>> d03fd7b164d883f4fc024ef76ef902db7ce64ebc
