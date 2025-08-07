@@ -255,27 +255,39 @@
   </style>
   <style>
     .logo-header {
-      display: flex;
-      justify-content: left;
-      align-items: left;
-      margin-top: 36px;
-      margin-bottom: 18px;
-    }
-    .vision-logo {
-      max-width: 140px;
-      width: 50%;
-      border-radius: 20px;
-      box-shadow: 0 4px 24px #FFD70044, 0 1.5px 8px #0006;
-      border: 2.5px solid #FFD70044;
-      background: #fffbe6;
-      padding: 8px 18px;
-      object-fit: contain;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 36px;
+  margin-bottom: 18px;
+  gap: 12px;
+  position: relative;
+}
+#logout-button.logout-icon {
+  position: static;
+  margin-left: 16px;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  padding: 0;
+  background: #FFD700;
+  color: #18122B;
+  border: none;
+  box-shadow: 0 2px 8px #FFD70022;
+  display: none;
+  z-index: 2;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
   <div class="logo-header">
-      <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
+    <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
+    <button id="logout-button" class="hidden logout-icon" title="Logout">⎋</button>
   </div>
   <div class="container">
     <div class="subtitle">Your all-in-one AI business, branding, and product toolkit</div>
