@@ -262,7 +262,7 @@
       margin-bottom: 18px;
     }
     .vision-logo {
-      max-width: 140px;
+      max-width: 80px;
       width: 50%;
       border-radius: 20px;
       box-shadow: 0 4px 24px #FFD70044, 0 1.5px 8px #0006;
@@ -291,12 +291,10 @@
   </div>
 
   <div id="auth-section">
-    <form id="login-form" autocomplete="off">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
-      <button id="signup-btn" type="button">Sign Up</button>
-      <button id="login-button" type="submit">Login</button>
-    </form>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
+    <button id="signup-btn">Sign Up</button>
+    <button id="login-btn">Login</button>
   </div>
 
   <button id="logout-button" class="hidden" style="float: right;">Logout</button>
@@ -350,8 +348,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-document.addEventListener("DOMContentLoaded", function () {
-// All API calls use the hardcoded Render backend URL directly
 function showPage(page) {
   document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
   document.getElementById(page + '-page').style.display = 'block';
@@ -384,8 +380,9 @@ function restoreSession() {
     document.getElementById("logout-button").classList.add("hidden");
   }
 }
-restoreSession();
-// Default to dark mode on load
+window.addEventListener("DOMContentLoaded", () => {
+  restoreSession();
+  // Default to dark mode on load
   document.body.classList.add("dark-mode");
   updateThemeButton();
   attachEventHandlers();
@@ -437,13 +434,11 @@ restoreSession();
     toggleBtn.setAttribute('aria-label', 'Toggle dark/light mode');
     toggleBtn.setAttribute('tabindex', '3');
   }
+});
 
 function attachEventHandlers() {
   document.getElementById("signup-btn").onclick = register;
-  document.getElementById("login-form").onsubmit = function(e) {
-    e.preventDefault();
-    login();
-  };
+  document.getElementById("login-btn").onclick = login;
   document.getElementById("logout-button").onclick = logout;
   document.getElementById("chat-form").onsubmit = handleChatSubmit;
   document.getElementById("view-favorites-btn").onclick = viewFavorites;
@@ -537,7 +532,7 @@ function register() {
   signUpBtn.disabled = true;
   loginBtn.disabled = true;
   signUpBtn.textContent = "Signing Up...";
-  fetch('https://visionflow-backend.onrender.com/register', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
@@ -589,7 +584,7 @@ function login() {
   signUpBtn.disabled = true;
   loginBtn.disabled = true;
   loginBtn.textContent = "Logging In...";
-  fetch('https://visionflow-backend.onrender.com/login', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
@@ -649,7 +644,7 @@ async function handleChatSubmit(e) {
   document.getElementById("chat-box").innerHTML += `<p><strong>You:</strong> ${message}</p>`;
   document.getElementById("user-input").value = "";
   try {
-    const res = await fetch('https://visionflow-backend.onrender.com/chat', {
+    const res = await fetch("https://visionflow-backend-vdjh.onrender.com/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: fullPrompt, tool, email: loggedInUser.email })
@@ -686,7 +681,7 @@ function saveFavorite(question, answer) {
     alert("Please login to save favorites.");
     return;
   }
-  fetch('https://visionflow-backend.onrender.com/save-favorite', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/save-favorite", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question, answer, email: loggedInUser.email })
@@ -704,7 +699,7 @@ function saveFavorite(question, answer) {
 window.saveFavorite = saveFavorite;
 
 function viewFavorites() {
-  fetch('https://visionflow-backend.onrender.com/favorites', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/favorites", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email: loggedInUser.email })
@@ -723,7 +718,7 @@ function viewFavorites() {
 }
 
 function deleteFavorite(question) {
-  fetch('https://visionflow-backend.onrender.com/delete-favorite', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/delete-favorite", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question, email: loggedInUser.email })
@@ -736,7 +731,7 @@ function deleteFavorite(question) {
 }
 
 function clearFavorites() {
-  fetch('https://visionflow-backend.onrender.com/clear-favorites', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/clear-favorites", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email: loggedInUser.email })
@@ -790,7 +785,7 @@ function loadChatHistory() {
     document.getElementById("chat-box").innerHTML = "";
     return;
   }
-  fetch('https://visionflow-backend.onrender.com/chat-history', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/chat-history", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email: loggedInUser.email })
@@ -815,7 +810,7 @@ function clearChatHistory() {
     return;
   }
   if (!confirm("Are you sure you want to clear your chat history? This cannot be undone.")) return;
-  fetch('https://visionflow-backend.onrender.com/clear-chat-history', {
+  fetch("https://visionflow-backend-vdjh.onrender.com/clear-chat-history", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email: loggedInUser.email })
@@ -1048,7 +1043,7 @@ document.getElementById('contact-form').onsubmit = async function(e) {
   }
   status.textContent = 'Sending...';
   try {
-    const res = await fetch('https://visionflow-backend.onrender.com/send-message', {
+    const res = await fetch('https://visionflow-backend-vdjh.onrender.com/send-message', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, message })
