@@ -793,7 +793,7 @@ function loadChatHistory() {
     .then(res => res.json())
     .then(data => {
       const history = data.history || [];
-      let output = "";
+      let output = "\n📜 Chat History\n";
       if (history.length === 0) output += "No history yet.";
       else {
         history.forEach(item => {
