@@ -396,7 +396,7 @@
     <button id="login-btn">Login</button>
   </div>
 
-  <button id="logout-button" class="hidden" style="float: right;">Logout</button>
+  <!-- Removed duplicate logout button here -->
   <div id="main-section" class="hidden">
     <label for="tool-select"><strong>Choose Tool:</strong></label>
     <select id="tool-select">
@@ -467,16 +467,21 @@ let favorites = [];
 
 function restoreSession() {
   const savedUser = localStorage.getItem("visionflowUser");
+  const logoutBtn = document.getElementById("logout-button");
   if (savedUser) {
     loggedInUser = JSON.parse(savedUser);
     document.getElementById("auth-section").classList.add("hidden");
     document.getElementById("main-section").classList.remove("hidden");
-    document.getElementById("logout-button").classList.remove("hidden");
+    // Show the logout icon button
+    logoutBtn.classList.remove("hidden");
+    logoutBtn.classList.add("visible", "logout-icon");
   } else {
     loggedInUser = null;
     document.getElementById("main-section").classList.add("hidden");
     document.getElementById("auth-section").classList.remove("hidden");
-    document.getElementById("logout-button").classList.add("hidden");
+    // Hide the logout icon button
+    logoutBtn.classList.add("hidden");
+    logoutBtn.classList.remove("visible");
   }
 }
 window.addEventListener("DOMContentLoaded", () => {
