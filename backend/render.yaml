@@ -9,3 +9,10 @@ services:
     envVars:
       - key: PORT
         value: 10000
+
+  - type: static
+    name: visionflow-frontend
+    region: oregon
+    plan: free
+    buildCommand: ""          # Leave this empty for HTML/CSS/JS
+    staticPublishPath: frontend

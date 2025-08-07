@@ -3,3 +3,5 @@ flask-cors
 openai
 supabase
 requests
+gunicorn
+python-dotenv
