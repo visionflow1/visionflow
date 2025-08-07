@@ -4,3 +4,4 @@ openai
 supabase
 requests
 gunicorn
+python-dotenv
