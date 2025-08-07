@@ -197,23 +197,22 @@
         margin-bottom: 8px;
         gap: 8px;
       }
-      .header-actions {
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 8px;
-      }
       .vision-logo {
         max-width: 60px;
         padding: 4px 8px;
       }
-      #logout-button {
+      #logout-button, #toggle-theme {
         float: none;
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+      }
+      #logout-button {
         margin-top: 0;
-        margin-bottom: 0;
+        margin-bottom: 8px;
         padding: 7px 10px;
         font-size: 0.95rem;
         border-radius: 8px;
-        display: inline-block;
       }
       #toggle-theme {
         padding: 7px 10px;
@@ -313,17 +312,10 @@
   <style>
     .logo-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: left;
+      align-items: left;
       margin-top: 36px;
       margin-bottom: 18px;
-      gap: 16px;
-    }
-    .header-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
     }
     .vision-logo {
       max-width: 140px;
@@ -340,10 +332,6 @@
 <body>
   <div class="logo-header">
       <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
-      <div class="header-actions">
-        <button id="logout-button" class="hidden">Logout</button>
-        <button id="toggle-theme">🌙 Toggle Dark Mode</button>
-      </div>
   </div>
   <div class="container">
     <div class="subtitle">Your all-in-one AI business, branding, and product toolkit</div>
