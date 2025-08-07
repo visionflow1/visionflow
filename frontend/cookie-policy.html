@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cookie Policy | VisionFlow</title>
+  <style>
+    body { background: #18122B; color: #f5f3e7; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: 48px auto 0 auto; background: #23213a; border-radius: 18px; box-shadow: 0 4px 32px #0008; padding: 40px 24px 32px 24px; }
+    h1 { color: #FFD700; margin-bottom: 18px; }
+    h2 { color: #FFD700; margin-top: 32px; }
+    a { color: #FFD700; text-decoration: underline; }
+    p, li { line-height: 1.7; }
+    .back-link { display: inline-block; margin-top: 32px; color: #FFD700; font-weight: 600; }
+  </style>
+  <style>
+    .logo-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    .vision-logo {
+      max-width: 120px;
+      width: 50%;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px #FFD70044, 0 1.5px 8px #0006;
+      border: 2.5px solid #FFD70044;
+      background: #fffbe6;
+      padding: 8px 18px;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-header">
+      <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
+  </div>
+  <div class="container">
+    <h1>Cookie Policy</h1>
+    <p>VisionFlow uses cookies and similar technologies to enhance your experience on our website. This Cookie Policy explains what cookies are and how we use them.</p>
+    <h2>What Are Cookies?</h2>
+    <p>Cookies are small text files stored on your device by your browser. They help us remember your preferences and improve site functionality.</p>
+    <h2>How We Use Cookies</h2>
+    <ul>
+      <li>To remember your preferences and settings</li>
+      <li>For analytics and performance tracking</li>
+      <li>To improve security</li>
+    </ul>
+    <h2>Your Choices</h2>
+    <p>You can control or delete cookies through your browser settings. Disabling cookies may affect your experience on our site.</p>
+    <a href="#" class="back-link" id="back-home-link">&#8592; Back to Home</a>
+  </div>
+  <script>
+    document.getElementById('back-home-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      if (localStorage.getItem('token')) {
+        window.location.href = 'dashboard.html';
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+</html>
