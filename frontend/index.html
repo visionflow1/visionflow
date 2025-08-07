@@ -467,16 +467,25 @@ let favorites = [];
 
 function restoreSession() {
   const savedUser = localStorage.getItem("visionflowUser");
+  const logoutBtn = document.getElementById("logout-button");
   if (savedUser) {
     loggedInUser = JSON.parse(savedUser);
     document.getElementById("auth-section").classList.add("hidden");
     document.getElementById("main-section").classList.remove("hidden");
-    document.getElementById("logout-button").classList.remove("hidden");
+    // Show the logout icon button
+    logoutBtn.classList.remove("hidden");
+    logoutBtn.classList.add("visible", "logout-icon");
+    // Hide the old logout button if present
+    if (logoutBtn && logoutBtn.nextElementSibling && logoutBtn.nextElementSibling.tagName === 'BUTTON') {
+      logoutBtn.nextElementSibling.style.display = 'none';
+    }
   } else {
     loggedInUser = null;
     document.getElementById("main-section").classList.add("hidden");
     document.getElementById("auth-section").classList.remove("hidden");
-    document.getElementById("logout-button").classList.add("hidden");
+    // Hide the logout icon button
+    logoutBtn.classList.add("hidden");
+    logoutBtn.classList.remove("visible");
   }
 }
 window.addEventListener("DOMContentLoaded", () => {
