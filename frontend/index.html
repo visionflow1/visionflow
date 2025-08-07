@@ -180,11 +180,63 @@
       box-shadow: 0 1px 8px #FFD70022;
     }
     @media (max-width: 600px) {
-      body { padding: 8px; }
-      #auth-section, #main-section { padding: 12px 6px; }
-      h1 { font-size: 1.5rem; }
-      #chat-box { height: 180px; padding: 8px; }
-      form#chat-form button { padding: 8px 12px; font-size: 0.95rem; }
+      body {
+        padding: 4px;
+        border-radius: 0;
+        box-shadow: none;
+        min-width: 0;
+      }
+      .container {
+        padding: 0 2px;
+      }
+      .logo-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+        margin-bottom: 8px;
+        gap: 8px;
+      }
+      .vision-logo {
+        max-width: 60px;
+        padding: 4px 8px;
+      }
+      #logout-button {
+        float: none;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 7px 10px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        display: inline-block;
+      }
+      #toggle-theme {
+        padding: 7px 10px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+      #auth-section, #main-section {
+        padding: 10px 4px;
+        margin-bottom: 12px;
+      }
+      #chat-box {
+        height: 140px;
+        padding: 6px;
+        font-size: 0.95rem;
+      }
+      form#chat-form button {
+        padding: 7px 10px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+      }
+      .footer-inner {
+        padding: 0 4px;
+      }
     }
     /* Light mode luxury styles */
     body.light-mode {
