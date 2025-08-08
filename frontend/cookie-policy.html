@@ -50,17 +50,17 @@
     </ul>
     <h2>Your Choices</h2>
     <p>You can control or delete cookies through your browser settings. Disabling cookies may affect your experience on our site.</p>
-nd     <button class="back-link" onclick="redirectHome()">&#8592; Back to Home</button>
+    <a href="#" class="back-link" id="back-home-link">&#8592; Back to Home</a>
   </div>
   <script>
-    function redirectHome() {
-      // Check for a login token in localStorage (adjust key if your app uses a different one)
+    document.getElementById('back-home-link').addEventListener('click', function(e) {
+      e.preventDefault();
       if (localStorage.getItem('token')) {
         window.location.href = 'dashboard.html';
       } else {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
       }
-    }
+    });
   </script>
 </body>
 </html>
