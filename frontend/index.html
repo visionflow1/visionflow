@@ -915,7 +915,6 @@
           restoreSession();
           const chatBox = document.getElementById("chat-box");
           if (chatBox) chatBox.innerHTML = "";
-          setTimeout(() => loadChatHistory(), 100);
           emailInput.value = "";
           passwordInput.value = "";
           setTimeout(() => {
@@ -1182,70 +1181,6 @@
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(link.href);
-    }
-
-    // Chat history functions
-    async function loadChatHistory() {
-      if (!loggedInUser || !loggedInUser.email) {
-        const chatBox = document.getElementById("chat-box");
-        if (chatBox) chatBox.innerHTML = "";
-        return;
-      }
-
-      try {
-        const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat-history", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: loggedInUser.email })
-        });
-        
-        const data = await response.json();
-        const history = data.history || [];
-        const chatBox = document.getElementById("chat-box");
-        
-        if (chatBox) {
-          let output = "\n📜 Chat History\n";
-          if (history.length === 0) {
-            output += "No history yet.";
-          } else {
-            history.forEach(item => {
-              output += `\n[${item.tool}]\nYou: ${item.user_input}\nVisionFlow: ${item.ai_reply}\n---\n`;
-            });
-          }
-          chatBox.innerText = output;
-        }
-      } catch (err) {
-        alert("❌ Network error: " + err.message);
-      }
-    }
-
-    async function clearChatHistory() {
-      if (!loggedInUser || !loggedInUser.email) {
-        alert("Please login to clear chat history.");
-        return;
-      }
-      
-      if (!confirm("Are you sure you want to clear your chat history? This cannot be undone.")) return;
-
-      try {
-        const response = await fetch("https://visionflow-backend-vdjh.onrender.com/clear-chat-history", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: loggedInUser.email })
-        });
-        
-        const data = await response.json();
-        
-        if (data.message) {
-          const chatBox = document.getElementById("chat-box");
-          if (chatBox) chatBox.innerHTML = "";
-          alert("✅ Chat history cleared.");
-        } else {
-          alert("❌ " + (data.error || "Failed to clear chat history."));
-        }
-      } catch (err) {
-        alert("❌ Network error: " + err.message);
-      }
     }
 
     // Logo download function
