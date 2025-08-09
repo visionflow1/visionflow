@@ -653,7 +653,7 @@
             <span class="info-icon">📧</span>
             <h3>Email Us</h3>
             <p>We typically respond within 24 hours</p>
-            <a href="mailto:support@visionflow.ai" class="info-link">support@visionflow.ai</a>
+            <a href="mailto:yabkalkidmalem15@gma.." class="info-link">yabkalkidmalem15@gma..</a>
           </div>
           
           <div class="info-item">
@@ -719,7 +719,7 @@
       
       let hasError = false;
       
-      // Validation
+      // Basic validation only - no external email validation
       if (!name) {
         document.getElementById('name-error').textContent = 'Name is required.';
         hasError = true;
@@ -727,9 +727,6 @@
       
       if (!email) {
         document.getElementById('email-error').textContent = 'Email is required.';
-        hasError = true;
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        document.getElementById('email-error').textContent = 'Please enter a valid email address.';
         hasError = true;
       }
       
@@ -772,7 +769,8 @@
           // Show toast notification
           showToast('Message sent successfully!', 'success');
         } else {
-          status.textContent = '❌ Failed to send. ' + (data.error || 'Please try again.');
+          // Simplified error handling - no specific email validation errors
+          status.textContent = '❌ Failed to send message. Please try again.';
           status.className = 'error';
         }
       } catch (err) {
