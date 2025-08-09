@@ -82,7 +82,7 @@ def register():
     email = data.get('email')
     password = data.get('password')
     
-    # Real email verification using mails.so only if user does not exist
+    # Basic email format validation
     import re
     email_regex = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
     if not email or not re.match(email_regex, email):
@@ -96,21 +96,6 @@ def register():
     except Exception as e:
         print('[REGISTER] Supabase check exception:', e)
         return jsonify({'error': 'Database error. Please try again.'}), 500
-    
-    # Only if user does not exist, check deliverability
-    try:
-        mails_api_key = "b9c66737-97ba-455a-b310-260b3735e96d"
-        mails_url = f"https://api.mails.so/v1/validate?email={email}"
-        mails_headers = {"x-mails-api-key": mails_api_key}
-        mails_resp = requests.get(mails_url, headers=mails_headers, timeout=10)
-        mails_data = mails_resp.json()
-        print('[REGISTER] mails.so response:', mails_data)
-        
-        if not (mails_data.get('data') and mails_data['data'].get('result') == 'deliverable'):
-            return jsonify({'error': 'Email address is not deliverable or does not exist.'}), 400
-    except Exception as e:
-        print('[REGISTER] mails.so exception:', e)
-        return jsonify({'error': 'Email verification failed. Please try again later.'}), 500
     
     # Register user logic: save to Supabase
     try:
@@ -138,7 +123,7 @@ def login():
     email = data.get('email')
     password = data.get('password')
     
-    # Only check email format for login, not deliverability
+    # Basic email format validation
     import re
     email_regex = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
     if not email or not re.match(email_regex, email):
@@ -369,29 +354,13 @@ def send_message():
     message = data.get('message')
 
     print('[CONTACT US] Received:', data)
+    
+    # Basic email format validation
     import re
     email_regex = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
     if not email or not re.match(email_regex, email):
         print('[CONTACT US] Invalid email:', email)
         return jsonify({"error": "Invalid email address."}), 400
-    
-    # Real email verification using mails.so
-    try:
-        mails_api_key = "b9c66737-97ba-455a-b310-260b3735e96d"
-        mails_url = f"https://api.mails.so/v1/validate?email={email}"
-        mails_headers = {"x-mails-api-key": mails_api_key}
-        mails_resp = requests.get(mails_url, headers=mails_headers, timeout=10)
-        print('[CONTACT US] mails.so status:', mails_resp.status_code)
-        print('[CONTACT US] mails.so raw response:', mails_resp.text)
-        mails_data = mails_resp.json()
-        print('[CONTACT US] mails.so response:', mails_data)
-        
-        # Accept if result is 'deliverable'
-        if not (mails_data.get('data') and mails_data['data'].get('result') == 'deliverable'):
-            return jsonify({"error": f"Email address is not deliverable or does not exist. mails.so: {mails_data}"}), 400
-    except Exception as e:
-        print('[CONTACT US] mails.so exception:', e)
-        return jsonify({"error": "Email verification failed. Please try again later."}), 500
     
     try:
         result = supabase.table("contact_us").insert({
