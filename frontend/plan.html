@@ -1,219 +1,1269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VisionFlow AI Pricing Plans</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Playfair+Display:wght@700&display=swap');
-    body {
-      font-family: 'Montserrat', 'Playfair Display', serif;
-      background: linear-gradient(135deg, #18122B 0%, #22223B 100%);
-      color: #f5f3e7;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px 48px 24px;
-    }
-    .plans-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: #FFD700;
-      margin-top: 48px;
-      margin-bottom: 18px;
-      letter-spacing: 1.5px;
-      text-align: center;
-      text-shadow: 0 2px 16px #0008;
-    }
-    .plans-desc {
-      text-align: center;
-      color: #FFD700b0;
-      font-size: 1.18rem;
-      margin-bottom: 36px;
-    }
-    .plans-section {
-      background: rgba(34,34,59,0.92);
-      border-radius: 18px;
-      box-shadow: 0 2px 16px #FFD70022;
-      padding: 36px 28px;
-      margin-bottom: 36px;
-    }
-    .plans-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      justify-content: center;
-    }
-    .plan {
-      flex: 1 1 220px;
-      min-width: 220px;
-      max-width: 300px;
-      background: rgba(24,18,43,0.92);
-      border-radius: 16px;
-      padding: 28px 18px;
-      text-align: center;
-      border: 2px solid #FFD70033;
-      box-shadow: 0 2px 12px #FFD70022;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .plan.popular {
-      background: linear-gradient(135deg,#FFD70022 0%,#bfa14a33 100%);
-      border: 2.5px solid #FFD70088;
-      box-shadow: 0 4px 24px #FFD70044;
-    }
-    .plan .popular-badge {
-      position: absolute;
-      top: -18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #FFD700;
-      color: #18122B;
-      font-weight: 700;
-      padding: 4px 18px;
-      border-radius: 8px;
-      font-size: 1.01rem;
-      box-shadow: 0 2px 8px #FFD70044;
-    }
-    .plan-title {
-      font-size: 1.35rem;
-      color: #FFD700;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .plan-price {
-      font-size: 2.1rem;
-      color: #FFD700;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .plan-desc {
-      color: #FFD700b0;
-      margin-bottom: 18px;
-    }
-    .plan-features {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 18px 0;
-      color: #FFD700;
-      text-align: left;
-      font-size: 1.08rem;
-    }
-    .plan-action {
-      margin-top: 18px;
-    }
-    .plan-action .btn {
-      background: #FFD700;
-      color: #18122B;
-      padding: 8px 24px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 1.08rem;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 2px 8px #FFD70044;
-      transition: background 0.2s, color 0.2s;
-    }
-    .plan-action .btn:hover, .plan-action .btn:focus {
-      background: #bfa14a;
-      color: #FFD700;
-    }
-    .footer {
-      text-align: center;
-      color: #FFD700;
-      margin-top: 48px;
-      font-size: 1.08rem;
-      padding-bottom: 24px;
-    }
-    @media (max-width: 900px) {
-      .plans-list { flex-direction: column; gap: 18px; }
-    }
-  </style>
-  <style>
-    .logo-header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 36px;
-      margin-bottom: 18px;
-    }
-    .vision-logo {
-      max-width: 120px;
-      width: 50%;
-      border-radius: 20px;
-      box-shadow: 0 4px 24px #FFD70044, 0 1.5px 8px #0006;
-      border: 2.5px solid #FFD70044;
-      background: #fffbe6;
-      padding: 8px 18px;
-      object-fit: contain;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pricing Plans | VisionFlow AI</title>
+    <meta name="description" content="Choose the perfect VisionFlow AI plan for your business needs. Flexible pricing for startups, entrepreneurs, and agencies." />
+    <meta name="theme-color" content="#18122B" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style>
+        :root {
+            --primary-color: #FFD700;
+            --primary-dark: #bfa14a;
+            --secondary-color: #18122B;
+            --secondary-light: #22223B;
+            --tertiary-color: #23213a;
+            --accent-color: #fffbe6;
+            --text-primary: #f5f3e7;
+            --text-secondary: #bfa14a;
+            --text-muted: rgba(191, 161, 74, 0.7);
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #18122B 0%, #22223B 100%);
+            --gradient-secondary: linear-gradient(90deg, #FFD700 0%, #bfa14a 100%);
+            --gradient-glass: rgba(24, 18, 43, 0.85);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 4px 24px rgba(255, 215, 0, 0.25);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            --transition-fast: 150ms ease;
+            --transition-base: 200ms ease;
+            --transition-slow: 300ms ease;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding: var(--spacing-lg) 0;
+            margin-bottom: var(--spacing-xl);
+            border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .vision-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-glow);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: var(--accent-color);
+            padding: var(--spacing-sm);
+            object-fit: contain;
+            transition: transform var(--transition-base);
+        }
+
+        .vision-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary-color);
+            margin: 0;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 215, 0, 0.1);
+            transition: all var(--transition-base);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: var(--spacing-2xl) 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .pricing-hero {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xl);
+            line-height: 1.6;
+        }
+
+        .billing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .toggle-label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .discount-badge {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .toggle-btn {
+            width: 60px;
+            height: 32px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .toggle-btn[aria-checked="true"] {
+            background: var(--gradient-secondary);
+        }
+
+        .toggle-slider {
+            width: 24px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-btn[aria-checked="true"] .toggle-slider {
+            transform: translateX(28px);
+            background: var(--secondary-color);
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .pricing-card {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-2xl);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all var(--transition-base);
+            position: relative;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
+        }
+
+        .pricing-popular {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, var(--gradient-glass) 100%);
+            transform: scale(1.05);
+        }
+
+        .pricing-popular:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-md);
+        }
+
+        .pricing-header {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .plan-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 700;
+        }
+
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .price-currency {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .price-amount {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .price-period {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .annual-price {
+            display: none;
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 500;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 var(--spacing-2xl) 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            padding: var(--spacing-md) 0;
+            color: var(--text-primary);
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            font-size: 1.125rem;
+            min-width: 24px;
+        }
+
+        .feature-included .feature-icon {
+            color: var(--success-color);
+        }
+
+        .feature-limited .feature-icon {
+            color: var(--primary-color);
+        }
+
+        .feature-excluded .feature-icon {
+            color: var(--text-muted);
+        }
+
+        .plan-btn {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            border: none;
+            padding: var(--spacing-lg) var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: var(--shadow-md);
+        }
+
+        .plan-btn:hover, .plan-btn:focus {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .plan-btn-secondary {
+            background: var(--tertiary-color);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .plan-btn-secondary:hover, .plan-btn-secondary:focus {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            border-color: var(--primary-color);
+        }
+
+        .plan-btn-primary {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .comparison-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            font-weight: 700;
+        }
+
+        .comparison-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--tertiary-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: var(--spacing-lg);
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+        }
+
+        .comparison-table td {
+            color: var(--text-primary);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        .comparison-table .check {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .comparison-table .cross {
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .faq-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            font-weight: 700;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: var(--spacing-lg);
+        }
+
+        .faq-item {
+            background: var(--tertiary-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: all var(--transition-base);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: var(--spacing-lg);
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            font-weight: 600;
+            color: var(--primary-color);
+            transition: all var(--transition-base);
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            transition: transform var(--transition-base);
+        }
+
+        .faq-question[aria-expanded="true"] .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-slow);
+        }
+
+        .faq-question[aria-expanded="true"] + .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            padding: 0 var(--spacing-lg) var(--spacing-lg);
+            color: var(--text-primary);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: var(--spacing-2xl) 0;
+            margin-top: var(--spacing-3xl);
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .footer-brand {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            font-weight: 500;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        .footer-nav a:hover, .footer-nav a:focus {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .pricing-popular {
+                transform: none;
+            }
+            
+            .pricing-popular:hover {
+                transform: translateY(-5px);
+            }
+            
+            .pricing-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+
+            .header .container {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-md);
+            }
+
+            .logo-header {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-md);
+            }
+
+            .vision-logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .brand-title {
+                font-size: clamp(1.25rem, 4vw, 1.75rem);
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 6vw, 3rem);
+            }
+
+            .hero-subtitle {
+                font-size: clamp(0.875rem, 3vw, 1.25rem);
+            }
+
+            .billing-toggle {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-xl);
+            }
+
+            .comparison-table-wrapper {
+                font-size: 0.875rem;
+            }
+
+            .comparison-table th, .comparison-table td {
+                padding: var(--spacing-md);
+            }
+
+            .faq-question {
+                font-size: clamp(0.875rem, 2.5vw, 1rem);
+                padding: var(--spacing-md);
+            }
+
+            .faq-answer p {
+                padding: 0 var(--spacing-md) var(--spacing-md);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .pricing-card {
+                padding: var(--spacing-xl);
+            }
+
+            .comparison-section, .faq-section {
+                padding: var(--spacing-xl);
+            }
+
+            .brand-title {
+                font-size: clamp(1.125rem, 4vw, 1.5rem);
+            }
+
+            .hero-title {
+                font-size: clamp(1.75rem, 6vw, 2.5rem);
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .pricing-card, .comparison-section, .faq-section {
+                border-width: 3px;
+            }
+
+            .plan-btn {
+                border: 2px solid currentColor;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus indicators */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
-  <div class="logo-header">
-      <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" />
-  </div>
-  <div class="container">
-    <div class="plans-title">VisionFlow Pricing Plans</div>
-    <div class="plans-desc">Choose the plan that fits your ambition. Upgrade anytime as you grow.</div>
-    <div class="plans-section">
-      <div class="plans-list">
-        <div class="plan">
-          <div class="plan-title">Starter</div>
-          <div class="plan-price">$49.99<span style="font-size:1.1rem;">/mo</span></div>
-          <div class="plan-desc">For new founders &amp; idea testers</div>
-          <ul class="plan-features">
-            <li>🔹 AI Cofounder Chat</li>
-            <li>🔹 Idea Engine</li>
-            <li>🔹 Market Research</li>
-            <li>🔹 MVP Planner</li>
-            <li>🔹 Go-to-Market Kit</li>
-            <li>🔹 Brand Builder</li>
-            <li>🔹 Step-by-Step Guidance</li>
-            <li>🔹 All Basic Feautures</li>
-            <li>🔹 Favorites (10 max)</li>
-            <li>🔸 Message limit (low)</li>
-            <li>🔸 Export tools ❌</li>
-            <li>🔸 Logo generator ❌</li>
-          </ul>
-          <div class="plan-action"><button class="btn">Get Started</button></div>
-        </div>
-        <div class="plan popular">
-          <div class="popular-badge">Most Popular</div>
-          <div class="plan-title">Pro</div>
-          <div class="plan-price">$99.99<span style="font-size:1.1rem;">/mo</span></div>
-          <div class="plan-desc">For serious founders &amp; growing startups</div>
-          <ul class="plan-features">
-            <li>✅ Everything in Starter, plus:</li>
-            <li>🔹 Logo Generator (limited)</li>
-            <li>🔹 Export to TXT/CSV/PDF</li>
-            <li>🔹 Favorites (50 max)</li>
-            <li>🔹 Medium message limit</li>
-          </ul>
-          <div class="plan-action"><button class="btn">Upgrade</button></div>
-        </div>
-        <div class="plan">
-          <div class="plan-title">Elite</div>
-          <div class="plan-price">$199.99<span style="font-size:1.1rem;">/mo</span></div>
-          <div class="plan-desc">For power users &amp; agencies</div>
-          <ul class="plan-features">
-            <li>✅ Everything in Pro, plus:</li>
-            <li>🔹 Unlimited Logo Generator</li>
-            <li>🔹 Unlimited Favorites</li>
-            <li>🔹 Unlimited Messages</li>
-            <li>🔹 Priority Support</li>
-          </ul>
-          <div class="plan-action"><button class="btn">Upgrade</button></div>
-        </div>
-      </div>
+    <div class="container">
+        <header class="header">
+            <div class="logo-header">
+                <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
+                <div class="brand-info">
+                    <h1 class="brand-title">VisionFlow AI</h1>
+                </div>
+            </div>
+            <nav class="header-nav">
+                <a href="landingpage.html" class="nav-link" aria-label="Go back to home page">
+                    <span>←</span>
+                    <span>Back to Home</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <!-- Hero Section -->
+            <div class="pricing-hero">
+                <h1 class="hero-title">Choose Your Plan</h1>
+                <p class="hero-subtitle">Flexible pricing that grows with your business. Upgrade or downgrade anytime.</p>
+                
+                <div class="billing-toggle">
+                    <span class="toggle-label">Monthly</span>
+                    <button class="toggle-btn" role="switch" aria-checked="false" aria-label="Toggle between monthly and annual billing">
+                        <span class="toggle-slider"></span>
+                    </button>
+                    <span class="toggle-label">
+                        Annual
+                        <span class="discount-badge">Save 20%</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Pricing Grid -->
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h2 class="plan-title">Starter</h2>
+                        <div class="plan-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount monthly-price">49.99</span>
+                            <span class="price-amount annual-price hidden">39.99</span>
+                            <span class="price-period">/mo</span>
+                        </div>
+                        <p class="plan-description">Perfect for new founders & idea testing</p>
+                    </div>
+
+                    <ul class="plan-features">
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            AI Cofounder Chat
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Idea Engine & Tester
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Market Research Tools
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            MVP Planner
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Go-to-Market Kit
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Brand Builder
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Step-by-Step Guidance
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Up to 10 Favorites
+                        </li>
+                        <li class="feature-limited">
+                            <span class="feature-icon">⚡</span>
+                            100 Messages/month
+                        </li>
+                        <li class="feature-excluded">
+                            <span class="feature-icon">✗</span>
+                            Export Tools
+                        </li>
+                        <li class="feature-excluded">
+                            <span class="feature-icon">✗</span>
+                            Logo Generator
+                        </li>
+                    </ul>
+
+                    <button class="plan-btn plan-btn-secondary">Get Started</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card pricing-popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h2 class="plan-title">Pro</h2>
+                        <div class="plan-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount monthly-price">99.99</span>
+                            <span class="price-amount annual-price hidden">79.99</span>
+                            <span class="price-period">/mo</span>
+                        </div>
+                        <p class="plan-description">For serious founders & growing startups</p>
+                    </div>
+
+                    <ul class="plan-features">
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Everything in Starter
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            AI Logo Generator (50/month)
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Export to TXT/CSV/PDF
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Up to 50 Favorites
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            500 Messages/month
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Priority Support
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Advanced Analytics
+                        </li>
+                    </ul>
+
+                    <button class="plan-btn plan-btn-primary">Upgrade to Pro</button>
+                </div>
+
+                <!-- Elite Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h2 class="plan-title">Elite</h2>
+                        <div class="plan-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount monthly-price">199.99</span>
+                            <span class="price-amount annual-price hidden">159.99</span>
+                            <span class="price-period">/mo</span>
+                        </div>
+                        <p class="plan-description">For power users & agencies</p>
+                    </div>
+
+                    <ul class="plan-features">
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Everything in Pro
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Unlimited Logo Generator
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Unlimited Favorites
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Unlimited Messages
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            White-label Options
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            API Access
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Dedicated Account Manager
+                        </li>
+                        <li class="feature-included">
+                            <span class="feature-icon">✓</span>
+                            Custom Integrations
+                        </li>
+                    </ul>
+
+                    <button class="plan-btn plan-btn-secondary">Contact Sales</button>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison-section">
+                <h2 class="comparison-title">Feature Comparison</h2>
+                <div class="comparison-table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Features</th>
+                                <th>Starter</th>
+                                <th>Pro</th>
+                                <th>Elite</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AI Cofounder Chat</td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Monthly Messages</td>
+                                <td>100</td>
+                                <td>500</td>
+                                <td>Unlimited</td>
+                            </tr>
+                            <tr>
+                                <td>Logo Generation</td>
+                                <td><span class="cross">✗</span></td>
+                                <td>50/month</td>
+                                <td>Unlimited</td>
+                            </tr>
+                            <tr>
+                                <td>Export Tools</td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Priority Support</td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>API Access</td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Can I change my plan anytime?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate any billing adjustments.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Is there a free trial?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! Sign up for free and get access to basic features. No credit card required to start exploring VisionFlow.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>What payment methods do you accept?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. All payments are processed securely.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Can I cancel anytime?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Absolutely. Cancel your subscription at any time with no questions asked. You'll continue to have access until the end of your billing period.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Do you offer refunds?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, we offer a 30-day money-back guarantee. If you're not satisfied with VisionFlow, we'll refund your first month's payment.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Is my data secure?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, we take security seriously. All data is encrypted in transit and at rest. We're GDPR compliant and never share your information with third parties.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-brand">© 2025 VisionFlow — All rights reserved.</div>
+                <nav class="footer-nav" aria-label="Footer navigation">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+            </div>
+        </footer>
     </div>
-    <div class="footer">
-      &copy; 2025 VisionFlow — Built for entrepreneurs, by entrepreneurs.
-    </div>
-  </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Billing toggle functionality
+            const billingToggle = document.querySelector('.toggle-btn');
+            const monthlyPrices = document.querySelectorAll('.monthly-price');
+            const annualPrices = document.querySelectorAll('.annual-price');
+            
+            if (billingToggle) {
+                billingToggle.addEventListener('click', function() {
+                    const isAnnual = this.getAttribute('aria-checked') === 'true';
+                    this.setAttribute('aria-checked', !isAnnual);
+                    
+                    if (!isAnnual) {
+                        // Switch to annual
+                        monthlyPrices.forEach(price => price.classList.add('hidden'));
+                        annualPrices.forEach(price => price.classList.remove('hidden'));
+                    } else {
+                        // Switch to monthly
+                        monthlyPrices.forEach(price => price.classList.remove('hidden'));
+                        annualPrices.forEach(price => price.classList.add('hidden'));
+                    }
+                });
+            }
+
+            // FAQ functionality
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other FAQs
+                    faqQuestions.forEach(q => {
+                        q.setAttribute('aria-expanded', 'false');
+                    });
+                    
+                    // Toggle current FAQ
+                    this.setAttribute('aria-expanded', !isExpanded);
+                });
+            });
+
+            // Plan button clicks
+            const planButtons = document.querySelectorAll('.plan-btn');
+            
+            planButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Add loading state
+                    const originalText = this.textContent;
+                    this.textContent = 'Loading...';
+                    this.style.opacity = '0.7';
+                    this.disabled = true;
+                    
+                    // Simulate loading and redirect
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                });
+            });
+
+            // Add hover effects to pricing cards
+            const pricingCards = document.querySelectorAll('.pricing-card');
+            
+            pricingCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.borderColor = 'var(--primary-color)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('pricing-popular')) {
+                        this.style.borderColor = 'rgba(255, 215, 0, 0.2)';
+                    }
+                });
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Intersection Observer for animations
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, observerOptions);
+                
+                // Observe pricing cards for animation
+                document.querySelectorAll('.pricing-card, .comparison-section, .faq-section').forEach(element => {
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(20px)';
+                    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(element);
+                });
+            }
+
+            // Keyboard navigation for FAQ
+            faqQuestions.forEach(question => {
+                question.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('.plan-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Handle window resize for responsive behavior
+        window.addEventListener('resize', function() {
+            // Adjust FAQ answers max-height on resize
+            const expandedAnswers = document.querySelectorAll('.faq-question[aria-expanded="true"] + .faq-answer');
+            expandedAnswers.forEach(answer => {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            });
+        });
+
+        // Add CSS for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            .plan-btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
