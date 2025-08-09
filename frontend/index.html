@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +6,10 @@
     <title>VisionFlow AI - Your AI Business Toolkit</title>
     <meta name="description" content="The luxury all-in-one AI business, branding, and product toolkit. Build, launch, and scale your next big idea with confidence." />
     <meta name="theme-color" content="#18122B" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="VisionFlow AI - Your AI Business Toolkit" />
+    <meta property="og:description" content="The luxury all-in-one AI business, branding, and product toolkit." />
+    <meta property="og:type" content="website" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
@@ -101,6 +104,7 @@
             border-radius: var(--radius-2xl);
             box-shadow: var(--shadow-xl);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             min-height: 100vh;
         }
 
@@ -465,6 +469,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(0.875rem, 2.5vw, 1rem);
             transition: all var(--transition-base);
+            resize: none;
         }
 
         .chat-input:focus {
@@ -660,6 +665,7 @@
             justify-content: center;
             z-index: var(--z-modal);
             backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .loading-spinner {
@@ -687,6 +693,7 @@
             display: flex;
             flex-direction: column;
             gap: var(--spacing-sm);
+            pointer-events: none;
         }
 
         .toast {
@@ -696,8 +703,10 @@
             padding: var(--spacing-lg);
             box-shadow: var(--shadow-xl);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             max-width: 350px;
             animation: slideInRight 0.3s ease-out;
+            pointer-events: auto;
         }
 
         .toast.toast-success {
@@ -710,6 +719,16 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
+        .toast.toast-warning {
+            border-color: var(--warning-color);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .toast.toast-info {
+            border-color: var(--info-color);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
         .toast-content {
             display: flex;
             align-items: flex-start;
@@ -719,6 +738,7 @@
         .toast-icon {
             font-size: 1.125rem;
             margin-top: 2px;
+            flex-shrink: 0;
         }
 
         .toast-message {
@@ -736,6 +756,12 @@
             font-size: 1.125rem;
             padding: 0;
             margin-left: var(--spacing-sm);
+            flex-shrink: 0;
+            transition: color var(--transition-fast);
+        }
+
+        .toast-close:hover {
+            color: var(--text-primary);
         }
 
         @keyframes slideInRight {
@@ -914,6 +940,10 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+            
+            html {
+                scroll-behavior: auto;
+            }
         }
 
         /* Focus indicators */
@@ -926,14 +956,27 @@
             outline: 2px solid var(--primary-color);
             outline-offset: 2px;
         }
+
+        /* Print styles */
+        @media print {
+            .header-actions, .action-grid, .loading-overlay, .toast-container {
+                display: none !important;
+            }
+            
+            .container {
+                box-shadow: none;
+                background: white;
+                color: black;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
-        <header class="header">
+        <header class="header" role="banner">
             <div class="logo-header">
-                <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
+                <img src="vision logo.jpeg" alt="VisionFlow AI Logo" class="vision-logo" loading="lazy" />
                 <div class="brand-info">
                     <h1 class="brand-title">VisionFlow AI</h1>
                     <p class="brand-subtitle">Your all-in-one AI business, branding, and product toolkit</p>
@@ -945,16 +988,16 @@
                     <span class="theme-icon">🌙</span>
                     <span class="theme-text">Toggle Dark Mode</span>
                 </button>
-                <button id="logout-button" class="logout-btn hidden" aria-label="Logout">
+                <button id="logout-button" class="logout-btn hidden" aria-label="Logout from VisionFlow">
                     <span>Logout</span>
                 </button>
             </div>
         </header>
 
         <!-- Auth Section -->
-        <section id="auth-section" class="auth-section">
+        <section id="auth-section" class="auth-section" aria-labelledby="auth-title">
             <div class="auth-card">
-                <h2 class="auth-title">Welcome to VisionFlow</h2>
+                <h2 id="auth-title" class="auth-title">Welcome to VisionFlow</h2>
                 <p class="auth-description">Sign in to access your AI business toolkit</p>
                 
                 <form id="auth-form" class="auth-form" novalidate>
@@ -969,7 +1012,7 @@
                             aria-describedby="email-error"
                             autocomplete="email"
                         />
-                        <div id="email-error" class="error-message" role="alert"></div>
+                        <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
                     </div>
                     
                     <div class="form-group">
@@ -983,15 +1026,15 @@
                             aria-describedby="password-error"
                             autocomplete="current-password"
                         />
-                        <div id="password-error" class="error-message" role="alert"></div>
+                        <div id="password-error" class="error-message" role="alert" aria-live="polite"></div>
                     </div>
                     
                     <div class="auth-buttons">
-                        <button id="signup-btn" type="button" class="btn btn-secondary" data-loading="Signing Up...">
+                        <button id="signup-btn" type="button" class="btn btn-secondary" data-loading="Signing Up..." aria-describedby="signup-status">
                             <span class="btn-text">Sign Up</span>
                             <span class="btn-loader hidden" aria-hidden="true"></span>
                         </button>
-                        <button id="login-btn" type="button" class="btn btn-primary" data-loading="Logging In...">
+                        <button id="login-btn" type="button" class="btn btn-primary" data-loading="Logging In..." aria-describedby="login-status">
                             <span class="btn-text">Login</span>
                             <span class="btn-loader hidden" aria-hidden="true"></span>
                         </button>
@@ -1001,7 +1044,7 @@
         </section>
 
         <!-- Main App Section -->
-        <main id="main-section" class="main-section hidden">
+        <main id="main-section" class="main-section hidden" role="main">
             <div class="tool-selector">
                 <label for="tool-select" class="tool-label">Choose Your AI Tool:</label>
                 <select id="tool-select" class="tool-select" aria-label="Select AI tool">
@@ -1054,35 +1097,35 @@
                         aria-label="Enter your message"
                         maxlength="500"
                     />
-                    <button id="send-btn" type="submit" class="chat-send-btn" aria-label="Send message">
+                    <button id="send-btn" type="submit" class="chat-send-btn" aria-label="Send message" disabled>
                         <span class="send-icon">→</span>
                     </button>
                 </form>
                 
-                <div class="input-counter">
+                <div class="input-counter" aria-live="polite">
                     <span id="char-count">0</span>/500
                 </div>
             </div>
 
-            <div class="action-grid">
-                <button id="view-favorites-btn" class="action-btn" data-tooltip="View your saved responses">
-                    <span class="action-icon">📂</span>
+            <div class="action-grid" role="group" aria-label="Action buttons">
+                <button id="view-favorites-btn" class="action-btn" data-tooltip="View your saved responses" aria-describedby="favorites-tooltip">
+                    <span class="action-icon" aria-hidden="true">📂</span>
                     <span class="action-text">View Favorites</span>
                 </button>
-                <button id="clear-favorites-btn" class="action-btn" data-tooltip="Clear all favorites">
-                    <span class="action-icon">🗑</span>
+                <button id="clear-favorites-btn" class="action-btn" data-tooltip="Clear all favorites" aria-describedby="clear-tooltip">
+                    <span class="action-icon" aria-hidden="true">🗑</span>
                     <span class="action-text">Clear Favorites</span>
                 </button>
-                <button id="export-txt-btn" class="action-btn" data-tooltip="Export to text file">
-                    <span class="action-icon">📄</span>
+                <button id="export-txt-btn" class="action-btn" data-tooltip="Export to text file" aria-describedby="txt-tooltip">
+                    <span class="action-icon" aria-hidden="true">📄</span>
                     <span class="action-text">Export TXT</span>
                 </button>
-                <button id="export-csv-btn" class="action-btn" data-tooltip="Export to CSV">
-                    <span class="action-icon">📊</span>
+                <button id="export-csv-btn" class="action-btn" data-tooltip="Export to CSV" aria-describedby="csv-tooltip">
+                    <span class="action-icon" aria-hidden="true">📊</span>
                     <span class="action-text">Export CSV</span>
                 </button>
-                <button id="export-pdf-btn" class="action-btn" data-tooltip="Export to PDF">
-                    <span class="action-icon">🖨</span>
+                <button id="export-pdf-btn" class="action-btn" data-tooltip="Export to PDF" aria-describedby="pdf-tooltip">
+                    <span class="action-icon" aria-hidden="true">🖨</span>
                     <span class="action-text">Export PDF</span>
                 </button>
             </div>
@@ -1094,10 +1137,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <div class="footer-inner">
             <div class="footer-brand">© 2025 <span class="footer-highlight">VisionFlow</span> — All rights reserved.</div>
-            <nav class="footer-nav" aria-label="Footer navigation">
+            <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
                 <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
                 <a href="terms-of-service.html" class="footer-link">Terms of Service</a>
                 <a href="cookie-policy.html" class="footer-link">Cookie Policy</a>
@@ -1109,20 +1152,53 @@
     </footer>
 
     <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay hidden">
-        <div class="loading-spinner"></div>
-        <p class="loading-text">Processing your request...</p>
+    <div id="loading-overlay" class="loading-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="loading-text">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p id="loading-text" class="loading-text">Processing your request...</p>
     </div>
 
     <!-- Toast Notifications -->
-    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-label="Notifications"></div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNhh/NCCP4/KyLqSCpaSRLEGAb2gV9I7B3F5LKT9QPPK1mPbPM7L4n5mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+        'use strict';
+        
         // Global variables
         let loggedInUser = null;
         let favorites = [];
+        let chatHistory = [];
+
+        // Utility functions for DOM manipulation and security
+        const DOMUtils = {
+            escapeHtml: function(unsafe) {
+                const div = document.createElement('div');
+                div.textContent = unsafe;
+                return div.innerHTML;
+            },
+            
+            sanitizeText: function(text) {
+                return text.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            },
+            
+            createElement: function(tag, attributes = {}, content = '') {
+                const element = document.createElement(tag);
+                Object.entries(attributes).forEach(([key, value]) => {
+                    if (key === 'className') {
+                        element.className = value;
+                    } else if (key === 'innerHTML') {
+                        element.innerHTML = value;
+                    } else {
+                        element.setAttribute(key, value);
+                    }
+                });
+                if (content) {
+                    element.textContent = content;
+                }
+                return element;
+            }
+        };
 
         // Tool prompts
         const toolPrompts = {
@@ -1154,65 +1230,116 @@
             social: "Create a 30-day Instagram strategy for a fitness brand.",
         };
 
-        // Utility functions
+        // Enhanced utility functions
         function showToast(message, type = 'success', duration = 5000) {
             const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
+            if (!container) return;
+            
+            const toast = DOMUtils.createElement('div', {
+                className: `toast toast-${type}`,
+                role: 'alert',
+                'aria-live': 'polite'
+            });
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+            
             toast.innerHTML = `
                 <div class="toast-content">
-                    <span class="toast-icon">${type === 'success' ? '✅' : '❌'}</span>
-                    <span class="toast-message">${message}</span>
-                    <button class="toast-close" onclick="this.parentNode.parentNode.remove()" aria-label="Close notification">×</button>
+                    <span class="toast-icon" aria-hidden="true">${icons[type] || icons.info}</span>
+                    <span class="toast-message">${DOMUtils.escapeHtml(message)}</span>
+                    <button class="toast-close" onclick="this.closest('.toast').remove()" aria-label="Close notification">×</button>
                 </div>
             `;
             
             container.appendChild(toast);
             
+            // Auto remove after duration
             setTimeout(() => {
                 if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
+                    toast.remove();
                 }
             }, duration);
+            
+            // Remove on click
+            toast.addEventListener('click', (e) => {
+                if (e.target.classList.contains('toast-close')) {
+                    toast.remove();
+                }
+            });
         }
 
         function showLoading(show = true) {
             const overlay = document.getElementById('loading-overlay');
             if (overlay) {
                 overlay.classList.toggle('hidden', !show);
+                if (show) {
+                    overlay.setAttribute('aria-hidden', 'false');
+                } else {
+                    overlay.setAttribute('aria-hidden', 'true');
+                }
             }
         }
 
         function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
 
         function isValidPassword(password) {
-            return password.length >= 8;
+            return password && password.length >= 8;
         }
 
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Session management
         function restoreSession() {
-            const savedUser = localStorage.getItem("visionflowUser");
-            const authSection = document.getElementById("auth-section");
-            const mainSection = document.getElementById("main-section");
-            const logoutButton = document.getElementById("logout-button");
-            
-            if (savedUser) {
-                try {
+            try {
+                const savedUser = localStorage.getItem("visionflowUser");
+                const authSection = document.getElementById("auth-section");
+                const mainSection = document.getElementById("main-section");
+                const logoutButton = document.getElementById("logout-button");
+                
+                if (savedUser) {
                     loggedInUser = JSON.parse(savedUser);
-                    if (authSection) authSection.classList.add("hidden");
-                    if (mainSection) mainSection.classList.remove("hidden");
-                    if (logoutButton) logoutButton.classList.remove("hidden");
-                    setTimeout(() => loadChatHistory(), 100);
-                } catch (e) {
-                    console.error('Error parsing saved user:', e);
-                    localStorage.removeItem("visionflowUser");
+                    if (loggedInUser && loggedInUser.email) {
+                        authSection?.classList.add("hidden");
+                        mainSection?.classList.remove("hidden");
+                        logoutButton?.classList.remove("hidden");
+                        setTimeout(() => loadChatHistory(), 100);
+                    } else {
+                        throw new Error('Invalid user data');
+                    }
+                } else {
+                    loggedInUser = null;
+                    mainSection?.classList.add("hidden");
+                    authSection?.classList.remove("hidden");
+                    logoutButton?.classList.add("hidden");
                 }
-            } else {
+            } catch (e) {
+                console.error('Error restoring session:', e);
+                localStorage.removeItem("visionflowUser");
                 loggedInUser = null;
-                if (mainSection) mainSection.classList.add("hidden");
-                if (authSection) authSection.classList.remove("hidden");
-                if (logoutButton) logoutButton.classList.add("hidden");
+                const mainSection = document.getElementById("main-section");
+                const authSection = document.getElementById("auth-section");
+                const logoutButton = document.getElementById("logout-button");
+                mainSection?.classList.add("hidden");
+                authSection?.classList.remove("hidden");
+                logoutButton?.classList.add("hidden");
             }
         }
 
@@ -1220,10 +1347,13 @@
             const btn = document.getElementById("toggle-theme");
             if (btn) {
                 const isLight = document.body.classList.contains("light-mode");
-                btn.innerHTML = `
-                    <span class="theme-icon">${isLight ? "🌙" : "☀️"}</span>
-                    <span class="theme-text">${isLight ? "Dark Mode" : "Light Mode"}</span>
-                `;
+                const themeIcon = btn.querySelector('.theme-icon');
+                const themeText = btn.querySelector('.theme-text');
+                
+                if (themeIcon) themeIcon.textContent = isLight ? "🌙" : "☀️";
+                if (themeText) themeText.textContent = isLight ? "Dark Mode" : "Light Mode";
+                
+                btn.setAttribute('aria-label', `Switch to ${isLight ? 'dark' : 'light'} mode`);
             }
         }
 
@@ -1232,26 +1362,47 @@
             const suggestionBox = document.getElementById("prompt-suggestion");
             if (toolSelect && suggestionBox) {
                 const selected = toolSelect.value;
-                suggestionBox.textContent = `💡 Example: ${toolPrompts[selected] || ""}`;
+                const prompt = toolPrompts[selected] || "";
+                suggestionBox.textContent = `💡 Example: ${prompt}`;
             }
         }
 
         function updateCharCounter() {
             const input = document.getElementById('user-input');
             const counter = document.getElementById('char-count');
+            const sendBtn = document.getElementById('send-btn');
+            
             if (input && counter) {
-                counter.textContent = input.value.length;
+                const length = input.value.length;
+                counter.textContent = length;
+                
+                // Enable/disable send button based on input
+                if (sendBtn) {
+                    sendBtn.disabled = length === 0;
+                }
+                
+                // Change color if approaching limit
+                if (length > 450) {
+                    counter.style.color = 'var(--warning-color)';
+                } else if (length > 480) {
+                    counter.style.color = 'var(--error-color)';
+                } else {
+                    counter.style.color = 'var(--text-muted)';
+                }
             }
         }
 
-        // Authentication functions
+        // Enhanced authentication functions
         async function register() {
             const emailInput = document.getElementById("email");
             const passwordInput = document.getElementById("password");
             const signUpBtn = document.getElementById("signup-btn");
             const loginBtn = document.getElementById("login-btn");
             
-            if (!emailInput || !passwordInput || !signUpBtn || !loginBtn) return;
+            if (!emailInput || !passwordInput || !signUpBtn || !loginBtn) {
+                console.error('Required form elements not found');
+                return;
+            }
             
             // Clear previous errors
             document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
@@ -1261,6 +1412,7 @@
 
             let hasError = false;
 
+            // Validation
             if (!email) {
                 document.getElementById('email-error').textContent = 'Email is required.';
                 hasError = true;
@@ -1287,15 +1439,28 @@
             loginBtn.disabled = true;
             const btnText = signUpBtn.querySelector('.btn-text');
             const btnLoader = signUpBtn.querySelector('.btn-loader');
-            btnText.textContent = "Signing Up...";
-            btnLoader.classList.remove('hidden');
+            if (btnText) btnText.textContent = "Signing Up...";
+            if (btnLoader) btnLoader.classList.remove('hidden');
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/register", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ email, password }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -1308,21 +1473,28 @@
                     showToast("Welcome to VisionFlow! Account created successfully.", 'success');
                     setTimeout(() => {
                         const userInput = document.getElementById("user-input");
-                        if (userInput) userInput.focus();
+                        userInput?.focus();
                     }, 300);
                 } else {
                     showToast(data.error || "Registration failed. Please try again.", 'error');
                     emailInput.focus();
                 }
             } catch (err) {
-                showToast("Network error. Please check your connection and try again.", 'error');
+                let errorMessage = "Network error. Please check your connection and try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try again.";
+                } else if (err.message.includes('HTTP error')) {
+                    errorMessage = "Server error. Please try again later.";
+                }
+                showToast(errorMessage, 'error');
                 console.error('Registration error:', err);
                 emailInput.focus();
             } finally {
+                // Reset loading state
                 signUpBtn.disabled = false;
                 loginBtn.disabled = false;
-                btnText.textContent = "Sign Up";
-                btnLoader.classList.add('hidden');
+                if (btnText) btnText.textContent = "Sign Up";
+                if (btnLoader) btnLoader.classList.add('hidden');
             }
         }
 
@@ -1332,7 +1504,10 @@
             const signUpBtn = document.getElementById("signup-btn");
             const loginBtn = document.getElementById("login-btn");
             
-            if (!emailInput || !passwordInput || !signUpBtn || !loginBtn) return;
+            if (!emailInput || !passwordInput || !signUpBtn || !loginBtn) {
+                console.error('Required form elements not found');
+                return;
+            }
             
             // Clear previous errors
             document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
@@ -1342,6 +1517,7 @@
 
             let hasError = false;
 
+            // Validation
             if (!email) {
                 document.getElementById('email-error').textContent = 'Email is required.';
                 hasError = true;
@@ -1368,15 +1544,28 @@
             loginBtn.disabled = true;
             const btnText = loginBtn.querySelector('.btn-text');
             const btnLoader = loginBtn.querySelector('.btn-loader');
-            btnText.textContent = "Logging In...";
-            btnLoader.classList.remove('hidden');
+            if (btnText) btnText.textContent = "Logging In...";
+            if (btnLoader) btnLoader.classList.remove('hidden');
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/login", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ email, password }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -1392,99 +1581,111 @@
                     showToast("Welcome back to VisionFlow!", 'success');
                     setTimeout(() => {
                         const userInput = document.getElementById("user-input");
-                        if (userInput) userInput.focus();
+                        userInput?.focus();
                     }, 300);
                 } else {
                     showToast(data.error || "Login failed. Please check your credentials.", 'error');
                     passwordInput.focus();
                 }
             } catch (err) {
-                showToast("Network error. Please check your connection and try again.", 'error');
+                let errorMessage = "Network error. Please check your connection and try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try again.";
+                } else if (err.message.includes('HTTP error')) {
+                    errorMessage = "Server error. Please try again later.";
+                }
+                showToast(errorMessage, 'error');
                 console.error('Login error:', err);
                 emailInput.focus();
             } finally {
+                // Reset loading state
                 signUpBtn.disabled = false;
                 loginBtn.disabled = false;
-                btnText.textContent = "Login";
-                btnLoader.classList.add('hidden');
+                if (btnText) btnText.textContent = "Login";
+                if (btnLoader) btnLoader.classList.add('hidden');
             }
         }
 
         function logout() {
-            localStorage.removeItem("visionflowUser");
-            loggedInUser = null;
-            restoreSession();
-            const chatBox = document.getElementById("chat-box");
-            if (chatBox) {
-                chatBox.innerHTML = `
-                    <div class="chat-welcome">
-                        <h3>Welcome to VisionFlow AI! 🚀</h3>
-                        <p>Select a tool above and start building your business idea.</p>
-                    </div>
-                `;
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem("visionflowUser");
+                loggedInUser = null;
+                restoreSession();
+                const chatBox = document.getElementById("chat-box");
+                if (chatBox) {
+                    chatBox.innerHTML = `
+                        <div class="chat-welcome">
+                            <h3>Welcome to VisionFlow AI! 🚀</h3>
+                            <p>Select a tool above and start building your business idea.</p>
+                        </div>
+                    `;
+                }
+                showToast("You've been logged out successfully.", 'success');
             }
-            showToast("You've been logged out successfully.", 'success');
         }
 
-        // Chat functionality
+        // Enhanced chat functionality
         function generatePrompt(tool, input) {
+            // Sanitize input to prevent XSS
+            const sanitizedInput = DOMUtils.sanitizeText(input);
+            
             switch (tool) {
                 case "cofounder":
-                    return `You are my AI cofounder. Help me brainstorm ideas, strategies, and solutions for my startup. My current challenge is: ${input}`;
+                    return `You are my AI cofounder. Help me brainstorm ideas, strategies, and solutions for my startup. My current challenge is: ${sanitizedInput}`;
                 case "idea":
-                    return `You're a startup idea machine. Give 3 creative, profitable startup ideas for: ${input}`;
+                    return `You're a startup idea machine. Give 3 creative, profitable startup ideas for: ${sanitizedInput}`;
                 case "market":
-                    return `You're a market research expert. Provide competitor analysis, audience, and trends for: ${input}`;
+                    return `You're a market research expert. Provide competitor analysis, audience, and trends for: ${sanitizedInput}`;
                 case "mvp":
-                    return `Act as a product manager. Create an MVP launch plan for: ${input}`;
+                    return `Act as a product manager. Create an MVP launch plan for: ${sanitizedInput}`;
                 case "gtm":
-                    return `Act as a growth hacker. Create a launch strategy and ad copy for: ${input}`;
+                    return `Act as a growth hacker. Create a launch strategy and ad copy for: ${sanitizedInput}`;
                 case "brand":
-                    return `Act as a brand strategist. For "${input}", provide name, slogan, colors, fonts, tone.`;
+                    return `Act as a brand strategist. For "${sanitizedInput}", provide name, slogan, colors, fonts, tone.`;
                 case "step":
-                    return `You are a startup mentor. Give me a step-by-step launch guide for: ${input}. Make it scalable for growth, include automation/delegation tips, and break it into phases: validation, MVP, growth, and scaling. Each step should be actionable and specific.`;
+                    return `You are a startup mentor. Give me a step-by-step launch guide for: ${sanitizedInput}. Make it scalable for growth, include automation/delegation tips, and break it into phases: validation, MVP, growth, and scaling. Each step should be actionable and specific.`;
                 case "pitch":
-                    return `Startup strategist. Generate a 10-slide pitch deck for: ${input}`;
+                    return `Startup strategist. Generate a 10-slide pitch deck for: ${sanitizedInput}`;
                 case "plan":
-                    return `You're a business analyst. Write a full business plan for: ${input}, including:\n1. Executive Summary\n2. Product/Service Description\n3. Target Market\n4. Market Analysis\n5. Competitive Advantage\n6. Operations Plan\n7. SWOT Analysis\n8. Financial Forecast\n9. Marketing Strategy\n10. Conclusion\n\nThen, provide a detailed 30-day action plan for launching and growing this business, with specific tasks and milestones for each day.`;
+                    return `You're a business analyst. Write a full business plan for: ${sanitizedInput}, including:\n1. Executive Summary\n2. Product/Service Description\n3. Target Market\n4. Market Analysis\n5. Competitive Advantage\n6. Operations Plan\n7. SWOT Analysis\n8. Financial Forecast\n9. Marketing Strategy\n10. Conclusion\n\nThen, provide a detailed 30-day action plan for launching and growing this business, with specific tasks and milestones for each day.`;
                 case "adcopy":
-                    return `You're a conversion-focused ad copywriter. Write 3 winning ad variants for: "${input}". Each ad should include:\n- A catchy Headline\n- Primary Text\n- A strong Call to Action`;
+                    return `You're a conversion-focused ad copywriter. Write 3 winning ad variants for: "${sanitizedInput}". Each ad should include:\n- A catchy Headline\n- Primary Text\n- A strong Call to Action`;
                 case "logo":
-                    return `Generate a clean, modern logo for the brand: "${input}". The logo should be abstract and reflect the brand visually without including any text or letters. Focus on symbolism and brand personality.`;
+                    return `Generate a clean, modern logo for the brand: "${sanitizedInput}". The logo should be abstract and reflect the brand visually without including any text or letters. Focus on symbolism and brand personality.`;
                 case "resume":
-                    return `Professional resume writer. Write a full ATS-optimized resume for: ${input}`;
+                    return `Professional resume writer. Write a full ATS-optimized resume for: ${sanitizedInput}`;
                 case "winning":
-                    return `You are a product research expert. Find 5 winning or trending products that are real shortcuts, solve a big problem, and have a 'wow' factor for: ${input}. For each, explain why it's a shortcut, what problem it solves, and what makes it a wow product (e.g., viral, unique, or untapped market).`;
+                    return `You are a product research expert. Find 5 winning or trending products that are real shortcuts, solve a big problem, and have a 'wow' factor for: ${sanitizedInput}. For each, explain why it's a shortcut, what problem it solves, and what makes it a wow product (e.g., viral, unique, or untapped market).`;
                 case "legal":
-                    return `You're a legal document generator. Write full legal documents including Terms of Service, Privacy Policy, and Cookie Notice for: ${input}. The company should be compliant with global privacy laws (e.g., GDPR, CCPA). Keep the output clear and legally sound.`;
+                    return `You're a legal document generator. Write full legal documents including Terms of Service, Privacy Policy, and Cookie Notice for: ${sanitizedInput}. The company should be compliant with global privacy laws (e.g., GDPR, CCPA). Keep the output clear and legally sound.`;
                 case "name":
-                    return `You are a creative naming assistant. Suggest 10 unique, brandable product names for: ${input}. Make sure the names are short, catchy, and sound like startup brands.`;
+                    return `You are a creative naming assistant. Suggest 10 unique, brandable product names for: ${sanitizedInput}. Make sure the names are short, catchy, and sound like startup brands.`;
                 case "email":
-                    return `You are an expert cold email copywriter. Write a personalized, persuasive email for: ${input}`;
+                    return `You are an expert cold email copywriter. Write a personalized, persuasive email for: ${sanitizedInput}`;
                 case "landing":
-                    return `You are a conversion copywriting expert. Write a full landing page copy (headline, subheadline, bullet points, call-to-action) for: ${input}`;
+                    return `You are a conversion copywriting expert. Write a full landing page copy (headline, subheadline, bullet points, call-to-action) for: ${sanitizedInput}`;
                 case "digitalproduct":
-                    return `You're a digital product strategist. Suggest 5 profitable digital products for this niche or idea: ${input}. For each product, include what it is, target audience, how to sell it, and why it would work.`;
+                    return `You're a digital product strategist. Suggest 5 profitable digital products for this niche or idea: ${sanitizedInput}. For each product, include what it is, target audience, how to sell it, and why it would work.`;
                 case "valueprop":
-                    return `You're a SaaS marketing expert. Generate a powerful, one-sentence value proposition for: ${input}. Use clear, outcome-driven language.`;
+                    return `You're a SaaS marketing expert. Generate a powerful, one-sentence value proposition for: ${sanitizedInput}. Use clear, outcome-driven language.`;
                 case "validate":
-                    return `You're a startup advisor. Validate this startup idea by checking if the problem is strong, and if the solution matches well. Give feedback and improvement tips. Idea: ${input}`;
+                    return `You're a startup advisor. Validate this startup idea by checking if the problem is strong, and if the solution matches well. Give feedback and improvement tips. Idea: ${sanitizedInput}`;
                 case "growth":
-                    return `You're a growth hacker. Suggest 3 creative, low-cost growth strategies for: ${input}. Focus on viral marketing, community building, and user acquisition.`;
+                    return `You're a growth hacker. Suggest 3 creative, low-cost growth strategies for: ${sanitizedInput}. Focus on viral marketing, community building, and user acquisition.`;
                 case "funding":
-                    return `You're an investor relations expert. Write a compelling email to angel investors for: ${input}. Highlight the problem, solution, market opportunity, and why they should invest.`;
+                    return `You're an investor relations expert. Write a compelling email to angel investors for: ${sanitizedInput}. Highlight the problem, solution, market opportunity, and why they should invest.`;
                 case "community":
-                    return `You're a community builder. Suggest 5 creative ways to build an engaged community around: ${input}. Focus on online platforms, content strategies, and engagement tactics.`;
+                    return `You're a community builder. Suggest 5 creative ways to build an engaged community around: ${sanitizedInput}. Focus on online platforms, content strategies, and engagement tactics.`;
                 case "scale":
-                    return `You're a startup growth advisor. Create a scaling roadmap for: ${input}. Include: - Key growth milestones - Hiring suggestions - Platform expansion - Budget considerations - Revenue targets`;
+                    return `You're a startup growth advisor. Create a scaling roadmap for: ${sanitizedInput}. Include: - Key growth milestones - Hiring suggestions - Platform expansion - Budget considerations - Revenue targets`;
                 case "social":
-                    return `You're a social media marketing expert. Create a comprehensive 30-day social media marketing strategy for: ${input}. For each day, specify the platform, post type, content idea, and engagement tactic. Include:
+                    return `You're a social media marketing expert. Create a comprehensive 30-day social media marketing strategy for: ${sanitizedInput}. For each day, specify the platform, post type, content idea, and engagement tactic. Include:
                     - Platform-specific tips (Instagram, TikTok, LinkedIn)
                     - Post types (reels, carousels, tweets)
                     - Hashtag recommendations
                     - Posting frequency and engagement hacks`;
                 default:
-                    return input;
+                    return sanitizedInput;
             }
         }
 
@@ -1517,7 +1718,10 @@
             const chatBox = document.getElementById("chat-box");
             const sendBtn = document.getElementById("send-btn");
             
-            if (!userInput || !toolSelect || !chatBox) return;
+            if (!userInput || !toolSelect || !chatBox) {
+                console.error('Required chat elements not found');
+                return;
+            }
             
             const message = userInput.value.trim();
             const tool = toolSelect.value;
@@ -1529,8 +1733,14 @@
 
             const fullPrompt = generatePrompt(tool, message);
             
-            // Add user message to chat
-            chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            // Add user message to chat (using safe innerHTML replacement)
+            const userMessageDiv = DOMUtils.createElement('p');
+            const userLabel = DOMUtils.createElement('strong', {}, 'You: ');
+            userLabel.style.color = 'var(--primary-color)';
+            userMessageDiv.appendChild(userLabel);
+            userMessageDiv.appendChild(document.createTextNode(message));
+            chatBox.appendChild(userMessageDiv);
+            
             userInput.value = "";
             updateCharCounter();
             
@@ -1545,48 +1755,125 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for AI requests
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: fullPrompt, tool, email: loggedInUser.email })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ message: fullPrompt, tool, email: loggedInUser.email }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
-                let responseHtml = "";
                 
                 if (tool === "logo" && data.image) {
-                    responseHtml = `
-                        <p><strong>VisionFlow:</strong></p>
-                        <img id="generated-logo" src="${data.image}" alt="Generated Logo" style="max-width:100%; border-radius:8px; margin: 10px 0;" loading="lazy" />
-                        <br><br>
-                        <button onclick="saveFavorite('${message.replace(/'/g, "\\'")}', '${data.image}')" style="margin-right: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">💾 Save to Favorites</button>
-                        <button onclick="downloadLogo('png')" style="margin-right: 10px; padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;">⬇️ Download PNG</button>
-                        <button onclick="downloadLogo('jpg')" style="padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;">⬇️ Download JPG</button>
-                    `;
+                    const responseContainer = DOMUtils.createElement('div');
+                    
+                    const responseLabel = DOMUtils.createElement('p');
+                    const aiLabel = DOMUtils.createElement('strong', {}, 'VisionFlow: ');
+                    aiLabel.style.color = 'var(--text-secondary)';
+                    responseLabel.appendChild(aiLabel);
+                    responseContainer.appendChild(responseLabel);
+                    
+                    const logoImg = DOMUtils.createElement('img', {
+                        id: 'generated-logo',
+                        src: data.image,
+                        alt: 'Generated Logo',
+                        loading: 'lazy',
+                        style: 'max-width:100%; border-radius:8px; margin: 10px 0;'
+                    });
+                    responseContainer.appendChild(logoImg);
+                    
+                    const buttonContainer = DOMUtils.createElement('div', {
+                        style: 'margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;'
+                    });
+                    
+                    const saveBtn = DOMUtils.createElement('button', {
+                        onclick: `saveFavorite('${DOMUtils.escapeHtml(message)}', '${data.image}')`,
+                        style: 'padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;'
+                    }, '💾 Save to Favorites');
+                    
+                    const downloadPngBtn = DOMUtils.createElement('button', {
+                        onclick: "downloadLogo('png')",
+                        style: 'padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;'
+                    }, '⬇️ Download PNG');
+                    
+                    const downloadJpgBtn = DOMUtils.createElement('button', {
+                        onclick: "downloadLogo('jpg')",
+                        style: 'padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;'
+                    }, '⬇️ Download JPG');
+                    
+                    buttonContainer.appendChild(saveBtn);
+                    buttonContainer.appendChild(downloadPngBtn);
+                    buttonContainer.appendChild(downloadJpgBtn);
+                    responseContainer.appendChild(buttonContainer);
+                    
+                    chatBox.appendChild(responseContainer);
+                    
                 } else if (data.reply) {
-                    const safereply = data.reply.replace(/`/g, "\\`").replace(/'/g, "\\'");
-                    responseHtml = `
-                        <p><strong>VisionFlow:</strong></p>
-                        <pre style="white-space: pre-wrap; word-wrap: break-word;">${data.reply}</pre>
-                        <button onclick="saveFavorite('${message.replace(/'/g, "\\'")}', \`${safereply}\`)" style="margin-top: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">💾 Save to Favorites</button>
-                    `;
+                    const responseContainer = DOMUtils.createElement('div');
+                    
+                    const responseLabel = DOMUtils.createElement('p');
+                    const aiLabel = DOMUtils.createElement('strong', {}, 'VisionFlow: ');
+                    aiLabel.style.color = 'var(--text-secondary)';
+                    responseLabel.appendChild(aiLabel);
+                    responseContainer.appendChild(responseLabel);
+                    
+                    const replyPre = DOMUtils.createElement('pre', {
+                        style: 'white-space: pre-wrap; word-wrap: break-word;'
+                    });
+                    replyPre.textContent = data.reply;
+                    responseContainer.appendChild(replyPre);
+                    
+                    const saveBtn = DOMUtils.createElement('button', {
+                        onclick: `saveFavorite('${DOMUtils.escapeHtml(message)}', \`${DOMUtils.escapeHtml(data.reply).replace(/`/g, '\\`')}\`)`,
+                        style: 'margin-top: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;'
+                    }, '💾 Save to Favorites');
+                    
+                    responseContainer.appendChild(saveBtn);
+                    chatBox.appendChild(responseContainer);
+                    
                 } else {
-                    responseHtml = `<p><strong>VisionFlow:</strong> I apologize, but I encountered an issue processing your request. Please try again.</p>`;
+                    const errorMsg = DOMUtils.createElement('p');
+                    const errorLabel = DOMUtils.createElement('strong', {}, 'VisionFlow: ');
+                    errorLabel.style.color = 'var(--error-color)';
+                    errorMsg.appendChild(errorLabel);
+                    errorMsg.appendChild(document.createTextNode('I apologize, but I encountered an issue processing your request. Please try again.'));
+                    chatBox.appendChild(errorMsg);
                 }
                 
-                chatBox.innerHTML += responseHtml;
                 chatBox.scrollTop = chatBox.scrollHeight;
-                
-                // Show success toast
                 showToast("Response generated successfully!", 'success', 3000);
                 
             } catch (err) {
                 console.error('Chat error:', err);
-                chatBox.innerHTML += `<p><strong>VisionFlow:</strong> <span style="color: var(--error-color);">I'm experiencing technical difficulties. Please check your connection and try again.</span></p>`;
+                
+                const errorMsg = DOMUtils.createElement('p');
+                const errorLabel = DOMUtils.createElement('strong', {}, 'VisionFlow: ');
+                errorLabel.style.color = 'var(--error-color)';
+                const errorText = document.createElement('span');
+                errorText.style.color = 'var(--error-color)';
+                
+                let errorMessage = "I'm experiencing technical difficulties. Please check your connection and try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try with a shorter message or try again later.";
+                }
+                
+                errorText.textContent = errorMessage;
+                errorMsg.appendChild(errorLabel);
+                errorMsg.appendChild(errorText);
+                chatBox.appendChild(errorMsg);
+                
                 chatBox.scrollTop = chatBox.scrollHeight;
                 showToast("Error communicating with AI. Please try again.", 'error');
             } finally {
@@ -1600,7 +1887,7 @@
             }
         }
 
-        // Favorites functionality
+        // Enhanced favorites functionality
         async function saveFavorite(question, answer) {
             if (!loggedInUser || !loggedInUser.email) {
                 showToast("Please login to save favorites.", 'error');
@@ -1608,11 +1895,24 @@
             }
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/save-favorite", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ question, answer, email: loggedInUser.email })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ question, answer, email: loggedInUser.email }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -1623,7 +1923,11 @@
                 }
             } catch (err) {
                 console.error('Save favorite error:', err);
-                showToast("Network error. Please try again.", 'error');
+                let errorMessage = "Network error. Please try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try again.";
+                }
+                showToast(errorMessage, 'error');
             }
         }
 
@@ -1636,11 +1940,24 @@
             showLoading(true);
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/favorites", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ email: loggedInUser.email }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 favorites = data.favorites || [];
@@ -1651,27 +1968,58 @@
                     list.innerHTML = "";
                     
                     if (favorites.length === 0) {
-                        list.innerHTML = `
-                            <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-                                <p>📂 No favorites saved yet.</p>
-                                <p>Start a conversation and save responses to see them here!</p>
-                            </div>
+                        const emptyDiv = DOMUtils.createElement('div', {
+                            style: 'text-align: center; padding: 40px; color: var(--text-muted);'
+                        });
+                        
+                        emptyDiv.innerHTML = `
+                            <p>📂 No favorites saved yet.</p>
+                            <p>Start a conversation and save responses to see them here!</p>
                         `;
+                        list.appendChild(emptyDiv);
+                        
                     } else {
                         favorites.forEach((f, index) => {
-                            const li = document.createElement("li");
-                            li.innerHTML = `
-                                <div style="margin-bottom: 12px;">
-                                    <strong style="color: var(--primary-color);">Q:</strong> ${f.question}
-                                </div>
-                                <div style="margin-bottom: 12px; padding: 10px; background: rgba(255, 215, 0, 0.05); border-radius: 6px; border-left: 3px solid var(--primary-color);">
-                                    <strong style="color: var(--text-secondary);">A:</strong> ${f.answer.length > 200 ? f.answer.substring(0, 200) + '...' : f.answer}
-                                </div>
-                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <button onclick="deleteFavorite('${f.question.replace(/'/g, "\\'")}')">❌ Delete</button>
-                                    <button onclick="copyToClipboard(\`${f.answer.replace(/`/g, '\\`')}\`)">📋 Copy Answer</button>
-                                </div>
-                            `;
+                            const li = DOMUtils.createElement('li');
+                            
+                            const questionDiv = DOMUtils.createElement('div', {
+                                style: 'margin-bottom: 12px;'
+                            });
+                            const qLabel = DOMUtils.createElement('strong', {
+                                style: 'color: var(--primary-color);'
+                            }, 'Q: ');
+                            questionDiv.appendChild(qLabel);
+                            questionDiv.appendChild(document.createTextNode(f.question));
+                            
+                            const answerDiv = DOMUtils.createElement('div', {
+                                style: 'margin-bottom: 12px; padding: 10px; background: rgba(255, 215, 0, 0.05); border-radius: 6px; border-left: 3px solid var(--primary-color);'
+                            });
+                            const aLabel = DOMUtils.createElement('strong', {
+                                style: 'color: var(--text-secondary);'
+                            }, 'A: ');
+                            answerDiv.appendChild(aLabel);
+                            const answerText = f.answer.length > 200 ? f.answer.substring(0, 200) + '...' : f.answer;
+                            answerDiv.appendChild(document.createTextNode(answerText));
+                            
+                            const buttonsDiv = DOMUtils.createElement('div', {
+                                style: 'display: flex; gap: 8px; flex-wrap: wrap;'
+                            });
+                            
+                            const deleteBtn = DOMUtils.createElement('button', {
+                                onclick: `deleteFavorite('${DOMUtils.escapeHtml(f.question)}')`
+                            }, '❌ Delete');
+                            
+                            const copyBtn = DOMUtils.createElement('button', {
+                                onclick: `copyToClipboard(\`${DOMUtils.escapeHtml(f.answer).replace(/`/g, '\\`')}\`)`
+                            }, '📋 Copy Answer');
+                            
+                            buttonsDiv.appendChild(deleteBtn);
+                            buttonsDiv.appendChild(copyBtn);
+                            
+                            li.appendChild(questionDiv);
+                            li.appendChild(answerDiv);
+                            li.appendChild(buttonsDiv);
+                            
                             list.appendChild(li);
                         });
                         
@@ -1682,7 +2030,11 @@
                 }
             } catch (err) {
                 console.error('View favorites error:', err);
-                showToast("Network error. Please try again.", 'error');
+                let errorMessage = "Network error. Please try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try again.";
+                }
+                showToast(errorMessage, 'error');
             } finally {
                 showLoading(false);
             }
@@ -1699,11 +2051,24 @@
             }
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/delete-favorite", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ question, email: loggedInUser.email })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ question, email: loggedInUser.email }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -1715,7 +2080,11 @@
                 }
             } catch (err) {
                 console.error('Delete favorite error:', err);
-                showToast("Network error. Please try again.", 'error');
+                let errorMessage = "Network error. Please try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try again.";
+                }
+                showToast(errorMessage, 'error');
             }
         }
 
@@ -1732,11 +2101,24 @@
             showLoading(true);
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/clear-favorites", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ email: loggedInUser.email }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -1752,22 +2134,31 @@
                 }
             } catch (err) {
                 console.error('Clear favorites error:', err);
-                showToast("Network error. Please try again.", 'error');
+                let errorMessage = "Network error. Please try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Request timed out. Please try again.";
+                }
+                showToast(errorMessage, 'error');
             } finally {
                 showLoading(false);
             }
         }
 
-        // Export functions
+        // Enhanced export functions
         function exportToTXT() {
             if (favorites.length === 0) {
                 showToast("No favorites to export. Start saving some responses first!", 'warning');
                 return;
             }
             
-            const content = favorites.map(f => `Q: ${f.question}\nA: ${f.answer}\n\n---\n\n`).join("");
-            downloadFile("visionflow-favorites.txt", content);
-            showToast("Favorites exported to TXT file!", 'success', 3000);
+            try {
+                const content = favorites.map(f => `Q: ${f.question}\nA: ${f.answer}\n\n---\n\n`).join("");
+                downloadFile("visionflow-favorites.txt", content, "text/plain");
+                showToast("Favorites exported to TXT file!", 'success', 3000);
+            } catch (err) {
+                console.error('TXT export error:', err);
+                showToast("Error exporting to TXT. Please try again.", 'error');
+            }
         }
 
         function exportToCSV() {
@@ -1776,11 +2167,16 @@
                 return;
             }
             
-            const csv = "Question,Answer\n" + favorites.map(f => 
-                `"${f.question.replace(/"/g, '""')}","${f.answer.replace(/"/g, '""')}"`
-            ).join("\n");
-            downloadFile("visionflow-favorites.csv", csv);
-            showToast("Favorites exported to CSV file!", 'success', 3000);
+            try {
+                const csv = "Question,Answer\n" + favorites.map(f => 
+                    `"${f.question.replace(/"/g, '""')}","${f.answer.replace(/"/g, '""')}"`
+                ).join("\n");
+                downloadFile("visionflow-favorites.csv", csv, "text/csv");
+                showToast("Favorites exported to CSV file!", 'success', 3000);
+            } catch (err) {
+                console.error('CSV export error:', err);
+                showToast("Error exporting to CSV. Please try again.", 'error');
+            }
         }
 
         function exportToPDF() {
@@ -1790,6 +2186,11 @@
             }
 
             try {
+                if (typeof window.jspdf === 'undefined') {
+                    showToast("PDF library not loaded. Please refresh the page and try again.", 'error');
+                    return;
+                }
+
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 let y = 20;
@@ -1804,6 +2205,12 @@
                 doc.setTextColor(0, 0, 0);
                 
                 favorites.forEach((fav, index) => {
+                    // Check if we need a new page
+                    if (y > 250) { 
+                        doc.addPage(); 
+                        y = 20; 
+                    }
+                    
                     // Add question
                     doc.setFont(undefined, 'bold');
                     const qText = `Q${index + 1}: ${fav.question}`;
@@ -1815,14 +2222,15 @@
                     doc.setFont(undefined, 'normal');
                     const aText = `A: ${fav.answer}`;
                     const aLines = doc.splitTextToSize(aText, 170);
+                    
+                    // Check if answer fits on current page
+                    if (y + (aLines.length * 7) > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    
                     doc.text(aLines, 20, y);
                     y += aLines.length * 7 + 15;
-                    
-                    // Add new page if needed
-                    if (y > 270) { 
-                        doc.addPage(); 
-                        y = 20; 
-                    }
                 });
                 
                 doc.save("visionflow-favorites.pdf");
@@ -1833,23 +2241,28 @@
             }
         }
 
-        function downloadFile(filename, content) {
+        function downloadFile(filename, content, mimeType = "text/plain") {
             try {
-                const blob = new Blob([content], { type: "text/plain" });
+                const blob = new Blob([content], { type: mimeType });
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
                 link.download = filename;
+                link.style.display = 'none';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
+                
+                // Clean up the object URL after a delay
+                setTimeout(() => {
+                    URL.revokeObjectURL(link.href);
+                }, 1000);
             } catch (err) {
                 console.error('Download error:', err);
                 showToast("Error downloading file. Please try again.", 'error');
             }
         }
 
-        // Logo download function
+        // Enhanced logo download function
         async function downloadLogo(format) {
             const img = document.getElementById("generated-logo");
             if (!img || !img.src) {
@@ -1859,7 +2272,20 @@
 
             try {
                 showLoading(true);
-                const response = await fetch(img.src);
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000);
+                
+                const response = await fetch(img.src, {
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch image: ${response.status}`);
+                }
+                
                 const blob = await response.blob();
                 
                 if (format === "png") {
@@ -1867,43 +2293,70 @@
                     const link = document.createElement("a");
                     link.href = url;
                     link.download = "visionflow-logo.png";
+                    link.style.display = 'none';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
                     showToast("Logo downloaded as PNG!", 'success', 3000);
-                } else {
+                    
+                } else if (format === "jpg") {
                     const url = URL.createObjectURL(blob);
                     const image = new Image();
+                    
                     image.onload = function() {
-                        const canvas = document.createElement("canvas");
-                        canvas.width = image.width;
-                        canvas.height = image.height;
-                        const ctx = canvas.getContext("2d");
-                        ctx.fillStyle = '#ffffff';
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        ctx.drawImage(image, 0, 0);
-                        const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
-                        const link = document.createElement("a");
-                        link.href = dataUrl;
-                        link.download = "visionflow-logo.jpg";
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(url);
-                        showToast("Logo downloaded as JPG!", 'success', 3000);
+                        try {
+                            const canvas = document.createElement("canvas");
+                            canvas.width = image.width;
+                            canvas.height = image.height;
+                            const ctx = canvas.getContext("2d");
+                            
+                            // White background for JPG
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(image, 0, 0);
+                            
+                            canvas.toBlob(function(jpgBlob) {
+                                const jpgUrl = URL.createObjectURL(jpgBlob);
+                                const link = document.createElement("a");
+                                link.href = jpgUrl;
+                                link.download = "visionflow-logo.jpg";
+                                link.style.display = 'none';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                setTimeout(() => {
+                                    URL.revokeObjectURL(jpgUrl);
+                                    URL.revokeObjectURL(url);
+                                }, 1000);
+                                showToast("Logo downloaded as JPG!", 'success', 3000);
+                            }, 'image/jpeg', 0.95);
+                        } catch (err) {
+                            console.error('Canvas error:', err);
+                            showToast("Error converting image. Please try PNG format.", 'error');
+                        }
                     };
+                    
+                    image.onerror = function() {
+                        URL.revokeObjectURL(url);
+                        showToast("Error loading image for conversion.", 'error');
+                    };
+                    
                     image.src = url;
                 }
             } catch (err) {
                 console.error('Logo download error:', err);
-                showToast("Failed to download logo. Please try again.", 'error');
+                let errorMessage = "Failed to download logo. Please try again.";
+                if (err.name === 'AbortError') {
+                    errorMessage = "Download timed out. Please try again.";
+                }
+                showToast(errorMessage, 'error');
             } finally {
                 showLoading(false);
             }
         }
 
-        // Chat history functions
+        // Enhanced chat history functions
         async function loadChatHistory() {
             if (!loggedInUser || !loggedInUser.email) {
                 const chatBox = document.getElementById("chat-box");
@@ -1919,11 +2372,24 @@
             }
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat-history", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ email: loggedInUser.email }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 const history = data.history || [];
@@ -1938,31 +2404,64 @@
                             </div>
                         `;
                     } else {
-                        let output = `<div style="text-align: center; margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.2);">
-                            <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Your Chat History</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">Recent conversations with VisionFlow AI</p>
-                        </div>`;
+                        // Clear existing content
+                        chatBox.innerHTML = '';
                         
-                        history.slice(-10).forEach((item, index) => {
-                            output += `
-                                <div style="margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-radius: 8px; border-left: 3px solid var(--primary-color);">
-                                    <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 8px;">
-                                        Tool: <strong style="color: var(--primary-color);">${item.tool}</strong>
-                                    </div>
-                                    <p><strong style="color: var(--primary-color);">You:</strong> ${item.user_input}</p>
-                                    <p><strong style="color: var(--text-secondary);">VisionFlow:</strong></p>
-                                    <pre style="white-space: pre-wrap; word-wrap: break-word; margin: 8px 0;">${item.ai_reply}</pre>
-                                </div>
-                            `;
+                        // Add header
+                        const headerDiv = DOMUtils.createElement('div', {
+                            style: 'text-align: center; margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.2);'
                         });
                         
-                        if (history.length > 10) {
-                            output += `<div style="text-align: center; color: var(--text-muted); font-size: 0.875rem; margin-top: 20px;">
-                                Showing last 10 conversations. Total: ${history.length}
-                            </div>`;
-                        }
+                        headerDiv.innerHTML = `
+                            <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Your Chat History</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">Recent conversations with VisionFlow AI</p>
+                        `;
+                        chatBox.appendChild(headerDiv);
                         
-                        chatBox.innerHTML = output;
+                        // Add recent conversations (limit to last 10)
+                        const recentHistory = history.slice(-10);
+                        recentHistory.forEach((item, index) => {
+                            const conversationDiv = DOMUtils.createElement('div', {
+                                style: 'margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-radius: 8px; border-left: 3px solid var(--primary-color);'
+                            });
+                            
+                            // Tool info
+                            const toolDiv = DOMUtils.createElement('div', {
+                                style: 'font-size: 0.875rem; color: var(--text-muted); margin-bottom: 8px;'
+                            });
+                            toolDiv.innerHTML = `Tool: <strong style="color: var(--primary-color);">${DOMUtils.escapeHtml(item.tool)}</strong>`;
+                            conversationDiv.appendChild(toolDiv);
+                            
+                            // User message
+                            const userDiv = DOMUtils.createElement('p');
+                            const userLabel = DOMUtils.createElement('strong', { style: 'color: var(--primary-color);' }, 'You: ');
+                            userDiv.appendChild(userLabel);
+                            userDiv.appendChild(document.createTextNode(item.user_input));
+                            conversationDiv.appendChild(userDiv);
+                            
+                            // AI response
+                            const aiLabelDiv = DOMUtils.createElement('p');
+                            const aiLabel = DOMUtils.createElement('strong', { style: 'color: var(--text-secondary);' }, 'VisionFlow: ');
+                            aiLabelDiv.appendChild(aiLabel);
+                            conversationDiv.appendChild(aiLabelDiv);
+                            
+                            const aiResponsePre = DOMUtils.createElement('pre', {
+                                style: 'white-space: pre-wrap; word-wrap: break-word; margin: 8px 0;'
+                            });
+                            aiResponsePre.textContent = item.ai_reply;
+                            conversationDiv.appendChild(aiResponsePre);
+                            
+                            chatBox.appendChild(conversationDiv);
+                        });
+                        
+                        // Add footer if there are more conversations
+                        if (history.length > 10) {
+                            const footerDiv = DOMUtils.createElement('div', {
+                                style: 'text-align: center; color: var(--text-muted); font-size: 0.875rem; margin-top: 20px;'
+                            });
+                            footerDiv.textContent = `Showing last 10 conversations. Total: ${history.length}`;
+                            chatBox.appendChild(footerDiv);
+                        }
                     }
                     chatBox.scrollTop = chatBox.scrollHeight;
                 }
@@ -1974,14 +2473,14 @@
                         <div class="chat-welcome">
                             <h3>Welcome back to VisionFlow AI! 🚀</h3>
                             <p>Select a tool above and start building your business idea.</p>
-                            <p style="color: var(--error-color); font-size: 0.875rem; margin-top: 10px;">Unable to load chat history.</p>
+                            <p style="color: var(--error-color); font-size: 0.875rem; margin-top: 10px;">Unable to load chat history. Please check your connection.</p>
                         </div>
                     `;
                 }
             }
         }
 
-        // Copy to clipboard function
+        // Enhanced copy to clipboard function
         function copyToClipboard(text) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text).then(() => {
@@ -2001,6 +2500,8 @@
             textArea.style.position = "fixed";
             textArea.style.left = "-999999px";
             textArea.style.top = "-999999px";
+            textArea.setAttribute('readonly', '');
+            textArea.setAttribute('aria-hidden', 'true');
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
@@ -2020,181 +2521,298 @@
             document.body.removeChild(textArea);
         }
 
-        // Event handlers
+        // Enhanced event handlers with better error handling
         function attachEventHandlers() {
-            const signupBtn = document.getElementById("signup-btn");
-            const loginBtn = document.getElementById("login-btn");
-            const logoutButton = document.getElementById("logout-button");
-            const chatForm = document.getElementById("chat-form");
-            const viewFavoritesBtn = document.getElementById("view-favorites-btn");
-            const clearFavoritesBtn = document.getElementById("clear-favorites-btn");
-            const exportTxtBtn = document.getElementById("export-txt-btn");
-            const exportCsvBtn = document.getElementById("export-csv-btn");
-            const exportPdfBtn = document.getElementById("export-pdf-btn");
-            const toggleTheme = document.getElementById("toggle-theme");
-            const toolSelect = document.getElementById("tool-select");
-            const userInput = document.getElementById("user-input");
+            try {
+                // Authentication buttons
+                const signupBtn = document.getElementById("signup-btn");
+                const loginBtn = document.getElementById("login-btn");
+                const logoutButton = document.getElementById("logout-button");
+                
+                if (signupBtn) {
+                    signupBtn.addEventListener('click', register);
+                    signupBtn.setAttribute('tabindex', '3');
+                }
+                if (loginBtn) {
+                    loginBtn.addEventListener('click', login);
+                    loginBtn.setAttribute('tabindex', '4');
+                }
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', logout);
+                }
 
-            if (signupBtn) signupBtn.onclick = register;
-            if (loginBtn) loginBtn.onclick = login;
-            if (logoutButton) logoutButton.onclick = logout;
-            if (chatForm) chatForm.onsubmit = handleChatSubmit;
-            if (viewFavoritesBtn) viewFavoritesBtn.onclick = viewFavorites;
-            if (clearFavoritesBtn) clearFavoritesBtn.onclick = clearFavorites;
-            if (exportTxtBtn) exportTxtBtn.onclick = exportToTXT;
-            if (exportCsvBtn) exportCsvBtn.onclick = exportToCSV;
-            if (exportPdfBtn) exportPdfBtn.onclick = exportToPDF;
-            if (toolSelect) toolSelect.onchange = updateToolUI;
-            if (userInput) userInput.oninput = updateCharCounter;
-            
-            if (toggleTheme) {
-                toggleTheme.onclick = () => {
-                    if (document.body.classList.contains("light-mode")) {
-                        document.body.classList.remove("light-mode");
-                        localStorage.setItem('theme', 'dark');
-                    } else {
-                        document.body.classList.add("light-mode");
-                        localStorage.setItem('theme', 'light');
-                    }
-                    updateThemeButton();
+                // Chat form
+                const chatForm = document.getElementById("chat-form");
+                if (chatForm) {
+                    chatForm.addEventListener('submit', handleChatSubmit);
+                }
+
+                // Action buttons
+                const actionButtons = {
+                    'view-favorites-btn': viewFavorites,
+                    'clear-favorites-btn': clearFavorites,
+                    'export-txt-btn': exportToTXT,
+                    'export-csv-btn': exportToCSV,
+                    'export-pdf-btn': exportToPDF
                 };
-            }
 
-            // Keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                // Ctrl/Cmd + Enter to send message
-                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                    const chatForm = document.getElementById('chat-form');
-                    if (chatForm && !document.getElementById('auth-section').classList.contains('hidden') === false) {
-                        chatForm.dispatchEvent(new Event('submit'));
+                Object.entries(actionButtons).forEach(([id, handler]) => {
+                    const btn = document.getElementById(id);
+                    if (btn) {
+                        btn.addEventListener('click', handler);
                     }
+                });
+
+                // Theme toggle
+                const toggleTheme = document.getElementById("toggle-theme");
+                if (toggleTheme) {
+                    toggleTheme.addEventListener('click', () => {
+                        try {
+                            if (document.body.classList.contains("light-mode")) {
+                                document.body.classList.remove("light-mode");
+                                localStorage.setItem('theme', 'dark');
+                            } else {
+                                document.body.classList.add("light-mode");
+                                localStorage.setItem('theme', 'light');
+                            }
+                            updateThemeButton();
+                        } catch (err) {
+                            console.error('Theme toggle error:', err);
+                            showToast("Error switching theme.", 'error');
+                        }
+                    });
+                }
+
+                // Tool selector
+                const toolSelect = document.getElementById("tool-select");
+                if (toolSelect) {
+                    toolSelect.addEventListener('change', updateToolUI);
+                }
+
+                // User input with debounced counter update
+                const userInput = document.getElementById("user-input");
+                if (userInput) {
+                    const debouncedUpdate = debounce(updateCharCounter, 100);
+                    userInput.addEventListener('input', debouncedUpdate);
+                    
+                    // Auto-resize textarea
+                    userInput.addEventListener('input', function() {
+                        this.style.height = 'auto';
+                        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+                    });
+                }
+
+                // Enhanced keyboard shortcuts
+                document.addEventListener('keydown', function(e) {
+                    try {
+                        // Ctrl/Cmd + Enter to send message
+                        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                            const mainSection = document.getElementById('main-section');
+                            const chatForm = document.getElementById('chat-form');
+                            if (chatForm && mainSection && !mainSection.classList.contains('hidden')) {
+                                e.preventDefault();
+                                chatForm.dispatchEvent(new Event('submit'));
+                            }
+                        }
+                        
+                        // Escape to hide favorites or clear focus
+                        if (e.key === 'Escape') {
+                            const favoritesList = document.getElementById('favorites-list');
+                            if (favoritesList && !favoritesList.classList.contains('hidden')) {
+                                favoritesList.classList.add('hidden');
+                            } else if (document.activeElement) {
+                                document.activeElement.blur();
+                            }
+                        }
+                        
+                        // Tab navigation improvements
+                        if (e.key === 'Tab' && e.shiftKey === false) {
+                            // Enhance tab order for better accessibility
+                            const focusableElements = document.querySelectorAll(
+                                'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                            );
+                            
+                            const currentIndex = Array.from(focusableElements).indexOf(document.activeElement);
+                            if (currentIndex === focusableElements.length - 1) {
+                                // Focus on first element if at the end
+                                e.preventDefault();
+                                focusableElements[0]?.focus();
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Keyboard event error:', err);
+                    }
+                });
+
+                // Enhanced form validation
+                const emailInput = document.getElementById('email');
+                const passwordInput = document.getElementById('password');
+                
+                if (emailInput) {
+                    emailInput.setAttribute('tabindex', '1');
+                    
+                    emailInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' && passwordInput) {
+                            e.preventDefault();
+                            passwordInput.focus();
+                        }
+                    });
+                    
+                    const debouncedEmailValidation = debounce(function() {
+                        const emailError = document.getElementById('email-error');
+                        if (this.value && !isValidEmail(this.value)) {
+                            emailError.textContent = 'Please enter a valid email address.';
+                            this.setAttribute('aria-invalid', 'true');
+                        } else {
+                            emailError.textContent = '';
+                            this.setAttribute('aria-invalid', 'false');
+                        }
+                    }, 500);
+                    
+                    emailInput.addEventListener('input', debouncedEmailValidation);
                 }
                 
-                // Escape to hide favorites
-                if (e.key === 'Escape') {
-                    const favoritesList = document.getElementById('favorites-list');
-                    if (favoritesList && !favoritesList.classList.contains('hidden')) {
-                        favoritesList.classList.add('hidden');
-                    }
+                if (passwordInput) {
+                    passwordInput.setAttribute('tabindex', '2');
+                    
+                    passwordInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            login();
+                        }
+                    });
+                    
+                    const debouncedPasswordValidation = debounce(function() {
+                        const passwordError = document.getElementById('password-error');
+                        if (this.value && !isValidPassword(this.value)) {
+                            passwordError.textContent = 'Password must be at least 8 characters long.';
+                            this.setAttribute('aria-invalid', 'true');
+                        } else {
+                            passwordError.textContent = '';
+                            this.setAttribute('aria-invalid', 'false');
+                        }
+                    }, 500);
+                    
+                    passwordInput.addEventListener('input', debouncedPasswordValidation);
                 }
-            });
 
-            // Form validation
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            
-            if (emailInput) {
-                emailInput.setAttribute('tabindex', '1');
-                emailInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && passwordInput) {
-                        passwordInput.focus();
-                    }
+                // Error handling for unhandled promise rejections
+                window.addEventListener('unhandledrejection', function(event) {
+                    console.error('Unhandled promise rejection:', event.reason);
+                    showToast("An unexpected error occurred. Please refresh the page if problems persist.", 'error');
                 });
-                
-                emailInput.addEventListener('blur', function() {
-                    const emailError = document.getElementById('email-error');
-                    if (this.value && !isValidEmail(this.value)) {
-                        emailError.textContent = 'Please enter a valid email address.';
-                    } else {
-                        emailError.textContent = '';
-                    }
-                });
-            }
-            
-            if (passwordInput) {
-                passwordInput.setAttribute('tabindex', '2');
-                passwordInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        login();
-                    }
-                });
-                
-                passwordInput.addEventListener('blur', function() {
-                    const passwordError = document.getElementById('password-error');
-                    if (this.value && !isValidPassword(this.value)) {
-                        passwordError.textContent = 'Password must be at least 8 characters long.';
-                    } else {
-                        passwordError.textContent = '';
-                    }
-                });
-            }
 
-            // Auto-resize chat input
-            if (userInput) {
-                userInput.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+                // Network status monitoring
+                window.addEventListener('online', function() {
+                    showToast("Connection restored!", 'success', 3000);
+                });
+
+                window.addEventListener('offline', function() {
+                    showToast("You're offline. Some features may not work.", 'warning', 5000);
+                });
+
+            } catch (err) {
+                console.error('Error attaching event handlers:', err);
+                showToast("Error initializing app. Please refresh the page.", 'error');
+            }
+        }
+
+        // Enhanced initialization
+        function initializeApp() {
+            try {
+                // Restore session first
+                restoreSession();
+                
+                // Restore theme
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'light') {
+                    document.body.classList.add('light-mode');
+                }
+                updateThemeButton();
+                
+                // Attach event handlers
+                attachEventHandlers();
+                
+                // Update UI
+                updateToolUI();
+                updateCharCounter();
+
+                // Performance optimization: lazy load images
+                setTimeout(() => {
+                    const images = document.querySelectorAll('img[loading="lazy"]');
+                    if ('IntersectionObserver' in window) {
+                        const imageObserver = new IntersectionObserver((entries, observer) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const img = entry.target;
+                                    if (img.dataset.src) {
+                                        img.src = img.dataset.src;
+                                        img.removeAttribute('data-src');
+                                    }
+                                    img.classList.remove('lazy');
+                                    imageObserver.unobserve(img);
+                                }
+                            });
+                        }, {
+                            rootMargin: '50px 0px',
+                            threshold: 0.01
+                        });
+                        
+                        images.forEach(img => {
+                            img.classList.add('lazy');
+                            imageObserver.observe(img);
+                        });
+                    }
+                }, 1000);
+
+                // Show welcome message for new users
+                setTimeout(() => {
+                    const authSection = document.getElementById('auth-section');
+                    if (authSection && !authSection.classList.contains('hidden')) {
+                        showToast("Welcome to VisionFlow AI! Create an account to get started.", 'info', 5000);
+                    }
+                }, 2000);
+
+                console.log('VisionFlow AI initialized successfully');
+            } catch (err) {
+                console.error('Error initializing app:', err);
+                showToast("Error loading VisionFlow AI. Please refresh the page.", 'error');
+            }
+        }
+
+        // Service Worker registration for PWA
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }).catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
                 });
             }
         }
 
-        // Initialize app
-        window.addEventListener("DOMContentLoaded", () => {
-            restoreSession();
-            
-            // Restore theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-            }
-            updateThemeButton();
-            
-            attachEventHandlers();
-            updateToolUI();
-            updateCharCounter();
+        // Initialize app when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
 
-            // Performance optimization: lazy load
-            setTimeout(() => {
-                const images = document.querySelectorAll('img[loading="lazy"]');
-                if ('IntersectionObserver' in window) {
-                    const imageObserver = new IntersectionObserver((entries, observer) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                const img = entry.target;
-                                img.src = img.dataset.src || img.src;
-                                img.classList.remove('lazy');
-                                imageObserver.unobserve(img);
-                            }
-                        });
-                    });
-                    
-                    images.forEach(img => imageObserver.observe(img));
-                }
-            }, 1000);
+        // Register service worker
+        registerServiceWorker();
 
-            // Show welcome message after a delay
-            setTimeout(() => {
-                const authSection = document.getElementById('auth-section');
-                if (authSection && !authSection.classList.contains('hidden')) {
-                    showToast("Welcome to VisionFlow AI! Create an account to get started.", 'info', 5000);
-                }
-            }, 2000);
-        });
-
-        // Make functions globally available
+        // Make functions globally available for onclick handlers
         window.saveFavorite = saveFavorite;
         window.deleteFavorite = deleteFavorite;
         window.downloadLogo = downloadLogo;
         window.copyToClipboard = copyToClipboard;
 
-        // Service Worker registration for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-
-        // Handle online/offline status
-        window.addEventListener('online', function() {
-            showToast("Connection restored!", 'success', 3000);
-        });
-
-        window.addEventListener('offline', function() {
-            showToast("You're offline. Some features may not work.", 'warning', 5000);
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            // Clean up any pending timeouts or intervals
+            // This helps prevent memory leaks
         });
     </script>
 </body>
