@@ -252,6 +252,41 @@
             color: var(--text-muted);
         }
 
+        /* Password Input Container */
+        .password-input-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            font-size: 1.125rem;
+            z-index: 2;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary-color);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .password-toggle:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .password-input-with-toggle {
+            padding-right: 3rem !important;
+        }
+
         .error-message {
             color: var(--error-color);
             font-size: 0.875rem;
@@ -717,7 +752,6 @@
 
         .toast-icon {
             font-size: 1.125rem;
-            margin-top: 2px;
         }
 
         .toast-message {
@@ -973,15 +1007,26 @@
                     
                     <div class="form-group">
                         <label for="password" class="form-label">Password</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            class="form-input" 
-                            placeholder="Enter your password" 
-                            required 
-                            aria-describedby="password-error"
-                            autocomplete="current-password"
-                        />
+                        <div class="password-input-container">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="form-input password-input-with-toggle" 
+                                placeholder="Enter your password" 
+                                required 
+                                aria-describedby="password-error"
+                                autocomplete="current-password"
+                            />
+                            <button 
+                                type="button" 
+                                id="password-toggle" 
+                                class="password-toggle"
+                                aria-label="Toggle password visibility"
+                                title="Show/Hide password"
+                            >
+                                👁️
+                            </button>
+                        </div>
                         <div id="password-error" class="error-message" role="alert"></div>
                     </div>
                     
@@ -1240,6 +1285,19 @@
             const counter = document.getElementById('char-count');
             if (input && counter) {
                 counter.textContent = input.value.length;
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('password-toggle');
+            
+            if (passwordInput && toggleBtn) {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+                toggleBtn.innerHTML = isPassword ? '🙈' : '👁️';
+                toggleBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+                toggleBtn.setAttribute('title', isPassword ? 'Hide password' : 'Show password');
             }
         }
 
@@ -2033,6 +2091,7 @@
             const toggleTheme = document.getElementById("toggle-theme");
             const toolSelect = document.getElementById("tool-select");
             const userInput = document.getElementById("user-input");
+            const passwordToggle = document.getElementById("password-toggle");
 
             if (signupBtn) signupBtn.onclick = register;
             if (loginBtn) loginBtn.onclick = login;
@@ -2045,6 +2104,7 @@
             if (exportPdfBtn) exportPdfBtn.onclick = exportToPDF;
             if (toolSelect) toolSelect.onchange = updateToolUI;
             if (userInput) userInput.oninput = updateCharCounter;
+            if (passwordToggle) passwordToggle.onclick = togglePasswordVisibility;
             
             if (toggleTheme) {
                 toggleTheme.onclick = () => {
