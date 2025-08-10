@@ -338,24 +338,10 @@
 
         .annual-savings {
             display: none;
-            text-align: center;
-            margin-top: var(--spacing-sm);
-        }
-
-        .annual-total {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .savings-badge {
-            background: var(--success-color);
-            color: white;
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
+            color: var(--success-color);
+            font-size: 0.875rem;
             font-weight: 600;
-            display: inline-block;
+            margin-top: var(--spacing-xs);
         }
 
         .plan-description {
@@ -776,7 +762,7 @@
     <div class="container">
         <header class="header">
             <div class="logo-header">
-                <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
+                <img src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
                 <div class="brand-info">
                     <h1 class="brand-title">VisionFlow AI</h1>
                 </div>
@@ -815,14 +801,12 @@
                         <h2 class="plan-title">Starter</h2>
                         <div class="plan-price">
                             <span class="price-currency">$</span>
-                            <span class="price-amount monthly-price">49.99</span>
-                            <span class="price-amount annual-price">529</span>
-                            <span class="price-period">/mo</span>
+                            <span class="price-amount monthly-price">44.92</span>
+                            <span class="price-amount annual-price hidden">539</span>
+                            <span class="price-period monthly-price">/mo</span>
+                            <span class="price-period annual-price hidden">/year</span>
                         </div>
-                        <div class="annual-savings hidden">
-                            <div class="annual-total">$485/year</div>
-                            <div class="savings-badge">Save $115 annually!</div>
-                        </div>
+                        <div class="annual-savings">Save $134.96 annually!</div>
                         <p class="plan-description">Perfect for new founders & idea testing</p>
                     </div>
 
@@ -883,14 +867,12 @@
                         <h2 class="plan-title">Pro</h2>
                         <div class="plan-price">
                             <span class="price-currency">$</span>
-                            <span class="price-amount monthly-price">99.99</span>
-                            <span class="price-amount annual-price">1059</span>
-                            <span class="price-period">/mo</span>
+                            <span class="price-amount monthly-price">88.25</span>
+                            <span class="price-amount annual-price hidden">1,059</span>
+                            <span class="price-period monthly-price">/mo</span>
+                            <span class="price-period annual-price hidden">/year</span>
                         </div>
-                        <div class="annual-savings hidden">
-                            <div class="annual-total">$965/year</div>
-                            <div class="savings-badge">Save $235 annually!</div>
-                        </div>
+                        <div class="annual-savings">Save $264.96 annually!</div>
                         <p class="plan-description">For serious founders & growing startups</p>
                     </div>
 
@@ -928,20 +910,18 @@
                     <button class="plan-btn plan-btn-primary">Upgrade to Pro</button>
                 </div>
 
-                <!-- Agency Plan -->
+                <!-- Elite Plan -->
                 <div class="pricing-card">
                     <div class="pricing-header">
-                        <h2 class="plan-title">Agency</h2>
+                        <h2 class="plan-title">Elite</h2>
                         <div class="plan-price">
                             <span class="price-currency">$</span>
-                            <span class="price-amount monthly-price">199.99</span>
-                            <span class="price-amount annual-price hidden">2119</span>
-                            <span class="price-period">/mo</span>
+                            <span class="price-amount monthly-price">176.58</span>
+                            <span class="price-amount annual-price hidden">2,119</span>
+                            <span class="price-period monthly-price">/mo</span>
+                            <span class="price-period annual-price hidden">/year</span>
                         </div>
-                        <div class="annual-savings hidden">
-                            <div class="annual-total">$1,920/year</div>
-                            <div class="savings-badge">Save $479 annually!</div>
-                        </div>
+                        <div class="annual-savings">Save $529.96 annually!</div>
                         <p class="plan-description">For power users & agencies</p>
                     </div>
 
@@ -994,7 +974,7 @@
                                 <th>Features</th>
                                 <th>Starter</th>
                                 <th>Pro</th>
-                                <th>Agency</th>
+                                <th>Elite</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1135,12 +1115,12 @@
                         // Switch to annual
                         monthlyPrices.forEach(price => price.classList.add('hidden'));
                         annualPrices.forEach(price => price.classList.remove('hidden'));
-                        annualSavings.forEach(savings => savings.classList.remove('hidden'));
+                        annualSavings.forEach(savings => savings.style.display = 'block');
                     } else {
                         // Switch to monthly
                         monthlyPrices.forEach(price => price.classList.remove('hidden'));
                         annualPrices.forEach(price => price.classList.add('hidden'));
-                        annualSavings.forEach(savings => savings.classList.add('hidden'));
+                        annualSavings.forEach(savings => savings.style.display = 'none');
                     }
                 });
             }
