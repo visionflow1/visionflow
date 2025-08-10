@@ -942,7 +942,7 @@
                     <a href="#features" class="nav-link">Features</a>
                     <a href="#pricing" class="nav-link">Pricing</a>
                     <a href="contact.html" class="nav-link">Contact</a>
-                    <a href="index.html" class="nav-link nav-cta">Get Started</a>
+                    <a href="plan.html" class="nav-link nav-cta">Get Started</a>
                 </nav>
                 <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
                     <span></span>
@@ -972,7 +972,7 @@
                     </ul>
                     
                     <div class="hero-actions">
-                        <a href="index.html" class="cta-btn cta-primary">Get Started Free</a>
+                        <a href="plan.html" class="cta-btn cta-primary">Get Started Free</a>
                         <a href="#features" class="cta-btn cta-secondary">Learn More</a>
                     </div>
                 </div>
@@ -1101,7 +1101,7 @@
                         <li>🔹 Medium message limit</li>
                     </ul>
                     
-                    <button class="pricing-btn">Upgrade</button>
+                    <button class="pricing-btn">Upgrade to Pro</button>
                 </div>
                 
                 <div class="pricing-card">
@@ -1122,7 +1122,7 @@
                         <li>🔹 Priority Support</li>
                     </ul>
                     
-                    <button class="pricing-btn">Contact Sales</button>
+                    <button class="pricing-btn">Upgrade to Elite</button>
                 </div>
             </div>
         </div>
@@ -1185,7 +1185,7 @@
             <div class="cta-content">
                 <h2 class="cta-title">Ready to Transform Your Ideas?</h2>
                 <p class="cta-description">Join thousands of entrepreneurs who've already transformed their ideas into successful businesses.</p>
-                <a href="index.html" class="cta-btn cta-primary">Start Your Journey Free</a>
+                <a href="plan.html" class="cta-btn cta-primary">Start Your Journey Free</a>
             </div>
         </div>
     </section>
@@ -1202,7 +1202,7 @@
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4 class="footer-title">Product</h4>
-                        <a href="index.html" class="footer-link">Dashboard</a>
+                        <a href="plan.html" class="footer-link">Dashboard</a>
                         <a href="plan.html" class="footer-link">Pricing</a>
                         <a href="#features" class="footer-link">Features</a>
                     </div>
@@ -1300,21 +1300,8 @@
             // Pricing button clicks
             document.querySelectorAll('.pricing-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Check if this is the Contact Sales button
-                    if (this.textContent.includes('Contact')) {
-                        // Redirect to contact page
-                        window.location.href = 'contact.html';
-                    } else {
-                        // Redirect to main app for other buttons
-                        window.location.href = 'index.html';
-                    }
-                });
-            });
-            
-            // Intersection Observer for animations
-            if ('IntersectionObserver' in window) {
-                const observerOptions = {
-                    threshold: 0.1,
+                    // All pricing buttons redirect to plan.html
+                    window.location.href = 'plan.html';
                     rootMargin: '0px 0px -50px 0px'
                 };
                 
@@ -1371,7 +1358,7 @@
             // Add loading animation to CTA buttons
             document.querySelectorAll('.cta-btn').forEach(btn => {
                 btn.addEventListener('click', function(e) {
-                    if (this.href && this.href.includes('index.html')) {
+                    if (this.href && this.href.includes('plan.html')) {
                         e.preventDefault();
                         this.style.opacity = '0.7';
                         this.textContent = 'Loading...';
