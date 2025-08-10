@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -336,12 +337,12 @@
             display: none;
         }
 
-        .annual-savings {
+        .annual-price.show {
+            display: inline;
+        }
+
+        .monthly-price.hide {
             display: none;
-            color: var(--success-color);
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-top: var(--spacing-xs);
         }
 
         .plan-description {
@@ -762,7 +763,7 @@
     <div class="container">
         <header class="header">
             <div class="logo-header">
-                <img src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
+                <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
                 <div class="brand-info">
                     <h1 class="brand-title">VisionFlow AI</h1>
                 </div>
@@ -801,12 +802,10 @@
                         <h2 class="plan-title">Starter</h2>
                         <div class="plan-price">
                             <span class="price-currency">$</span>
-                            <span class="price-amount monthly-price">44.92</span>
-                            <span class="price-amount annual-price hidden">539</span>
-                            <span class="price-period monthly-price">/mo</span>
-                            <span class="price-period annual-price hidden">/year</span>
+                            <span class="price-amount monthly-price">49.99</span>
+                            <span class="price-amount annual-price hidden">39.99</span>
+                            <span class="price-period">/mo</span>
                         </div>
-                        <div class="annual-savings">Save $134.96 annually!</div>
                         <p class="plan-description">Perfect for new founders & idea testing</p>
                     </div>
 
@@ -867,12 +866,10 @@
                         <h2 class="plan-title">Pro</h2>
                         <div class="plan-price">
                             <span class="price-currency">$</span>
-                            <span class="price-amount monthly-price">88.25</span>
-                            <span class="price-amount annual-price hidden">1,059</span>
-                            <span class="price-period monthly-price">/mo</span>
-                            <span class="price-period annual-price hidden">/year</span>
+                            <span class="price-amount monthly-price">99.99</span>
+                            <span class="price-amount annual-price hidden">79.99</span>
+                            <span class="price-period">/mo</span>
                         </div>
-                        <div class="annual-savings">Save $264.96 annually!</div>
                         <p class="plan-description">For serious founders & growing startups</p>
                     </div>
 
@@ -916,12 +913,10 @@
                         <h2 class="plan-title">Elite</h2>
                         <div class="plan-price">
                             <span class="price-currency">$</span>
-                            <span class="price-amount monthly-price">176.58</span>
-                            <span class="price-amount annual-price hidden">2,119</span>
-                            <span class="price-period monthly-price">/mo</span>
-                            <span class="price-period annual-price hidden">/year</span>
+                            <span class="price-amount monthly-price">199.99</span>
+                            <span class="price-amount annual-price hidden">159.99</span>
+                            <span class="price-period">/mo</span>
                         </div>
-                        <div class="annual-savings">Save $529.96 annually!</div>
                         <p class="plan-description">For power users & agencies</p>
                     </div>
 
@@ -1104,7 +1099,6 @@
             const billingToggle = document.querySelector('.toggle-btn');
             const monthlyPrices = document.querySelectorAll('.monthly-price');
             const annualPrices = document.querySelectorAll('.annual-price');
-            const annualSavings = document.querySelectorAll('.annual-savings');
             
             if (billingToggle) {
                 billingToggle.addEventListener('click', function() {
@@ -1113,14 +1107,24 @@
                     
                     if (!isAnnual) {
                         // Switch to annual
-                        monthlyPrices.forEach(price => price.classList.add('hidden'));
-                        annualPrices.forEach(price => price.classList.remove('hidden'));
-                        annualSavings.forEach(savings => savings.style.display = 'block');
+                        monthlyPrices.forEach(price => {
+                            price.classList.add('hidden');
+                            price.style.display = 'none';
+                        });
+                        annualPrices.forEach(price => {
+                            price.classList.remove('hidden');
+                            price.style.display = 'inline';
+                        });
                     } else {
                         // Switch to monthly
-                        monthlyPrices.forEach(price => price.classList.remove('hidden'));
-                        annualPrices.forEach(price => price.classList.add('hidden'));
-                        annualSavings.forEach(savings => savings.style.display = 'none');
+                        monthlyPrices.forEach(price => {
+                            price.classList.remove('hidden');
+                            price.style.display = 'inline';
+                        });
+                        annualPrices.forEach(price => {
+                            price.classList.add('hidden');
+                            price.style.display = 'none';
+                        });
                     }
                 });
             }
