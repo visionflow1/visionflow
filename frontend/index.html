@@ -1346,8 +1346,8 @@
 
         .particle:nth-child(1) { left: 20%; animation-delay: -0.5s; animation-duration: 7s; }
         .particle:nth-child(2) { left: 40%; animation-delay: -1s; animation-duration: 8s; }
-        .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 6s; }
-        .particle:nth-child(4) { left: 80%; animation-delay: -3s; animation-duration: 9s; }
+        .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 9s; }
+        .particle:nth-child(4) { left: 80%; animation-delay: -3s; animation-duration: 6s; }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
@@ -1579,6 +1579,7 @@
                 <label for="tool-select" class="tool-label">Choose Your AI Tool:</label>
                 <select id="tool-select" class="tool-select" aria-label="Select AI tool">
                     <option value="cofounder">AI Cofounder Chat</option>
+                    <option value="motivator">Motivator Friend</option>
                     <option value="idea">Idea Engine</option>
                     <option value="ideatester">Idea Tester</option>
                     <option value="market">Market Research</option>
@@ -1700,6 +1701,7 @@
         // Tool prompts
         const toolPrompts = {
             cofounder: "Ask anything about launching your startup idea.",
+            motivator: "I'm feeling overwhelmed with my startup journey and need some encouragement and motivation to keep going.",
             scale: "Create a 6-month scaling roadmap for a fashion e-commerce startup.",
             idea: "Give me 3 business ideas for online tutoring.",
             ideatester: "Test my idea: An app that delivers groceries by drone in rural areas.",
@@ -2054,6 +2056,8 @@
             switch (tool) {
                 case "cofounder":
                     return `You are my AI cofounder. Help me brainstorm ideas, strategies, and solutions for my startup. My current challenge is: ${input}`;
+                case "motivator":
+                    return `You are my supportive and encouraging AI motivator friend. Your role is to provide uplifting, positive, and motivational responses to help me stay focused and inspired on my entrepreneurial journey. Here's what I'm dealing with: ${input}`;
                 case "idea":
                     return `You're a startup idea machine. Give 3 creative, profitable startup ideas for: ${input}`;
                 case "market":
