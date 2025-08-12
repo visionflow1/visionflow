@@ -1831,6 +1831,42 @@
             }
         }
 
+        // String escaping utility
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function createFavoriteButton(question, answer, isImage = false) {
+            const button = document.createElement('button');
+            button.textContent = '💾 Save to Favorites';
+            button.className = 'favorite-btn';
+            button.style.cssText = `
+                margin-top: 10px;
+                margin-right: 10px;
+                padding: 8px 16px;
+                background: var(--gradient-secondary);
+                color: var(--secondary-color);
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all var(--transition-base);
+            `;
+            
+            button.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                saveFavorite(question, answer);
+            };
+            
+            return button;
+        }
+
         // Authentication functions
         async function register() {
             const emailInput = document.getElementById("email");
@@ -2117,7 +2153,7 @@
             const fullPrompt = generatePrompt(tool, message);
             
             // Add user message to chat
-            chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            chatBox.innerHTML += `<p><strong>You:</strong> ${escapeHtml(message)}</p>`;
             userInput.value = "";
             updateCharCounter();
             
@@ -2143,29 +2179,67 @@
                 }
                 
                 const data = await response.json();
-                let responseHtml = "";
+                
+                // Create container for response
+                const responseContainer = document.createElement('div');
                 
                 if (tool === "logo" && data.image) {
-                    responseHtml = `
+                    responseContainer.innerHTML = `
                         <p><strong>VisionFlow:</strong></p>
                         <img id="generated-logo" src="${data.image}" alt="Generated Logo" style="max-width:100%; border-radius:8px; margin: 10px 0;" loading="lazy" />
                         <br><br>
-                        <button onclick="saveFavorite('${message.replace(/'/g, "\\'")}', '${data.image}')" style="margin-right: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">💾 Save to Favorites</button>
-                        <button onclick="downloadLogo('png')" style="margin-right: 10px; padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;">⬇️ Download PNG</button>
-                        <button onclick="downloadLogo('jpg')" style="padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;">⬇️ Download JPG</button>
                     `;
+                    
+                    // Create and append save button
+                    const saveBtn = createFavoriteButton(message, data.image, true);
+                    responseContainer.appendChild(saveBtn);
+                    
+                    // Create download buttons
+                    const downloadPngBtn = document.createElement('button');
+                    downloadPngBtn.textContent = '⬇️ Download PNG';
+                    downloadPngBtn.onclick = () => downloadLogo('png');
+                    downloadPngBtn.style.cssText = `
+                        margin-right: 10px;
+                        padding: 8px 16px;
+                        background: var(--tertiary-color);
+                        color: var(--primary-color);
+                        border: 1px solid rgba(255, 215, 0, 0.3);
+                        border-radius: 6px;
+                        cursor: pointer;
+                        font-weight: 600;
+                    `;
+                    
+                    const downloadJpgBtn = document.createElement('button');
+                    downloadJpgBtn.textContent = '⬇️ Download JPG';
+                    downloadJpgBtn.onclick = () => downloadLogo('jpg');
+                    downloadJpgBtn.style.cssText = `
+                        padding: 8px 16px;
+                        background: var(--tertiary-color);
+                        color: var(--primary-color);
+                        border: 1px solid rgba(255, 215, 0, 0.3);
+                        border-radius: 6px;
+                        cursor: pointer;
+                        font-weight: 600;
+                    `;
+                    
+                    responseContainer.appendChild(downloadPngBtn);
+                    responseContainer.appendChild(downloadJpgBtn);
+                    
                 } else if (data.reply) {
-                    const safereply = data.reply.replace(/`/g, "\\`").replace(/'/g, "\\'");
-                    responseHtml = `
+                    responseContainer.innerHTML = `
                         <p><strong>VisionFlow:</strong></p>
-                        <pre style="white-space: pre-wrap; word-wrap: break-word;">${data.reply}</pre>
-                        <button onclick="saveFavorite('${message.replace(/'/g, "\\'")}', \`${safereply}\`)" style="margin-top: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">💾 Save to Favorites</button>
+                        <pre style="white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(data.reply)}</pre>
                     `;
+                    
+                    // Create and append save button
+                    const saveBtn = createFavoriteButton(message, data.reply);
+                    responseContainer.appendChild(saveBtn);
+                    
                 } else {
-                    responseHtml = `<p><strong>VisionFlow:</strong> I apologize, but I encountered an issue processing your request. Please try again.</p>`;
+                    responseContainer.innerHTML = `<p><strong>VisionFlow:</strong> I apologize, but I encountered an issue processing your request. Please try again.</p>`;
                 }
                 
-                chatBox.innerHTML += responseHtml;
+                chatBox.appendChild(responseContainer);
                 chatBox.scrollTop = chatBox.scrollHeight;
                 
                 // Show success toast
@@ -2249,16 +2323,29 @@
                             const li = document.createElement("li");
                             li.innerHTML = `
                                 <div style="margin-bottom: 12px;">
-                                    <strong style="color: var(--primary-color);">Q:</strong> ${f.question}
+                                    <strong style="color: var(--primary-color);">Q:</strong> ${escapeHtml(f.question)}
                                 </div>
                                 <div style="margin-bottom: 12px; padding: 10px; background: rgba(255, 215, 0, 0.05); border-radius: 6px; border-left: 3px solid var(--primary-color);">
-                                    <strong style="color: var(--text-secondary);">A:</strong> ${f.answer.length > 200 ? f.answer.substring(0, 200) + '...' : f.answer}
-                                </div>
-                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <button onclick="deleteFavorite('${f.question.replace(/'/g, "\\'")}')">❌ Delete</button>
-                                    <button onclick="copyToClipboard(\`${f.answer.replace(/`/g, '\\`')}\`)">📋 Copy Answer</button>
+                                    <strong style="color: var(--text-secondary);">A:</strong> ${escapeHtml(f.answer.length > 200 ? f.answer.substring(0, 200) + '...' : f.answer)}
                                 </div>
                             `;
+                            
+                            // Create action buttons
+                            const actionDiv = document.createElement('div');
+                            actionDiv.style.cssText = 'display: flex; gap: 8px; flex-wrap: wrap;';
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.textContent = '❌ Delete';
+                            deleteBtn.onclick = () => deleteFavorite(f.question);
+                            
+                            const copyBtn = document.createElement('button');
+                            copyBtn.textContent = '📋 Copy Answer';
+                            copyBtn.onclick = () => copyToClipboard(f.answer);
+                            
+                            actionDiv.appendChild(deleteBtn);
+                            actionDiv.appendChild(copyBtn);
+                            li.appendChild(actionDiv);
+                            
                             list.appendChild(li);
                         });
                         
@@ -2534,11 +2621,11 @@
                             output += `
                                 <div style="margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-radius: 8px; border-left: 3px solid var(--primary-color);">
                                     <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 8px;">
-                                        Tool: <strong style="color: var(--primary-color);">${item.tool}</strong>
+                                        Tool: <strong style="color: var(--primary-color);">${escapeHtml(item.tool)}</strong>
                                     </div>
-                                    <p><strong style="color: var(--primary-color);">You:</strong> ${item.user_input}</p>
+                                    <p><strong style="color: var(--primary-color);">You:</strong> ${escapeHtml(item.user_input)}</p>
                                     <p><strong style="color: var(--text-secondary);">VisionFlow:</strong></p>
-                                    <pre style="white-space: pre-wrap; word-wrap: break-word; margin: 8px 0;">${item.ai_reply}</pre>
+                                    <pre style="white-space: pre-wrap; word-wrap: break-word; margin: 8px 0;">${escapeHtml(item.ai_reply)}</pre>
                                 </div>
                             `;
                         });
