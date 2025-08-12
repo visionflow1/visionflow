@@ -23,7 +23,6 @@
             --text-muted: rgba(191, 161, 74, 0.7);
             --success-color: #22c55e;
             --error-color: #ef4444;
-            --warning-color: #f59e0b;
             --gradient-primary: linear-gradient(135deg, #18122B 0%, #22223B 100%);
             --gradient-secondary: linear-gradient(90deg, #FFD700 0%, #bfa14a 100%);
             --gradient-glass: rgba(24, 18, 43, 0.85);
@@ -68,6 +67,19 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            opacity: 0;
+            animation: pageLoadFadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes pageLoadFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .container {
@@ -79,20 +91,24 @@
         /* Header */
         .header {
             background: var(--gradient-glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
             padding: var(--spacing-lg) 0;
-            transition: all var(--transition-base);
-            animation: fadeInDown 0.8s ease-out;
+            animation: headerSlideDown 0.8s ease-out 0.2s both;
         }
 
-        .header.scrolled {
-            background: rgba(24, 18, 43, 0.95);
-            backdrop-filter: blur(30px);
-            box-shadow: var(--shadow-lg);
+        @keyframes headerSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header-content {
@@ -107,11 +123,6 @@
             align-items: center;
             gap: var(--spacing-md);
             text-decoration: none;
-            transition: all var(--transition-base);
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
         }
 
         .logo-img {
@@ -123,13 +134,18 @@
             background: var(--accent-color);
             padding: var(--spacing-xs);
             object-fit: contain;
-            transition: transform var(--transition-base);
-            animation: glow 3s ease-in-out infinite;
+            transition: all var(--transition-base);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(5deg); }
         }
 
         .logo-img:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 6px 32px rgba(255, 215, 0, 0.4);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: var(--shadow-glow), 0 0 30px rgba(255, 215, 0, 0.4);
         }
 
         .logo-text {
@@ -137,25 +153,16 @@
             font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 700;
             color: var(--primary-color);
-            background: var(--gradient-secondary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
+            animation: logoTextGlow 2s ease-in-out infinite alternate;
         }
 
-        .logo-text::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 3s infinite;
-            -webkit-background-clip: text;
-            background-clip: text;
+        @keyframes logoTextGlow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            }
         }
 
         .nav {
@@ -184,7 +191,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-            transition: left var(--transition-base);
+            transition: left 0.5s;
         }
 
         .nav-link:hover::before {
@@ -204,29 +211,12 @@
             padding: var(--spacing-sm) var(--spacing-lg);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left var(--transition-slow);
-        }
-
-        .nav-cta:hover::before {
-            left: 100%;
         }
 
         .nav-cta:hover, .nav-cta:focus {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-lg);
         }
 
         .mobile-menu-toggle {
@@ -247,34 +237,21 @@
             transition: all var(--transition-base);
         }
 
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
         /* Hero Section */
         .hero {
             padding: var(--spacing-3xl) 0;
-            position: relative;
-            overflow: hidden;
+            animation: heroFadeIn 1s ease-out 0.4s both;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
-            pointer-events: none;
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-content {
@@ -283,14 +260,24 @@
             gap: var(--spacing-3xl);
             align-items: center;
             min-height: 70vh;
-            position: relative;
-            z-index: 1;
         }
 
         .hero-text {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-xl);
+            animation: heroTextSlide 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes heroTextSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .hero-title {
@@ -301,11 +288,18 @@
             line-height: 1.1;
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
             margin-bottom: var(--spacing-lg);
-            background: var(--gradient-secondary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInLeft 1s ease-out;
+            animation: titleScale 1s ease-out 0.8s both;
+        }
+
+        @keyframes titleScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .hero-description {
@@ -313,30 +307,23 @@
             color: var(--text-primary);
             line-height: 1.6;
             margin-bottom: var(--spacing-lg);
-            animation: fadeInLeft 1s ease-out 0.2s both;
+            animation: descriptionFade 0.8s ease-out 1s both;
+        }
+
+        @keyframes descriptionFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-highlight {
             color: var(--text-secondary);
             font-weight: 600;
-            position: relative;
-        }
-
-        .hero-highlight::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--gradient-secondary);
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: scaleX 1s ease-out 1s forwards;
-        }
-
-        @keyframes scaleX {
-            to { transform: scaleX(1); }
         }
 
         .hero-features {
@@ -354,28 +341,54 @@
             padding-left: var(--spacing-lg);
             position: relative;
             opacity: 0;
-            transform: translateX(-20px);
-            animation: fadeInRight 0.6s ease-out forwards;
+            animation: featureSlideIn 0.6s ease-out var(--delay) both;
         }
 
-        .hero-features li:nth-child(1) { animation-delay: 0.4s; }
-        .hero-features li:nth-child(2) { animation-delay: 0.6s; }
-        .hero-features li:nth-child(3) { animation-delay: 0.8s; }
-        .hero-features li:nth-child(4) { animation-delay: 1s; }
+        .hero-features li:nth-child(1) { --delay: 1.2s; }
+        .hero-features li:nth-child(2) { --delay: 1.4s; }
+        .hero-features li:nth-child(3) { --delay: 1.6s; }
+        .hero-features li:nth-child(4) { --delay: 1.8s; }
+
+        @keyframes featureSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
         .hero-features li::before {
             content: '✨';
             position: absolute;
             left: 0;
             top: 0;
-            animation: pulse 2s ease-in-out infinite;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .hero-actions {
             display: flex;
             gap: var(--spacing-lg);
             margin-top: var(--spacing-xl);
-            animation: fadeInUp 0.8s ease-out 1.2s both;
+            animation: actionsSlide 0.8s ease-out 2s both;
+        }
+
+        @keyframes actionsSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .cta-btn {
@@ -398,16 +411,19 @@
         .cta-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left var(--transition-slow);
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.6s;
+            transform: translate(-50%, -50%);
         }
 
         .cta-btn:hover::before {
-            left: 100%;
+            width: 300px;
+            height: 300px;
         }
 
         .cta-primary {
@@ -418,7 +434,7 @@
 
         .cta-primary:hover, .cta-primary:focus {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-5px) scale(1.05);
             box-shadow: var(--shadow-xl);
         }
 
@@ -433,7 +449,7 @@
             background: var(--gradient-secondary);
             color: var(--secondary-color);
             border-color: var(--primary-color);
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-5px) scale(1.05);
             box-shadow: var(--shadow-xl);
         }
 
@@ -441,7 +457,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: fadeInRight 1s ease-out 0.5s both;
+            animation: mediaFloat 1s ease-out 0.8s both;
+        }
+
+        @keyframes mediaFloat {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .video-container {
@@ -453,13 +480,11 @@
             box-shadow: var(--shadow-xl);
             border: 3px solid rgba(255, 215, 0, 0.3);
             transition: all var(--transition-base);
-            animation: float 4s ease-in-out infinite;
         }
 
         .video-container:hover {
             transform: scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow), var(--shadow-xl);
         }
 
         .video-container video {
@@ -485,14 +510,18 @@
             cursor: pointer;
             transition: all var(--transition-base);
             box-shadow: var(--shadow-lg);
-            animation: pulse 2s ease-in-out infinite;
+            animation: playBtnPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes playBtnPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
         }
 
         .video-play-btn:hover, .video-play-btn:focus {
             background: var(--primary-color);
-            transform: translate(-50%, -50%) scale(1.15);
+            transform: translate(-50%, -50%) scale(1.2);
             box-shadow: var(--shadow-xl);
-            animation: none;
         }
 
         .video-play-btn svg {
@@ -504,7 +533,19 @@
         /* Sections */
         .section {
             padding: var(--spacing-3xl) 0;
-            position: relative;
+            opacity: 0;
+            animation: sectionFadeIn 0.8s ease-out both;
+        }
+
+        @keyframes sectionFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-header {
@@ -521,10 +562,16 @@
             color: var(--primary-color);
             margin-bottom: var(--spacing-lg);
             font-weight: 700;
-            background: var(--gradient-secondary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            }
         }
 
         .section-subtitle {
@@ -536,32 +583,22 @@
         /* Features Section */
         .features-section {
             background: var(--gradient-glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-radius: var(--radius-2xl);
             margin: var(--spacing-3xl) 0;
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: var(--shadow-xl);
-            position: relative;
-            overflow: hidden;
+            transition: all var(--transition-base);
         }
 
-        .features-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
-            pointer-events: none;
+        .features-section:hover {
+            box-shadow: var(--shadow-glow), var(--shadow-xl);
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--spacing-2xl);
-            position: relative;
-            z-index: 1;
         }
 
         .feature-card {
@@ -571,27 +608,29 @@
             border: 1px solid rgba(255, 215, 0, 0.2);
             transition: all var(--transition-base);
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardSlideIn 0.6s ease-out var(--delay, 0.2s) both;
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left var(--transition-slow);
-        }
+        .feature-card:nth-child(1) { --delay: 0.2s; }
+        .feature-card:nth-child(2) { --delay: 0.4s; }
+        .feature-card:nth-child(3) { --delay: 0.6s; }
+        .feature-card:nth-child(4) { --delay: 0.8s; }
 
-        .feature-card:hover::before {
-            left: 100%;
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: var(--shadow-xl);
             border-color: var(--primary-color);
         }
@@ -600,7 +639,12 @@
             font-size: clamp(2rem, 5vw, 3rem);
             margin-bottom: var(--spacing-lg);
             display: block;
-            animation: rotateIn 0.8s ease-out;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
         .feature-title {
@@ -619,24 +663,16 @@
         /* Pricing Section */
         .pricing-section {
             background: var(--gradient-glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-radius: var(--radius-2xl);
             margin: var(--spacing-3xl) 0;
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: var(--shadow-xl);
-            position: relative;
-            overflow: hidden;
+            transition: all var(--transition-base);
         }
 
-        .pricing-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
-            pointer-events: none;
+        .pricing-section:hover {
+            box-shadow: var(--shadow-glow), var(--shadow-xl);
         }
 
         .pricing-grid {
@@ -645,8 +681,6 @@
             gap: var(--spacing-2xl);
             max-width: 1000px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
         .pricing-card {
@@ -657,22 +691,24 @@
             transition: all var(--transition-base);
             position: relative;
             text-align: center;
-            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: pricingSlideIn 0.6s ease-out var(--delay, 0.2s) both;
         }
 
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left var(--transition-slow);
-        }
+        .pricing-card:nth-child(1) { --delay: 0.2s; }
+        .pricing-card:nth-child(2) { --delay: 0.4s; }
+        .pricing-card:nth-child(3) { --delay: 0.6s; }
 
-        .pricing-card:hover::before {
-            left: 100%;
+        @keyframes pricingSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .pricing-card:hover {
@@ -684,12 +720,10 @@
             border-color: var(--primary-color);
             box-shadow: var(--shadow-glow);
             background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, var(--tertiary-color) 100%);
-            animation: glow 3s ease-in-out infinite;
         }
 
         .pricing-popular:hover {
             transform: translateY(-8px) scale(1.05);
-            box-shadow: var(--shadow-xl);
         }
 
         .pricing-badge {
@@ -697,14 +731,19 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--primary-color);
+            background: var(--gradient-secondary);
             color: var(--secondary-color);
             padding: var(--spacing-sm) var(--spacing-lg);
             border-radius: var(--radius-lg);
             font-size: 0.875rem;
             font-weight: 700;
             box-shadow: var(--shadow-md);
-            animation: pulse 2s ease-in-out infinite;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
         }
 
         .pricing-header {
@@ -730,7 +769,12 @@
             font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
             color: var(--primary-color);
-            animation: scaleIn 0.8s ease-out;
+            animation: priceGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes priceGlow {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
         }
 
         .price-period {
@@ -760,8 +804,8 @@
         }
 
         .pricing-features li:hover {
-            color: var(--primary-color);
             padding-left: var(--spacing-sm);
+            color: var(--primary-color);
         }
 
         .pricing-features li:last-child {
@@ -780,6 +824,7 @@
             transition: all var(--transition-base);
             width: 100%;
             font-family: 'Montserrat', sans-serif;
+            box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
         }
@@ -787,53 +832,46 @@
         .pricing-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left var(--transition-slow);
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.6s;
+            transform: translate(-50%, -50%);
         }
 
         .pricing-btn:hover::before {
-            left: 100%;
+            width: 300px;
+            height: 300px;
         }
 
         .pricing-btn:hover, .pricing-btn:focus {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.02);
             box-shadow: var(--shadow-lg);
         }
 
         /* Testimonials Section */
         .testimonials-section {
             background: var(--gradient-glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-radius: var(--radius-2xl);
             margin: var(--spacing-3xl) 0;
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: var(--shadow-xl);
-            position: relative;
-            overflow: hidden;
+            transition: all var(--transition-base);
         }
 
-        .testimonials-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
-            pointer-events: none;
+        .testimonials-section:hover {
+            box-shadow: var(--shadow-glow), var(--shadow-xl);
         }
 
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--spacing-xl);
-            position: relative;
-            z-index: 1;
         }
 
         .testimonial-card {
@@ -842,23 +880,25 @@
             padding: var(--spacing-2xl);
             border: 1px solid rgba(255, 215, 0, 0.1);
             transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: testimonialSlide 0.6s ease-out var(--delay, 0.2s) both;
         }
 
-        .testimonial-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left var(--transition-slow);
-        }
+        .testimonial-card:nth-child(1) { --delay: 0.2s; }
+        .testimonial-card:nth-child(2) { --delay: 0.4s; }
+        .testimonial-card:nth-child(3) { --delay: 0.6s; }
+        .testimonial-card:nth-child(4) { --delay: 0.8s; }
 
-        .testimonial-card:hover::before {
-            left: 100%;
+        @keyframes testimonialSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px) rotateX(20deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
         }
 
         .testimonial-card:hover {
@@ -881,10 +921,10 @@
 
         .testimonial-content p::before {
             content: '"';
-            font-size: 3rem;
+            font-size: 4rem;
             color: var(--primary-color);
             position: absolute;
-            top: -10px;
+            top: -20px;
             left: -20px;
             opacity: 0.3;
         }
@@ -915,17 +955,34 @@
             box-shadow: var(--shadow-xl);
             position: relative;
             overflow: hidden;
+            animation: ctaPulse 0.8s ease-out;
+        }
+
+        @keyframes ctaPulse {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .cta-section::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            pointer-events: none;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: ctaShine 3s ease-in-out infinite;
+        }
+
+        @keyframes ctaShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .cta-content {
@@ -940,7 +997,12 @@
             font-weight: 700;
             margin-bottom: var(--spacing-lg);
             color: var(--secondary-color);
-            animation: scaleIn 0.8s ease-out;
+            animation: ctaTitleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes ctaTitleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
         }
 
         .cta-description {
@@ -950,28 +1012,39 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         .cta-section .cta-primary {
             background: var(--secondary-color);
             color: var(--primary-color);
             border: 2px solid var(--secondary-color);
-            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .cta-section .cta-primary:hover, .cta-section .cta-primary:focus {
             background: var(--tertiary-color);
             color: var(--primary-color);
             border-color: var(--tertiary-color);
+            transform: translateY(-5px) scale(1.05);
         }
 
         /* Footer */
         .footer {
             background: var(--gradient-glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 215, 0, 0.2);
             margin-top: var(--spacing-3xl);
+            animation: footerSlide 0.8s ease-out;
+        }
+
+        @keyframes footerSlide {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .footer-content {
@@ -997,13 +1070,12 @@
             background: var(--accent-color);
             padding: var(--spacing-xs);
             object-fit: contain;
-            transition: all var(--transition-base);
-            animation: float 4s ease-in-out infinite;
+            animation: footerLogoFloat 4s ease-in-out infinite;
         }
 
-        .footer-logo:hover {
-            transform: scale(1.1) rotate(5deg);
-            animation: none;
+        @keyframes footerLogoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-2px) rotate(2deg); }
         }
 
         .footer-description {
@@ -1043,8 +1115,8 @@
         .footer-link::before {
             content: '';
             position: absolute;
-            bottom: 0;
             left: 0;
+            bottom: 0;
             width: 0;
             height: 1px;
             background: var(--primary-color);
@@ -1070,6 +1142,12 @@
             color: var(--text-secondary);
             font-size: clamp(0.875rem, 2vw, 1rem);
             margin: 0;
+            animation: footerTextGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerTextGlow {
+            from { opacity: 0.7; }
+            to { opacity: 1; }
         }
 
         /* Mobile Responsive */
@@ -1195,247 +1273,17 @@
             }
         }
 
-        /* Animation Keyframes */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes glow {
-            0%, 100% {
-                box-shadow: 0 4px 24px rgba(255, 215, 0, 0.25);
-            }
-            50% {
-                box-shadow: 0 4px 32px rgba(255, 215, 0, 0.4);
-            }
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-            100% {
-                background-position: 200% 0;
-            }
-        }
-
-        @keyframes rotateIn {
-            from {
-                opacity: 0;
-                transform: rotate(-180deg) scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: rotate(0deg) scale(1);
-            }
-        }
-
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Animation Classes */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .animate-fade-in-down {
-            animation: fadeInDown 0.8s ease-out forwards;
-        }
-
-        .animate-fade-in-left {
-            animation: fadeInLeft 0.8s ease-out forwards;
-        }
-
-        .animate-fade-in-right {
-            animation: fadeInRight 0.8s ease-out forwards;
-        }
-
-        .animate-scale-in {
-            animation: scaleIn 0.6s ease-out forwards;
-        }
-
-        .animate-slide-in-up {
-            animation: slideInUp 0.8s ease-out forwards;
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-pulse {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .animate-glow {
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        .animate-rotate-in {
-            animation: rotateIn 0.8s ease-out forwards;
-        }
-
-        .animate-bounce-in {
-            animation: bounceIn 0.8s ease-out forwards;
-        }
-
-        .animate-delay-100 { animation-delay: 0.1s; }
-        .animate-delay-200 { animation-delay: 0.2s; }
-        .animate-delay-300 { animation-delay: 0.3s; }
-        .animate-delay-400 { animation-delay: 0.4s; }
-        .animate-delay-500 { animation-delay: 0.5s; }
-        .animate-delay-600 { animation-delay: 0.6s; }
-
-        /* Initial hidden state for animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .animate-on-scroll.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
         /* Scroll-triggered animations */
         @media (prefers-reduced-motion: no-preference) {
-            .feature-card, .pricing-card, .testimonial-card {
-                animation: fadeInUp 0.6s ease-out;
+            .fade-in-section {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s ease-out;
             }
             
-            .hero-text {
-                animation: slideInRight 0.8s ease-out;
-            }
-            
-            .hero-media {
-                animation: scaleIn 0.8s ease-out 0.3s both;
+            .fade-in-section.visible {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -1452,10 +1300,15 @@
 
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
-            * {
+            *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+            }
+
+            body {
+                opacity: 1;
+                animation: none;
             }
         }
 
@@ -1491,7 +1344,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero animate-on-scroll">
+    <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
@@ -1539,15 +1392,15 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="features-section animate-on-scroll">
+    <section id="features" class="features-section fade-in-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header">
                 <h2 class="section-title">Why VisionFlow?</h2>
                 <p class="section-subtitle">Everything you need to turn your ideas into reality</p>
             </div>
             
             <div class="features-grid">
-                <div class="feature-card animate-on-scroll animate-delay-100">
+                <div class="feature-card">
                     <div class="feature-icon">✨</div>
                     <h3 class="feature-title">Luxury Experience</h3>
                     <p class="feature-description">
@@ -1555,7 +1408,7 @@
                     </p>
                 </div>
                 
-                <div class="feature-card animate-on-scroll animate-delay-200">
+                <div class="feature-card">
                     <div class="feature-icon">🤖</div>
                     <h3 class="feature-title">AI-Powered Everything</h3>
                     <p class="feature-description">
@@ -1563,7 +1416,7 @@
                     </p>
                 </div>
                 
-                <div class="feature-card animate-on-scroll animate-delay-300">
+                <div class="feature-card">
                     <div class="feature-icon">🛠</div>
                     <h3 class="feature-title">All-in-One Toolkit</h3>
                     <p class="feature-description">
@@ -1571,7 +1424,7 @@
                     </p>
                 </div>
                 
-                <div class="feature-card animate-on-scroll animate-delay-400">
+                <div class="feature-card">
                     <div class="feature-icon">📈</div>
                     <h3 class="feature-title">Results-Driven</h3>
                     <p class="feature-description">
@@ -1583,15 +1436,15 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="pricing-section animate-on-scroll">
+    <section id="pricing" class="pricing-section fade-in-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header">
                 <h2 class="section-title">Simple, Transparent Pricing</h2>
                 <p class="section-subtitle">Choose the plan that fits your ambition. Upgrade anytime as you grow.</p>
             </div>
             
             <div class="pricing-grid">
-                <div class="pricing-card animate-on-scroll animate-delay-100">
+                <div class="pricing-card">
                     <div class="pricing-header">
                         <h3 class="pricing-title">Starter</h3>
                         <div class="pricing-price">
@@ -1619,7 +1472,7 @@
                     <button class="pricing-btn">Get Started</button>
                 </div>
                 
-                <div class="pricing-card pricing-popular animate-on-scroll animate-delay-200">
+                <div class="pricing-card pricing-popular">
                     <div class="pricing-badge">Most Popular</div>
                     <div class="pricing-header">
                         <h3 class="pricing-title">Pro</h3>
@@ -1641,7 +1494,7 @@
                     <button class="pricing-btn">Upgrade</button>
                 </div>
                 
-                <div class="pricing-card animate-on-scroll animate-delay-300">
+                <div class="pricing-card">
                     <div class="pricing-header">
                         <h3 class="pricing-title">Elite</h3>
                         <div class="pricing-price">
@@ -1666,14 +1519,14 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials-section animate-on-scroll">
+    <section class="testimonials-section fade-in-section">
         <div class="container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header">
                 <h2 class="section-title">What Our Users Say</h2>
             </div>
             
             <div class="testimonials-grid">
-                <div class="testimonial-card animate-on-scroll animate-delay-100">
+                <div class="testimonial-card">
                     <div class="testimonial-content">
                         <p>"VisionFlow is like having a team of expert advisors, designers, and strategists in my pocket. The AI's advice is practical, detailed, and actually helps me move forward. The luxury design makes it a joy to use every day!"</p>
                     </div>
@@ -1683,7 +1536,7 @@
                     </div>
                 </div>
                 
-                <div class="testimonial-card animate-on-scroll animate-delay-200">
+                <div class="testimonial-card">
                     <div class="testimonial-content">
                         <p>"I tested 5 business ideas in one night. The AI feedback was honest, actionable, and saved me months of wasted effort. Highly recommend for any entrepreneur!"</p>
                     </div>
@@ -1693,7 +1546,7 @@
                     </div>
                 </div>
                 
-                <div class="testimonial-card animate-on-scroll animate-delay-300">
+                <div class="testimonial-card">
                     <div class="testimonial-content">
                         <p>"Our agency uses VisionFlow to generate business plans and branding for clients. The Pro plan is a game changer for productivity and quality."</p>
                     </div>
@@ -1703,7 +1556,7 @@
                     </div>
                 </div>
                 
-                <div class="testimonial-card animate-on-scroll animate-delay-400">
+                <div class="testimonial-card">
                     <div class="testimonial-content">
                         <p>"I used to pay for 4 different tools. Now I get everything in one place, and the results are better. The interface feels truly premium."</p>
                     </div>
@@ -1717,7 +1570,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section animate-on-scroll">
+    <section class="cta-section fade-in-section">
         <div class="container">
             <div class="cta-content">
                 <h2 class="cta-title">Ready to Transform Your Ideas?</h2>
@@ -1768,22 +1621,6 @@
     <script>
         // Video play button functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Header scroll effect
-            const header = document.querySelector('.header');
-            let lastScrollY = window.scrollY;
-
-            window.addEventListener('scroll', () => {
-                const currentScrollY = window.scrollY;
-                
-                if (currentScrollY > 100) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-
-                lastScrollY = currentScrollY;
-            });
-
             const video = document.getElementById('hero-video');
             const playBtn = document.querySelector('.video-play-btn');
             
@@ -1791,10 +1628,9 @@
                 playBtn.addEventListener('click', function() {
                     if (video.paused) {
                         video.play();
-                        this.style.opacity = '0';
-                        this.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                        playBtn.style.opacity = '0';
                         setTimeout(() => {
-                            this.style.display = 'none';
+                            playBtn.style.display = 'none';
                         }, 300);
                     }
                 });
@@ -1803,7 +1639,6 @@
                     playBtn.style.display = 'flex';
                     setTimeout(() => {
                         playBtn.style.opacity = '1';
-                        playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
                     }, 10);
                 });
                 
@@ -1811,12 +1646,11 @@
                     playBtn.style.display = 'flex';
                     setTimeout(() => {
                         playBtn.style.opacity = '1';
-                        playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
                     }, 10);
                 });
             }
             
-            // Enhanced mobile menu
+            // Mobile menu functionality
             const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
             const nav = document.querySelector('.nav');
             
@@ -1824,140 +1658,180 @@
                 mobileMenuToggle.addEventListener('click', function() {
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
                     this.setAttribute('aria-expanded', !isExpanded);
-                    this.classList.toggle('active');
-                    
-                    if (!isExpanded) {
-                        nav.style.display = 'flex';
-                        nav.style.position = 'absolute';
-                        nav.style.top = '100%';
-                        nav.style.left = '0';
-                        nav.style.right = '0';
-                        nav.style.background = 'var(--gradient-glass)';
-                        nav.style.flexDirection = 'column';
-                        nav.style.padding = 'var(--spacing-lg)';
-                        nav.style.borderRadius = '0 0 var(--radius-lg) var(--radius-lg)';
-                        nav.style.backdropFilter = 'blur(20px)';
-                        nav.style.border = '1px solid rgba(255, 215, 0, 0.2)';
-                        nav.style.borderTop = 'none';
-                        nav.style.opacity = '0';
-                        nav.style.transform = 'translateY(-10px)';
-                        
-                        setTimeout(() => {
-                            nav.style.opacity = '1';
-                            nav.style.transform = 'translateY(0)';
-                        }, 10);
-                    } else {
-                        nav.style.opacity = '0';
-                        nav.style.transform = 'translateY(-10px)';
-                        setTimeout(() => {
-                            nav.style.display = 'none';
-                        }, 200);
-                    }
+                    nav.style.display = isExpanded ? 'none' : 'flex';
+                    nav.style.position = 'absolute';
+                    nav.style.top = '100%';
+                    nav.style.left = '0';
+                    nav.style.right = '0';
+                    nav.style.background = 'var(--gradient-glass)';
+                    nav.style.flexDirection = 'column';
+                    nav.style.padding = 'var(--spacing-lg)';
+                    nav.style.borderRadius = '0 0 var(--radius-lg) var(--radius-lg)';
+                    nav.style.backdropFilter = 'blur(10px)';
+                    nav.style.border = '1px solid rgba(255, 215, 0, 0.2)';
+                    nav.style.borderTop = 'none';
+                    nav.style.animation = 'slideInDown 0.3s ease-out';
                 });
             }
             
-            // Enhanced scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                        
-                        // Add stagger effect for grid items
-                        if (entry.target.classList.contains('feature-card') || 
-                            entry.target.classList.contains('pricing-card') || 
-                            entry.target.classList.contains('testimonial-card')) {
-                            const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100;
-                            entry.target.style.animationDelay = `${delay}ms`;
-                        }
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe all animated elements
-            document.querySelectorAll('.animate-on-scroll').forEach(element => {
-                observer.observe(element);
-            });
-            
-            // Enhanced smooth scrolling
+            // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
-                        const headerHeight = header.offsetHeight;
-                        const targetPosition = target.offsetTop - headerHeight - 20;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
                         });
                     }
                 });
             });
             
-            // Enhanced button interactions
-            document.querySelectorAll('.cta-btn, .pricing-btn').forEach(btn => {
+            // Pricing button clicks with animation
+            document.querySelectorAll('.pricing-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Create ripple effect
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.style.position = 'absolute';
-                    ripple.style.borderRadius = '50%';
-                    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
-                    ripple.style.transform = 'scale(0)';
-                    ripple.style.animation = 'ripple-animation 0.6s linear';
-                    ripple.style.pointerEvents = 'none';
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                    
-                    // Add loading state
+                    // Add loading animation
                     const originalText = this.textContent;
                     this.textContent = 'Loading...';
                     this.style.opacity = '0.7';
                     this.disabled = true;
                     
+                    // Simulate loading and redirect
                     setTimeout(() => {
                         window.location.href = 'index.html';
-                    }, 1000);
+                    }, 800);
                 });
             });
             
-            // Parallax effect for hero section
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const parallaxElements = document.querySelectorAll('.hero-media');
+            // Intersection Observer for scroll animations
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
                 
-                parallaxElements.forEach(element => {
-                    const speed = 0.5;
-                    element.style.transform = `translateY(${scrolled * speed}px)`;
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            
+                            // Add staggered animation for cards
+                            const cards = entry.target.querySelectorAll('.feature-card, .pricing-card, .testimonial-card');
+                            cards.forEach((card, index) => {
+                                card.style.animationDelay = `${index * 0.2}s`;
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0) scale(1)';
+                            });
+                        }
+                    });
+                }, observerOptions);
+                
+                // Observe sections for animation
+                document.querySelectorAll('.fade-in-section').forEach(section => {
+                    observer.observe(section);
                 });
-            });
+            }
             
-            // Enhanced hover effects
+            // Performance optimization: lazy load images
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.removeAttribute('data-src');
+                            }
+                            img.classList.remove('lazy');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+            
+            // Add particle effect on scroll
+            let particlesCreated = false;
+            function createParticles() {
+                if (particlesCreated) return;
+                particlesCreated = true;
+                
+                for (let i = 0; i < 5; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.cssText = `
+                        position: fixed;
+                        width: 2px;
+                        height: 2px;
+                        background: var(--primary-color);
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 1;
+                        opacity: 0.6;
+                        animation: particleFloat 8s linear infinite;
+                    `;
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 8 + 's';
+                    document.body.appendChild(particle);
+                    
+                    // Remove particle after animation
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 8000);
+                }
+            }
+            
+            // Add hover effects to interactive elements
             document.querySelectorAll('.feature-card, .pricing-card, .testimonial-card').forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px) scale(1.02)';
-                    this.style.transition = 'all 0.3s ease';
+                    this.style.transform = this.classList.contains('pricing-popular') 
+                        ? 'translateY(-8px) scale(1.05)' 
+                        : 'translateY(-8px) scale(1.02)';
+                    createParticles();
                 });
                 
                 card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.transform = this.classList.contains('pricing-popular') 
+                        ? 'scale(1.05)' 
+                        : 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Add loading animation to CTA buttons
+            document.querySelectorAll('.cta-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (this.href && this.href.includes('index.html')) {
+                        e.preventDefault();
+                        this.style.opacity = '0.7';
+                        this.textContent = 'Loading...';
+                        
+                        // Add ripple effect
+                        const ripple = document.createElement('span');
+                        ripple.style.cssText = `
+                            position: absolute;
+                            border-radius: 50%;
+                            background: rgba(255, 255, 255, 0.3);
+                            transform: scale(0);
+                            animation: ripple 0.6s linear;
+                            width: 20px;
+                            height: 20px;
+                            left: 50%;
+                            top: 50%;
+                            margin-left: -10px;
+                            margin-top: -10px;
+                        `;
+                        this.appendChild(ripple);
+                        
+                        setTimeout(() => {
+                            window.location.href = this.href;
+                        }, 600);
+                    }
                 });
             });
         });
@@ -1976,12 +1850,10 @@
                 nav.style.border = 'none';
                 nav.style.backdropFilter = 'none';
                 nav.style.borderRadius = '0';
-                nav.style.opacity = '1';
-                nav.style.transform = 'translateY(0)';
+                nav.style.animation = 'none';
                 
                 if (mobileMenuToggle) {
                     mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                    mobileMenuToggle.classList.remove('active');
                 }
             } else if (window.innerWidth <= 768 && nav) {
                 nav.style.display = 'none';
@@ -1998,15 +1870,48 @@
         document.addEventListener('mousedown', function() {
             document.body.classList.remove('keyboard-navigation');
         });
-
-        // Add CSS for ripple effect
+        
+        // Add CSS for animations
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes ripple-animation {
+            @keyframes slideInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes particleFloat {
+                from {
+                    opacity: 0;
+                    transform: translateY(100vh) scale(0);
+                }
+                10% {
+                    opacity: 0.6;
+                }
+                90% {
+                    opacity: 0.6;
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-100px) scale(1);
+                }
+            }
+            
+            @keyframes ripple {
                 to {
                     transform: scale(4);
                     opacity: 0;
                 }
+            }
+            
+            .keyboard-navigation *:focus {
+                outline: 3px solid var(--primary-color) !important;
+                outline-offset: 2px !important;
             }
         `;
         document.head.appendChild(style);
