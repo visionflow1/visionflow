@@ -49,6 +49,201 @@
             --transition-slow: 300ms ease;
         }
 
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 4px 24px rgba(255, 215, 0, 0.25);
+            }
+            50% {
+                box-shadow: 0 4px 32px rgba(255, 215, 0, 0.4);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Animation Classes */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in-down {
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in-right {
+            animation: fadeInRight 0.8s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-up {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-rotate-in {
+            animation: rotateIn 0.8s ease-out forwards;
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.8s ease-out forwards;
+        }
+
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-delay-500 { animation-delay: 0.5s; }
+        .animate-delay-600 { animation-delay: 0.6s; }
+
+        /* Initial hidden state for animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .animate-on-scroll.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -74,12 +269,13 @@
         /* Header */
         .header {
             background: var(--gradient-glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             padding: var(--spacing-lg) 0;
             margin-bottom: var(--spacing-xl);
             border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
             box-shadow: var(--shadow-md);
+            animation: fadeInDown 0.8s ease-out;
         }
 
         .header .container {
@@ -93,6 +289,7 @@
             display: flex;
             align-items: center;
             gap: var(--spacing-lg);
+            animation: fadeInLeft 0.8s ease-out 0.2s both;
         }
 
         .vision-logo {
@@ -105,10 +302,12 @@
             padding: var(--spacing-sm);
             object-fit: contain;
             transition: transform var(--transition-base);
+            animation: glow 3s ease-in-out infinite;
         }
 
         .vision-logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 32px rgba(255, 215, 0, 0.4);
         }
 
         .brand-info {
@@ -123,11 +322,31 @@
             margin: 0;
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
             font-weight: 700;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .brand-title::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .header-nav {
             display: flex;
             align-items: center;
+            animation: fadeInRight 0.8s ease-out 0.2s both;
         }
 
         .nav-link {
@@ -142,12 +361,29 @@
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left var(--transition-base);
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
         }
 
         .nav-link:hover, .nav-link:focus {
             background: var(--gradient-secondary);
             color: var(--secondary-color);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-md);
         }
 
@@ -155,6 +391,7 @@
         .main-content {
             padding: var(--spacing-2xl) 0;
             min-height: calc(100vh - 200px);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .pricing-hero {
@@ -163,6 +400,7 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            animation: scaleIn 0.8s ease-out 0.6s both;
         }
 
         .hero-title {
@@ -172,6 +410,10 @@
             color: var(--primary-color);
             margin-bottom: var(--spacing-lg);
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero-subtitle {
@@ -193,6 +435,7 @@
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: var(--shadow-md);
             margin-bottom: var(--spacing-xl);
+            animation: slideInUp 0.8s ease-out 0.8s both;
         }
 
         .toggle-label {
@@ -238,6 +481,7 @@
             left: 2px;
             transition: transform var(--transition-base);
             box-shadow: var(--shadow-sm);
+            animation: pulse 2s ease-in-out infinite;
         }
 
         .toggle-btn[aria-checked="true"] .toggle-slider {
@@ -251,11 +495,12 @@
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: var(--spacing-2xl);
             margin-bottom: var(--spacing-3xl);
+            animation: fadeInUp 0.8s ease-out 1s both;
         }
 
         .pricing-card {
             background: var(--gradient-glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: var(--radius-2xl);
             padding: var(--spacing-2xl);
             border: 2px solid rgba(255, 215, 0, 0.2);
@@ -263,10 +508,26 @@
             position: relative;
             text-align: center;
             box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left var(--transition-slow);
+        }
+
+        .pricing-card:hover::before {
+            left: 100%;
         }
 
         .pricing-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: var(--shadow-xl);
             border-color: var(--primary-color);
         }
@@ -275,11 +536,12 @@
             border-color: var(--primary-color);
             box-shadow: var(--shadow-glow);
             background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, var(--gradient-glass) 100%);
-            transform: scale(1.05);
+            transform: scale(1.02);
+            animation: glow 3s ease-in-out infinite;
         }
 
         .pricing-popular:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-8px) scale(1.05);
         }
 
         .popular-badge {
@@ -294,6 +556,7 @@
             font-size: 0.875rem;
             font-weight: 700;
             box-shadow: var(--shadow-md);
+            animation: pulse 2s ease-in-out infinite;
         }
 
         .pricing-header {
@@ -325,6 +588,7 @@
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 700;
             color: var(--primary-color);
+            animation: bounceIn 0.8s ease-out;
         }
 
         .price-period {
@@ -334,14 +598,6 @@
         }
 
         .annual-price {
-            display: none;
-        }
-
-        .annual-price.show {
-            display: inline;
-        }
-
-        .monthly-price.hide {
             display: none;
         }
 
@@ -367,6 +623,12 @@
             display: flex;
             align-items: center;
             gap: var(--spacing-sm);
+            transition: all var(--transition-base);
+        }
+
+        .plan-features li:hover {
+            color: var(--primary-color);
+            padding-left: var(--spacing-sm);
         }
 
         .plan-features li:last-child {
@@ -403,11 +665,28 @@
             width: 100%;
             font-family: 'Montserrat', sans-serif;
             box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left var(--transition-slow);
+        }
+
+        .plan-btn:hover::before {
+            left: 100%;
         }
 
         .plan-btn:hover, .plan-btn:focus {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
         }
 
@@ -431,12 +710,13 @@
         /* Comparison Section */
         .comparison-section {
             background: var(--gradient-glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: var(--radius-2xl);
             padding: var(--spacing-2xl);
             margin-bottom: var(--spacing-3xl);
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: var(--shadow-lg);
+            animation: slideInUp 0.8s ease-out 1.2s both;
         }
 
         .comparison-title {
@@ -493,12 +773,13 @@
         /* FAQ Section */
         .faq-section {
             background: var(--gradient-glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: var(--radius-2xl);
             padding: var(--spacing-2xl);
             margin-bottom: var(--spacing-3xl);
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: var(--shadow-lg);
+            animation: slideInUp 0.8s ease-out 1.4s both;
         }
 
         .faq-title {
@@ -520,10 +801,19 @@
             overflow: hidden;
             border: 1px solid rgba(255, 215, 0, 0.1);
             transition: all var(--transition-base);
+            animation: fadeInUp 0.6s ease-out forwards;
         }
+
+        .faq-item:nth-child(1) { animation-delay: 1.6s; }
+        .faq-item:nth-child(2) { animation-delay: 1.8s; }
+        .faq-item:nth-child(3) { animation-delay: 2s; }
+        .faq-item:nth-child(4) { animation-delay: 2.2s; }
+        .faq-item:nth-child(5) { animation-delay: 2.4s; }
+        .faq-item:nth-child(6) { animation-delay: 2.6s; }
 
         .faq-item:hover {
             border-color: var(--primary-color);
+            transform: translateY(-2px);
         }
 
         .faq-question {
@@ -577,10 +867,11 @@
         /* Footer */
         .site-footer {
             background: var(--gradient-glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 215, 0, 0.2);
             padding: var(--spacing-2xl) 0;
             margin-top: var(--spacing-3xl);
+            animation: fadeInUp 0.8s ease-out 2.8s both;
         }
 
         .footer-content {
@@ -612,11 +903,27 @@
             transition: all var(--transition-base);
             font-weight: 500;
             font-size: clamp(0.875rem, 2vw, 1rem);
+            position: relative;
+        }
+
+        .footer-nav a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-color);
+            transition: width var(--transition-base);
+        }
+
+        .footer-nav a:hover::before {
+            width: 100%;
         }
 
         .footer-nav a:hover, .footer-nav a:focus {
             background: rgba(255, 215, 0, 0.1);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         /* Mobile Responsive */
@@ -626,7 +933,7 @@
             }
             
             .pricing-popular:hover {
-                transform: translateY(-5px);
+                transform: translateY(-8px);
             }
             
             .pricing-grid {
@@ -761,7 +1068,7 @@
 </head>
 <body>
     <div class="container">
-        <header class="header">
+        <header class="header animate-on-scroll">
             <div class="logo-header">
                 <img src="vision logo.jpeg" alt="VisionFlow Logo" class="vision-logo" loading="lazy" />
                 <div class="brand-info">
@@ -778,7 +1085,7 @@
 
         <main class="main-content">
             <!-- Hero Section -->
-            <div class="pricing-hero">
+            <div class="pricing-hero animate-on-scroll">
                 <h1 class="hero-title">Choose Your Plan</h1>
                 <p class="hero-subtitle">Flexible pricing that grows with your business. Upgrade or downgrade anytime.</p>
                 
@@ -795,9 +1102,9 @@
             </div>
 
             <!-- Pricing Grid -->
-            <div class="pricing-grid">
+            <div class="pricing-grid animate-on-scroll">
                 <!-- Starter Plan -->
-                <div class="pricing-card">
+                <div class="pricing-card animate-on-scroll animate-delay-100">
                     <div class="pricing-header">
                         <h2 class="plan-title">Starter</h2>
                         <div class="plan-price">
@@ -860,7 +1167,7 @@
                 </div>
 
                 <!-- Pro Plan -->
-                <div class="pricing-card pricing-popular">
+                <div class="pricing-card pricing-popular animate-on-scroll animate-delay-200">
                     <div class="popular-badge">Most Popular</div>
                     <div class="pricing-header">
                         <h2 class="plan-title">Pro</h2>
@@ -908,7 +1215,7 @@
                 </div>
 
                 <!-- Elite Plan -->
-                <div class="pricing-card">
+                <div class="pricing-card animate-on-scroll animate-delay-300">
                     <div class="pricing-header">
                         <h2 class="plan-title">Elite</h2>
                         <div class="plan-price">
@@ -960,7 +1267,7 @@
             </div>
 
             <!-- Comparison Table -->
-            <div class="comparison-section">
+            <div class="comparison-section animate-on-scroll">
                 <h2 class="comparison-title">Feature Comparison</h2>
                 <div class="comparison-table-wrapper">
                     <table class="comparison-table">
@@ -1015,7 +1322,7 @@
             </div>
 
             <!-- FAQ Section -->
-            <div class="faq-section">
+            <div class="faq-section animate-on-scroll">
                 <h2 class="faq-title">Frequently Asked Questions</h2>
                 <div class="faq-grid">
                     <div class="faq-item">
@@ -1081,7 +1388,7 @@
             </div>
         </main>
 
-        <footer class="site-footer">
+        <footer class="site-footer animate-on-scroll">
             <div class="footer-content">
                 <div class="footer-brand">© 2025 VisionFlow — All rights reserved.</div>
                 <nav class="footer-nav" aria-label="Footer navigation">
@@ -1095,6 +1402,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                        
+                        // Add stagger effect for pricing cards
+                        if (entry.target.classList.contains('pricing-card')) {
+                            const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 200;
+                            entry.target.style.animationDelay = `${delay}ms`;
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animated elements
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
             // Billing toggle functionality
             const billingToggle = document.querySelector('.toggle-btn');
             const monthlyPrices = document.querySelectorAll('.monthly-price');
@@ -1107,24 +1439,12 @@
                     
                     if (!isAnnual) {
                         // Switch to annual
-                        monthlyPrices.forEach(price => {
-                            price.classList.add('hidden');
-                            price.style.display = 'none';
-                        });
-                        annualPrices.forEach(price => {
-                            price.classList.remove('hidden');
-                            price.style.display = 'inline';
-                        });
+                        monthlyPrices.forEach(price => price.classList.add('hidden'));
+                        annualPrices.forEach(price => price.classList.remove('hidden'));
                     } else {
                         // Switch to monthly
-                        monthlyPrices.forEach(price => {
-                            price.classList.remove('hidden');
-                            price.style.display = 'inline';
-                        });
-                        annualPrices.forEach(price => {
-                            price.classList.add('hidden');
-                            price.style.display = 'none';
-                        });
+                        monthlyPrices.forEach(price => price.classList.remove('hidden'));
+                        annualPrices.forEach(price => price.classList.add('hidden'));
                     }
                 });
             }
@@ -1146,11 +1466,34 @@
                 });
             });
 
-            // Plan button clicks
+            // Enhanced plan button clicks
             const planButtons = document.querySelectorAll('.plan-btn');
             
             planButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple-animation 0.6s linear';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+
                     // Check if this is the Contact Sales button
                     if (this.textContent.includes('Contact')) {
                         // Redirect to contact page
@@ -1170,17 +1513,25 @@
                 });
             });
 
-            // Add hover effects to pricing cards
+            // Enhanced hover effects to pricing cards
             const pricingCards = document.querySelectorAll('.pricing-card');
             
             pricingCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.borderColor = 'var(--primary-color)';
+                    if (!this.classList.contains('pricing-popular')) {
+                        this.style.borderColor = 'var(--primary-color)';
+                        this.style.transform = 'translateY(-8px) scale(1.02)';
+                    } else {
+                        this.style.transform = 'translateY(-8px) scale(1.05)';
+                    }
                 });
                 
                 card.addEventListener('mouseleave', function() {
                     if (!this.classList.contains('pricing-popular')) {
                         this.style.borderColor = 'rgba(255, 215, 0, 0.2)';
+                        this.style.transform = 'translateY(0) scale(1)';
+                    } else {
+                        this.style.transform = 'scale(1.02)';
                     }
                 });
             });
@@ -1199,31 +1550,6 @@
                 });
             });
 
-            // Intersection Observer for animations
-            if ('IntersectionObserver' in window) {
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                };
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }
-                    });
-                }, observerOptions);
-                
-                // Observe pricing cards for animation
-                document.querySelectorAll('.pricing-card, .comparison-section, .faq-section').forEach(element => {
-                    element.style.opacity = '0';
-                    element.style.transform = 'translateY(20px)';
-                    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    observer.observe(element);
-                });
-            }
-
             // Keyboard navigation for FAQ
             faqQuestions.forEach(question => {
                 question.addEventListener('keydown', function(e) {
@@ -1234,25 +1560,15 @@
                 });
             });
 
-            // Add ripple effect to buttons
-            document.querySelectorAll('.plan-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.classList.add('ripple');
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
+            // Parallax effect for pricing cards
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const pricingCards = document.querySelectorAll('.pricing-card');
+                
+                pricingCards.forEach((card, index) => {
+                    const speed = 0.1 + (index * 0.05);
+                    const yPos = -(scrolled * speed);
+                    card.style.transform = `translateY(${yPos}px)`;
                 });
             });
         });
@@ -1269,20 +1585,6 @@
         // Add CSS for ripple effect
         const style = document.createElement('style');
         style.textContent = `
-            .plan-btn {
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.3);
-                transform: scale(0);
-                animation: ripple-animation 0.6s linear;
-                pointer-events: none;
-            }
-            
             @keyframes ripple-animation {
                 to {
                     transform: scale(4);
