@@ -1797,6 +1797,45 @@
             social: "Create a 30-day Instagram strategy for a fitness brand.",
         };
 
+        // SECURITY: Enhanced user authentication and validation functions
+        function generateSecureUserToken() {
+            // Generate a random secure token for additional security
+            const array = new Uint8Array(32);
+            window.crypto.getRandomValues(array);
+            return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+        }
+
+        function validateUserSession() {
+            // Enhanced session validation with multiple checks
+            if (!loggedInUser) return false;
+            
+            // Check if user has required fields
+            if (!loggedInUser.email) return false;
+            
+            // Check session expiry (24 hours)
+            const sessionTime = localStorage.getItem('visionflowSessionTime');
+            if (!sessionTime || Date.now() - parseInt(sessionTime) > 24 * 60 * 60 * 1000) {
+                logout();
+                return false;
+            }
+            
+            return true;
+        }
+
+        function getUserIdentifier() {
+            // SECURITY FIX: Use multiple identifiers for user verification
+            if (!loggedInUser) return null;
+            
+            return {
+                // Use user ID if available (primary identifier)
+                user_id: loggedInUser.id || loggedInUser.user_id,
+                // Use email as secondary identifier
+                email: loggedInUser.email,
+                // Add session token for additional security
+                session_token: loggedInUser.session_token || localStorage.getItem('visionflowSessionToken')
+            };
+        }
+
         // Utility functions
         function showToast(message, type = 'success', duration = 5000) {
             const container = document.getElementById('toast-container');
@@ -1844,13 +1883,21 @@
             if (savedUser) {
                 try {
                     loggedInUser = JSON.parse(savedUser);
-                    if (authSection) authSection.classList.add("hidden");
-                    if (mainSection) mainSection.classList.remove("hidden");
-                    if (logoutButton) logoutButton.classList.remove("hidden");
-                    setTimeout(() => loadChatHistory(), 100);
+                    
+                    // SECURITY: Validate session before allowing access
+                    if (validateUserSession()) {
+                        if (authSection) authSection.classList.add("hidden");
+                        if (mainSection) mainSection.classList.remove("hidden");
+                        if (logoutButton) logoutButton.classList.remove("hidden");
+                        setTimeout(() => loadChatHistory(), 100);
+                    } else {
+                        // Session invalid, force logout
+                        logout();
+                    }
                 } catch (e) {
                     console.error('Error parsing saved user:', e);
                     localStorage.removeItem("visionflowUser");
+                    logout();
                 }
             } else {
                 loggedInUser = null;
@@ -2085,7 +2132,7 @@
             return container;
         }
 
-        // Authentication functions
+        // SECURITY ENHANCED: Authentication functions
         async function register() {
             const emailInput = document.getElementById("email");
             const passwordInput = document.getElementById("password");
@@ -2131,17 +2178,31 @@
             btnText.textContent = "Signing Up...";
             btnLoader.classList.remove('hidden');
 
+            // Generate session token for additional security
+            const sessionToken = generateSecureUserToken();
+
             try {
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ 
+                        email, 
+                        password,
+                        session_token: sessionToken,
+                        client_timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
                 
                 if (data.user && !data.error) {
+                    // SECURITY: Add session token to user data
+                    data.user.session_token = sessionToken;
+                    
                     localStorage.setItem("visionflowUser", JSON.stringify(data.user));
+                    localStorage.setItem("visionflowSessionTime", Date.now().toString());
+                    localStorage.setItem("visionflowSessionToken", sessionToken);
+                    
                     loggedInUser = data.user;
                     restoreSession();
                     emailInput.value = "";
@@ -2212,17 +2273,31 @@
             btnText.textContent = "Logging In...";
             btnLoader.classList.remove('hidden');
 
+            // Generate session token for additional security
+            const sessionToken = generateSecureUserToken();
+
             try {
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ 
+                        email, 
+                        password,
+                        session_token: sessionToken,
+                        client_timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
                 
                 if (data.user) {
+                    // SECURITY: Add session token to user data
+                    data.user.session_token = sessionToken;
+                    
                     localStorage.setItem("visionflowUser", JSON.stringify(data.user));
+                    localStorage.setItem("visionflowSessionTime", Date.now().toString());
+                    localStorage.setItem("visionflowSessionToken", sessionToken);
+                    
                     loggedInUser = data.user;
                     restoreSession();
                     const chatBox = document.getElementById("chat-box");
@@ -2252,7 +2327,11 @@
         }
 
         function logout() {
+            // SECURITY: Clear all session data
             localStorage.removeItem("visionflowUser");
+            localStorage.removeItem("visionflowSessionTime");
+            localStorage.removeItem("visionflowSessionToken");
+            
             loggedInUser = null;
             restoreSession();
             const chatBox = document.getElementById("chat-box");
@@ -2331,28 +2410,21 @@
             }
         }
 
-        // FIXED: Enhanced chat submit with better error handling and response processing
+        // SECURITY ENHANCED: Chat submit with proper user validation
         async function handleChatSubmit(e) {
             e.preventDefault();
             
-            const savedUser = localStorage.getItem("visionflowUser");
-            if (!savedUser) {
-                showToast("Please login or sign up first.", 'error');
-                restoreSession();
+            // SECURITY: Validate user session before proceeding
+            if (!validateUserSession()) {
+                showToast("Your session has expired. Please login again.", 'error');
+                logout();
                 return;
             }
 
-            try {
-                loggedInUser = JSON.parse(savedUser);
-            } catch (e) {
-                showToast("Please login or sign up first.", 'error');
-                restoreSession();
-                return;
-            }
-
-            if (!loggedInUser || !loggedInUser.email) {
-                showToast("Please login or sign up first.", 'error');
-                restoreSession();
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier || (!userIdentifier.user_id && !userIdentifier.email)) {
+                showToast("Authentication error. Please login again.", 'error');
+                logout();
                 return;
             }
 
@@ -2398,7 +2470,15 @@
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: fullPrompt, tool, email: loggedInUser.email })
+                    body: JSON.stringify({ 
+                        message: fullPrompt, 
+                        tool, 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
+                    })
                 });
                 
                 if (!response.ok) {
@@ -2406,6 +2486,13 @@
                 }
                 
                 const data = await response.json();
+                
+                // SECURITY: Validate response is for the correct user
+                if (data.user_id && data.user_id !== userIdentifier.user_id) {
+                    showToast("Security error: Response mismatch. Please login again.", 'error');
+                    logout();
+                    return;
+                }
                 
                 // Create container for response
                 const responseContainer = document.createElement('div');
@@ -2484,11 +2571,19 @@
             }
         }
 
-        // FIXED: Enhanced saveFavorite function with better error handling
+        // SECURITY ENHANCED: Save favorite with user validation
         async function saveFavorite(question, answer) {
-            if (!loggedInUser || !loggedInUser.email) {
-                showToast("Please login to save favorites.", 'error');
-                throw new Error('Not logged in');
+            // SECURITY: Validate user session
+            if (!validateUserSession()) {
+                showToast("Your session has expired. Please login again.", 'error');
+                logout();
+                throw new Error('Session expired');
+            }
+
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier) {
+                showToast("Authentication error. Please login again.", 'error');
+                throw new Error('Not authenticated');
             }
 
             if (!question || !answer) {
@@ -2503,11 +2598,22 @@
                     body: JSON.stringify({ 
                         question: question.toString(), 
                         answer: answer.toString(), 
-                        email: loggedInUser.email 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
                     })
                 });
                 
                 const data = await response.json();
+                
+                // SECURITY: Check for authentication errors
+                if (data.error && data.error.toLowerCase().includes('unauthorized')) {
+                    showToast("Session expired. Please login again.", 'error');
+                    logout();
+                    throw new Error('Authentication failed');
+                }
                 
                 if (data.message) {
                     showToast("💾 " + data.message, 'success', 3000);
@@ -2518,14 +2624,27 @@
                 }
             } catch (err) {
                 console.error('Save favorite error:', err);
+                if (err.message === 'Authentication failed' || err.message === 'Session expired') {
+                    // Don't show additional network error for auth issues
+                    throw err;
+                }
                 showToast("Network error. Please try again.", 'error');
                 throw err;
             }
         }
 
+        // SECURITY ENHANCED: View favorites with user validation
         async function viewFavorites() {
-            if (!loggedInUser || !loggedInUser.email) {
-                showToast("Please login to view favorites.", 'error');
+            // SECURITY: Validate user session
+            if (!validateUserSession()) {
+                showToast("Your session has expired. Please login again.", 'error');
+                logout();
+                return;
+            }
+
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier) {
+                showToast("Authentication error. Please login again.", 'error');
                 return;
             }
 
@@ -2535,10 +2654,24 @@
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/favorites", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    body: JSON.stringify({ 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
+
+                // SECURITY: Check for authentication errors
+                if (data.error && data.error.toLowerCase().includes('unauthorized')) {
+                    showToast("Session expired. Please login again.", 'error');
+                    logout();
+                    return;
+                }
+                
                 favorites = data.favorites || [];
                 const list = document.getElementById("favorites-list");
                 
@@ -2626,9 +2759,18 @@
             }
         }
 
+        // SECURITY ENHANCED: Delete favorite with user validation
         async function deleteFavorite(question) {
-            if (!loggedInUser || !loggedInUser.email) {
-                showToast("Please login to delete favorites.", 'error');
+            // SECURITY: Validate user session
+            if (!validateUserSession()) {
+                showToast("Your session has expired. Please login again.", 'error');
+                logout();
+                return;
+            }
+
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier) {
+                showToast("Authentication error. Please login again.", 'error');
                 return;
             }
 
@@ -2640,10 +2782,24 @@
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/delete-favorite", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ question, email: loggedInUser.email })
+                    body: JSON.stringify({ 
+                        question, 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
+
+                // SECURITY: Check for authentication errors
+                if (data.error && data.error.toLowerCase().includes('unauthorized')) {
+                    showToast("Session expired. Please login again.", 'error');
+                    logout();
+                    return;
+                }
                 
                 if (data.message) {
                     showToast(data.message, 'success', 3000);
@@ -2657,9 +2813,18 @@
             }
         }
 
+        // SECURITY ENHANCED: Clear favorites with user validation
         async function clearFavorites() {
-            if (!loggedInUser || !loggedInUser.email) {
-                showToast("Please login to clear favorites.", 'error');
+            // SECURITY: Validate user session
+            if (!validateUserSession()) {
+                showToast("Your session has expired. Please login again.", 'error');
+                logout();
+                return;
+            }
+
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier) {
+                showToast("Authentication error. Please login again.", 'error');
                 return;
             }
 
@@ -2673,10 +2838,23 @@
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/clear-favorites", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    body: JSON.stringify({ 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
+
+                // SECURITY: Check for authentication errors
+                if (data.error && data.error.toLowerCase().includes('unauthorized')) {
+                    showToast("Session expired. Please login again.", 'error');
+                    logout();
+                    return;
+                }
                 
                 if (data.message) {
                     showToast(data.message, 'success');
@@ -2696,10 +2874,18 @@
             }
         }
 
-        // Bulk download functionality
+        // SECURITY ENHANCED: Bulk download with user validation
         async function showBulkDownloadMenu() {
-            if (!loggedInUser || !loggedInUser.email) {
-                showToast("Please login to access bulk downloads.", 'error');
+            // SECURITY: Validate user session
+            if (!validateUserSession()) {
+                showToast("Your session has expired. Please login again.", 'error');
+                logout();
+                return;
+            }
+
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier) {
+                showToast("Authentication error. Please login again.", 'error');
                 return;
             }
 
@@ -2707,10 +2893,24 @@
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/favorites", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    body: JSON.stringify({ 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
+
+                // SECURITY: Check for authentication errors
+                if (data.error && data.error.toLowerCase().includes('unauthorized')) {
+                    showToast("Session expired. Please login again.", 'error');
+                    logout();
+                    return;
+                }
+
                 favorites = data.favorites || [];
 
                 if (favorites.length === 0) {
@@ -2735,7 +2935,7 @@
             }
         }
 
-        // Bulk export functions
+        // Bulk export functions (unchanged as they work with local data)
         function exportAllToTXT() {
             if (favorites.length === 0) {
                 showToast("No favorites to export. Start saving some responses first!", 'warning');
@@ -2857,7 +3057,7 @@
             }
         }
 
-        // Enhanced logo download function
+        // Enhanced logo download function (unchanged)
         async function downloadLogo(format) {
             const img = document.getElementById("generated-logo");
             if (!img || !img.src) {
@@ -2921,9 +3121,10 @@
             }
         }
 
-        // Chat history functions
+        // SECURITY ENHANCED: Load chat history with user validation
         async function loadChatHistory() {
-            if (!loggedInUser || !loggedInUser.email) {
+            // SECURITY: Validate user session
+            if (!validateUserSession()) {
                 const chatBox = document.getElementById("chat-box");
                 if (chatBox) {
                     chatBox.innerHTML = `
@@ -2936,14 +3137,34 @@
                 return;
             }
 
+            const userIdentifier = getUserIdentifier();
+            if (!userIdentifier) {
+                logout();
+                return;
+            }
+
             try {
                 const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat-history", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: loggedInUser.email })
+                    body: JSON.stringify({ 
+                        // SECURITY: Send secure user identifier
+                        user_id: userIdentifier.user_id,
+                        email: userIdentifier.email,
+                        session_token: userIdentifier.session_token,
+                        timestamp: Date.now()
+                    })
                 });
                 
                 const data = await response.json();
+
+                // SECURITY: Check for authentication errors
+                if (data.error && data.error.toLowerCase().includes('unauthorized')) {
+                    showToast("Session expired. Please login again.", 'error');
+                    logout();
+                    return;
+                }
+
                 const history = data.history || [];
                 const chatBox = document.getElementById("chat-box");
                 
@@ -2999,7 +3220,7 @@
             }
         }
 
-        // Copy to clipboard function
+        // Copy to clipboard function (unchanged)
         function copyToClipboard(text) {
             if (!text) {
                 showToast("Nothing to copy.", 'warning');
@@ -3043,7 +3264,7 @@
             document.body.removeChild(textArea);
         }
 
-        // Event handlers
+        // Event handlers (unchanged)
         function attachEventHandlers() {
             const signupBtn = document.getElementById("signup-btn");
             const loginBtn = document.getElementById("login-btn");
@@ -3177,6 +3398,13 @@
                 });
             }
         }
+
+        // SECURITY: Periodic session validation
+        setInterval(() => {
+            if (loggedInUser && !validateUserSession()) {
+                console.log('Session validation failed, logging out user');
+            }
+        }, 5 * 60 * 1000); // Check every 5 minutes
 
         // Initialize app
         window.addEventListener("DOMContentLoaded", () => {
