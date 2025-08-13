@@ -912,6 +912,43 @@
             font-size: 0.875rem;
         }
 
+        /* Individual Download Buttons */
+        .download-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .download-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: 0.875rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: var(--tertiary-color);
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .download-btn:hover {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .download-btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
         /* Favorites */
         .favorites-list {
             background: var(--gradient-glass);
@@ -1175,6 +1212,11 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
+        .toast.toast-warning {
+            border-color: var(--warning-color);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
         .toast-content {
             display: flex;
             align-items: flex-start;
@@ -1423,6 +1465,10 @@
             .form-input, .form-select, .form-textarea, .chat-input {
                 font-size: 16px; /* Prevents zoom on iOS */
             }
+
+            .download-buttons {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1442,6 +1488,10 @@
             .action-btn {
                 padding: var(--spacing-sm);
                 font-size: 0.875rem;
+            }
+
+            .download-buttons {
+                flex-direction: column;
             }
         }
 
@@ -1647,15 +1697,19 @@
                     <span class="action-icon">🗑</span>
                     <span class="action-text">Clear Favorites</span>
                 </button>
-                <button id="export-txt-btn" class="action-btn" data-tooltip="Export to text file">
+                <button id="bulk-download-btn" class="action-btn" data-tooltip="Download all favorites">
+                    <span class="action-icon">📦</span>
+                    <span class="action-text">Bulk Download</span>
+                </button>
+                <button id="export-txt-btn" class="action-btn hidden" data-tooltip="Export to text file">
                     <span class="action-icon">📄</span>
                     <span class="action-text">Export TXT</span>
                 </button>
-                <button id="export-csv-btn" class="action-btn" data-tooltip="Export to CSV">
+                <button id="export-csv-btn" class="action-btn hidden" data-tooltip="Export to CSV">
                     <span class="action-icon">📊</span>
                     <span class="action-text">Export CSV</span>
                 </button>
-                <button id="export-pdf-btn" class="action-btn" data-tooltip="Export to PDF">
+                <button id="export-pdf-btn" class="action-btn hidden" data-tooltip="Export to PDF">
                     <span class="action-icon">🖨</span>
                     <span class="action-text">Export PDF</span>
                 </button>
@@ -1734,9 +1788,10 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️';
             toast.innerHTML = `
                 <div class="toast-content">
-                    <span class="toast-icon">${type === 'success' ? '✅' : '❌'}</span>
+                    <span class="toast-icon">${icon}</span>
                     <span class="toast-message">${message}</span>
                     <button class="toast-close" onclick="this.parentNode.parentNode.remove()" aria-label="Close notification">×</button>
                 </div>
@@ -1843,30 +1898,116 @@
                 .replace(/'/g, "&#039;");
         }
 
-        function createFavoriteButton(question, answer, isImage = false) {
-            const button = document.createElement('button');
-            button.textContent = '💾 Save to Favorites';
-            button.className = 'favorite-btn';
-            button.style.cssText = `
-                margin-top: 10px;
-                margin-right: 10px;
-                padding: 8px 16px;
-                background: var(--gradient-secondary);
-                color: var(--secondary-color);
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                font-weight: 600;
-                transition: all var(--transition-base);
-            `;
+        // Individual download functions for single responses
+        function downloadSingleTXT(question, answer) {
+            const content = `Q: ${question}\nA: ${answer}`;
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            downloadFile(`visionflow-response-${timestamp}.txt`, content);
+            showToast("Response downloaded as TXT!", 'success', 3000);
+        }
+
+        function downloadSingleCSV(question, answer) {
+            const csv = "Question,Answer\n" + `"${question.replace(/"/g, '""')}","${answer.replace(/"/g, '""')}"`;
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            downloadFile(`visionflow-response-${timestamp}.csv`, csv);
+            showToast("Response downloaded as CSV!", 'success', 3000);
+        }
+
+        function downloadSinglePDF(question, answer) {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                let y = 20;
+                
+                // Add title
+                doc.setFontSize(18);
+                doc.setTextColor(255, 215, 0);
+                doc.text("VisionFlow AI - Response", 20, y);
+                y += 20;
+                
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                
+                // Add question
+                doc.setFont(undefined, 'bold');
+                const qText = `Q: ${question}`;
+                const qLines = doc.splitTextToSize(qText, 170);
+                doc.text(qLines, 20, y);
+                y += qLines.length * 7 + 10;
+                
+                // Add answer
+                doc.setFont(undefined, 'normal');
+                const aText = `A: ${answer}`;
+                const aLines = doc.splitTextToSize(aText, 170);
+                
+                // Handle multiple pages if needed
+                for (let i = 0; i < aLines.length; i++) {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(aLines[i], 20, y);
+                    y += 7;
+                }
+                
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                doc.save(`visionflow-response-${timestamp}.pdf`);
+                showToast("Response downloaded as PDF!", 'success', 3000);
+            } catch (err) {
+                console.error('PDF download error:', err);
+                showToast("Error downloading PDF. Please try again.", 'error');
+            }
+        }
+
+        // Modified function to create individual download buttons instead of save button
+        function createDownloadButtons(question, answer, isImage = false) {
+            const container = document.createElement('div');
+            container.className = 'download-buttons';
             
-            button.onclick = function(e) {
+            // Save to favorites button
+            const saveBtn = document.createElement('button');
+            saveBtn.textContent = '💾 Save';
+            saveBtn.className = 'download-btn';
+            saveBtn.onclick = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 saveFavorite(question, answer);
             };
             
-            return button;
+            // Individual download buttons
+            const txtBtn = document.createElement('button');
+            txtBtn.innerHTML = '📄 TXT';
+            txtBtn.className = 'download-btn';
+            txtBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                downloadSingleTXT(question, answer);
+            };
+            
+            const csvBtn = document.createElement('button');
+            csvBtn.innerHTML = '📊 CSV';
+            csvBtn.className = 'download-btn';
+            csvBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                downloadSingleCSV(question, answer);
+            };
+            
+            const pdfBtn = document.createElement('button');
+            pdfBtn.innerHTML = '📕 PDF';
+            pdfBtn.className = 'download-btn';
+            pdfBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                downloadSinglePDF(question, answer);
+            };
+            
+            container.appendChild(saveBtn);
+            container.appendChild(txtBtn);
+            container.appendChild(csvBtn);
+            container.appendChild(pdfBtn);
+            
+            return container;
         }
 
         // Authentication functions
@@ -2194,40 +2335,27 @@
                         <br><br>
                     `;
                     
-                    // Create and append save button
-                    const saveBtn = createFavoriteButton(message, data.image, true);
-                    responseContainer.appendChild(saveBtn);
+                    // Create and append download buttons
+                    const downloadButtons = createDownloadButtons(message, data.image, true);
+                    responseContainer.appendChild(downloadButtons);
                     
-                    // Create download buttons
+                    // Create logo-specific download buttons
+                    const logoDownloadContainer = document.createElement('div');
+                    logoDownloadContainer.className = 'download-buttons';
+                    
                     const downloadPngBtn = document.createElement('button');
-                    downloadPngBtn.textContent = '⬇️ Download PNG';
+                    downloadPngBtn.innerHTML = '⬇️ PNG';
+                    downloadPngBtn.className = 'download-btn';
                     downloadPngBtn.onclick = () => downloadLogo('png');
-                    downloadPngBtn.style.cssText = `
-                        margin-right: 10px;
-                        padding: 8px 16px;
-                        background: var(--tertiary-color);
-                        color: var(--primary-color);
-                        border: 1px solid rgba(255, 215, 0, 0.3);
-                        border-radius: 6px;
-                        cursor: pointer;
-                        font-weight: 600;
-                    `;
                     
                     const downloadJpgBtn = document.createElement('button');
-                    downloadJpgBtn.textContent = '⬇️ Download JPG';
+                    downloadJpgBtn.innerHTML = '⬇️ JPG';
+                    downloadJpgBtn.className = 'download-btn';
                     downloadJpgBtn.onclick = () => downloadLogo('jpg');
-                    downloadJpgBtn.style.cssText = `
-                        padding: 8px 16px;
-                        background: var(--tertiary-color);
-                        color: var(--primary-color);
-                        border: 1px solid rgba(255, 215, 0, 0.3);
-                        border-radius: 6px;
-                        cursor: pointer;
-                        font-weight: 600;
-                    `;
                     
-                    responseContainer.appendChild(downloadPngBtn);
-                    responseContainer.appendChild(downloadJpgBtn);
+                    logoDownloadContainer.appendChild(downloadPngBtn);
+                    logoDownloadContainer.appendChild(downloadJpgBtn);
+                    responseContainer.appendChild(logoDownloadContainer);
                     
                 } else if (data.reply) {
                     responseContainer.innerHTML = `
@@ -2235,9 +2363,9 @@
                         <pre style="white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(data.reply)}</pre>
                     `;
                     
-                    // Create and append save button
-                    const saveBtn = createFavoriteButton(message, data.reply);
-                    responseContainer.appendChild(saveBtn);
+                    // Create and append individual download buttons
+                    const downloadButtons = createDownloadButtons(message, data.reply);
+                    responseContainer.appendChild(downloadButtons);
                     
                 } else {
                     responseContainer.innerHTML = `<p><strong>VisionFlow:</strong> I apologize, but I encountered an issue processing your request. Please try again.</p>`;
@@ -2336,18 +2464,39 @@
                             
                             // Create action buttons
                             const actionDiv = document.createElement('div');
-                            actionDiv.style.cssText = 'display: flex; gap: 8px; flex-wrap: wrap;';
+                            actionDiv.style.cssText = 'display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;';
                             
                             const deleteBtn = document.createElement('button');
                             deleteBtn.textContent = '❌ Delete';
                             deleteBtn.onclick = () => deleteFavorite(f.question);
+                            deleteBtn.className = 'download-btn';
                             
                             const copyBtn = document.createElement('button');
-                            copyBtn.textContent = '📋 Copy Answer';
+                            copyBtn.textContent = '📋 Copy';
                             copyBtn.onclick = () => copyToClipboard(f.answer);
+                            copyBtn.className = 'download-btn';
+                            
+                            // Individual download buttons for favorites
+                            const txtBtn = document.createElement('button');
+                            txtBtn.innerHTML = '📄 TXT';
+                            txtBtn.className = 'download-btn';
+                            txtBtn.onclick = () => downloadSingleTXT(f.question, f.answer);
+                            
+                            const csvBtn = document.createElement('button');
+                            csvBtn.innerHTML = '📊 CSV';
+                            csvBtn.className = 'download-btn';
+                            csvBtn.onclick = () => downloadSingleCSV(f.question, f.answer);
+                            
+                            const pdfBtn = document.createElement('button');
+                            pdfBtn.innerHTML = '📕 PDF';
+                            pdfBtn.className = 'download-btn';
+                            pdfBtn.onclick = () => downloadSinglePDF(f.question, f.answer);
                             
                             actionDiv.appendChild(deleteBtn);
                             actionDiv.appendChild(copyBtn);
+                            actionDiv.appendChild(txtBtn);
+                            actionDiv.appendChild(csvBtn);
+                            actionDiv.appendChild(pdfBtn);
                             li.appendChild(actionDiv);
                             
                             list.appendChild(li);
@@ -2436,19 +2585,58 @@
             }
         }
 
-        // Export functions
-        function exportToTXT() {
+        // Bulk download functionality
+        async function showBulkDownloadMenu() {
+            if (!loggedInUser || !loggedInUser.email) {
+                showToast("Please login to access bulk downloads.", 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch("https://visionflow-backend-vdjh.onrender.com/favorites", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: loggedInUser.email })
+                });
+                
+                const data = await response.json();
+                favorites = data.favorites || [];
+
+                if (favorites.length === 0) {
+                    showToast("No favorites to download. Start saving some responses first!", 'warning');
+                    return;
+                }
+
+                // Show individual export buttons
+                const exportTxtBtn = document.getElementById("export-txt-btn");
+                const exportCsvBtn = document.getElementById("export-csv-btn");
+                const exportPdfBtn = document.getElementById("export-pdf-btn");
+
+                if (exportTxtBtn) exportTxtBtn.classList.remove('hidden');
+                if (exportCsvBtn) exportCsvBtn.classList.remove('hidden');
+                if (exportPdfBtn) exportPdfBtn.classList.remove('hidden');
+
+                showToast(`Ready to download ${favorites.length} favorites. Choose your format below.`, 'info', 4000);
+
+            } catch (err) {
+                console.error('Bulk download error:', err);
+                showToast("Network error. Please try again.", 'error');
+            }
+        }
+
+        // Bulk export functions (renamed from existing ones)
+        function exportAllToTXT() {
             if (favorites.length === 0) {
                 showToast("No favorites to export. Start saving some responses first!", 'warning');
                 return;
             }
             
             const content = favorites.map(f => `Q: ${f.question}\nA: ${f.answer}\n\n---\n\n`).join("");
-            downloadFile("visionflow-favorites.txt", content);
-            showToast("Favorites exported to TXT file!", 'success', 3000);
+            downloadFile("visionflow-all-favorites.txt", content);
+            showToast(`All ${favorites.length} favorites exported to TXT file!`, 'success', 3000);
         }
 
-        function exportToCSV() {
+        function exportAllToCSV() {
             if (favorites.length === 0) {
                 showToast("No favorites to export. Start saving some responses first!", 'warning');
                 return;
@@ -2457,11 +2645,11 @@
             const csv = "Question,Answer\n" + favorites.map(f => 
                 `"${f.question.replace(/"/g, '""')}","${f.answer.replace(/"/g, '""')}"`
             ).join("\n");
-            downloadFile("visionflow-favorites.csv", csv);
-            showToast("Favorites exported to CSV file!", 'success', 3000);
+            downloadFile("visionflow-all-favorites.csv", csv);
+            showToast(`All ${favorites.length} favorites exported to CSV file!`, 'success', 3000);
         }
 
-        function exportToPDF() {
+        function exportAllToPDF() {
             if (favorites.length === 0) {
                 showToast("No favorites to export. Start saving some responses first!", 'warning');
                 return;
@@ -2475,7 +2663,7 @@
                 // Add title
                 doc.setFontSize(18);
                 doc.setTextColor(255, 215, 0);
-                doc.text("VisionFlow AI - Favorites", 20, y);
+                doc.text("VisionFlow AI - All Favorites", 20, y);
                 y += 20;
                 
                 doc.setFontSize(12);
@@ -2503,8 +2691,8 @@
                     }
                 });
                 
-                doc.save("visionflow-favorites.pdf");
-                showToast("Favorites exported to PDF file!", 'success', 3000);
+                doc.save("visionflow-all-favorites.pdf");
+                showToast(`All ${favorites.length} favorites exported to PDF file!`, 'success', 3000);
             } catch (err) {
                 console.error('PDF export error:', err);
                 showToast("Error exporting to PDF. Please try again.", 'error');
@@ -2706,6 +2894,7 @@
             const chatForm = document.getElementById("chat-form");
             const viewFavoritesBtn = document.getElementById("view-favorites-btn");
             const clearFavoritesBtn = document.getElementById("clear-favorites-btn");
+            const bulkDownloadBtn = document.getElementById("bulk-download-btn");
             const exportTxtBtn = document.getElementById("export-txt-btn");
             const exportCsvBtn = document.getElementById("export-csv-btn");
             const exportPdfBtn = document.getElementById("export-pdf-btn");
@@ -2720,9 +2909,10 @@
             if (chatForm) chatForm.onsubmit = handleChatSubmit;
             if (viewFavoritesBtn) viewFavoritesBtn.onclick = viewFavorites;
             if (clearFavoritesBtn) clearFavoritesBtn.onclick = clearFavorites;
-            if (exportTxtBtn) exportTxtBtn.onclick = exportToTXT;
-            if (exportCsvBtn) exportCsvBtn.onclick = exportToCSV;
-            if (exportPdfBtn) exportPdfBtn.onclick = exportToPDF;
+            if (bulkDownloadBtn) bulkDownloadBtn.onclick = showBulkDownloadMenu;
+            if (exportTxtBtn) exportTxtBtn.onclick = exportAllToTXT;
+            if (exportCsvBtn) exportCsvBtn.onclick = exportAllToCSV;
+            if (exportPdfBtn) exportPdfBtn.onclick = exportAllToPDF;
             if (toolSelect) toolSelect.onchange = updateToolUI;
             if (userInput) userInput.oninput = updateCharCounter;
             if (passwordToggle) passwordToggle.onclick = togglePasswordVisibility;
@@ -2750,12 +2940,19 @@
                     }
                 }
                 
-                // Escape to hide favorites
+                // Escape to hide favorites and export buttons
                 if (e.key === 'Escape') {
                     const favoritesList = document.getElementById('favorites-list');
                     if (favoritesList && !favoritesList.classList.contains('hidden')) {
                         favoritesList.classList.add('hidden');
                     }
+                    
+                    // Hide export buttons
+                    const exportBtns = ['export-txt-btn', 'export-csv-btn', 'export-pdf-btn'];
+                    exportBtns.forEach(id => {
+                        const btn = document.getElementById(id);
+                        if (btn) btn.classList.add('hidden');
+                    });
                 }
             });
 
