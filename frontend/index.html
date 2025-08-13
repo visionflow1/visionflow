@@ -1346,7 +1346,7 @@
 
         .particle:nth-child(1) { left: 20%; animation-delay: -0.5s; animation-duration: 7s; }
         .particle:nth-child(2) { left: 40%; animation-delay: -1s; animation-duration: 8s; }
-        .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 6s; }
+        .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 9s; }
         .particle:nth-child(4) { left: 80%; animation-delay: -3s; animation-duration: 9s; }
 
         /* Mobile Responsive */
@@ -1764,6 +1764,26 @@
             return password.length >= 8;
         }
 
+        // Clear all user-specific data when switching users
+        function clearUserData() {
+            favorites = [];
+            const favoritesList = document.getElementById("favorites-list");
+            if (favoritesList) {
+                favoritesList.classList.add("hidden");
+                favoritesList.innerHTML = "";
+            }
+            
+            const chatBox = document.getElementById("chat-box");
+            if (chatBox) {
+                chatBox.innerHTML = `
+                    <div class="chat-welcome">
+                        <h3>Welcome to VisionFlow AI! 🚀</h3>
+                        <p>Select a tool above and start building your business idea.</p>
+                    </div>
+                `;
+            }
+        }
+
         function restoreSession() {
             const savedUser = localStorage.getItem("visionflowUser");
             const authSection = document.getElementById("auth-section");
@@ -1776,13 +1796,17 @@
                     if (authSection) authSection.classList.add("hidden");
                     if (mainSection) mainSection.classList.remove("hidden");
                     if (logoutButton) logoutButton.classList.remove("hidden");
+                    
+                    // Only load chat history, NOT favorites
                     setTimeout(() => loadChatHistory(), 100);
                 } catch (e) {
                     console.error('Error parsing saved user:', e);
                     localStorage.removeItem("visionflowUser");
+                    clearUserData();
                 }
             } else {
                 loggedInUser = null;
+                clearUserData(); // Clear any lingering data
                 if (mainSection) mainSection.classList.add("hidden");
                 if (authSection) authSection.classList.remove("hidden");
                 if (logoutButton) logoutButton.classList.add("hidden");
@@ -1887,6 +1911,9 @@
                 const data = await response.json();
                 
                 if (data.user && !data.error) {
+                    // Clear any previous user data before setting new user
+                    clearUserData();
+                    
                     localStorage.setItem("visionflowUser", JSON.stringify(data.user));
                     loggedInUser = data.user;
                     restoreSession();
@@ -1968,12 +1995,12 @@
                 const data = await response.json();
                 
                 if (data.user) {
+                    // Clear any previous user data before setting new user
+                    clearUserData();
+                    
                     localStorage.setItem("visionflowUser", JSON.stringify(data.user));
                     loggedInUser = data.user;
                     restoreSession();
-                    const chatBox = document.getElementById("chat-box");
-                    if (chatBox) chatBox.innerHTML = "";
-                    setTimeout(() => loadChatHistory(), 100);
                     emailInput.value = "";
                     passwordInput.value = "";
                     showToast("Welcome back to VisionFlow!", 'success');
@@ -2000,16 +2027,8 @@
         function logout() {
             localStorage.removeItem("visionflowUser");
             loggedInUser = null;
+            clearUserData(); // Clear all user-specific data
             restoreSession();
-            const chatBox = document.getElementById("chat-box");
-            if (chatBox) {
-                chatBox.innerHTML = `
-                    <div class="chat-welcome">
-                        <h3>Welcome to VisionFlow AI! 🚀</h3>
-                        <p>Select a tool above and start building your business idea.</p>
-                    </div>
-                `;
-            }
             showToast("You've been logged out successfully.", 'success');
         }
 
@@ -2214,6 +2233,7 @@
             }
         }
 
+        // FIXED: Only show favorites when explicitly requested
         async function viewFavorites() {
             if (!loggedInUser || !loggedInUser.email) {
                 showToast("Please login to view favorites.", 'error');
@@ -2334,6 +2354,7 @@
                         list.classList.add('hidden');
                         list.innerHTML = "";
                     }
+                    favorites = []; // Clear the local favorites array
                 } else {
                     showToast(data.error || "Failed to clear favorites.", 'error');
                 }
