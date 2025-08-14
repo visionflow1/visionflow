@@ -1384,6 +1384,320 @@
         .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 9s; }
         .particle:nth-child(4) { left: 80%; animation-delay: -3s; animation-duration: 9s; }
 
+        /* Motivator Feature Styles */
+        .motivator-section {
+            background: var(--gradient-glass);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all var(--transition-base);
+            animation: motivatorSlideIn 0.8s ease-out 0.6s both;
+        }
+
+        .motivator-section:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        @keyframes motivatorSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .motivator-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .motivator-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--primary-color);
+            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .motivator-title-icon {
+            font-size: 1.5rem;
+            animation: motivatorIconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes motivatorIconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .motivator-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .motivator-btn {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .motivator-btn:hover {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .motivator-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .motivator-content {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            background: var(--tertiary-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            margin-bottom: var(--spacing-lg);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all var(--transition-base);
+        }
+
+        .motivator-content:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .motivator-quote {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-style: italic;
+            animation: quoteFadeIn 0.6s ease-out;
+        }
+
+        @keyframes quoteFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .motivator-author {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            animation: authorSlideIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes authorSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .motivator-type {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--primary-color);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .motivator-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .motivator-stat {
+            text-align: center;
+            padding: var(--spacing-md);
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: all var(--transition-base);
+        }
+
+        .motivator-stat:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .motivator-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .motivator-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: var(--spacing-xs);
+        }
+
+        .motivator-progress {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .motivator-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .motivator-progress-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .motivator-progress-value {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .motivator-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .motivator-progress-fill {
+            height: 100%;
+            background: var(--gradient-secondary);
+            border-radius: var(--radius-sm);
+            transition: width 0.6s ease;
+            animation: progressGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes progressGlow {
+            from { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            to { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
+        }
+
+        .motivator-settings {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .motivator-setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .motivator-setting-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .motivator-setting-label {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .motivator-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--tertiary-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .motivator-toggle.active {
+            background: var(--gradient-secondary);
+        }
+
+        .motivator-toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: all var(--transition-base);
+        }
+
+        .motivator-toggle.active .motivator-toggle-slider {
+            transform: translateX(20px);
+            background: var(--secondary-color);
+        }
+
+        .motivator-frequency-select {
+            background: var(--tertiary-color);
+            color: var(--primary-color);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .motivator-frequency-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
@@ -1612,6 +1926,100 @@
         
         <!-- Main App Section -->
         <main id="main-section" class="main-section hidden" id="main-content">
+            <!-- Motivator Section -->
+            <section id="motivator-section" class="motivator-section hidden">
+                <div class="motivator-header">
+                    <h2 class="motivator-title">
+                        <span class="motivator-title-icon" aria-hidden="true">🚀</span>
+                        Daily Motivation
+                    </h2>
+                    <div class="motivator-controls">
+                        <button id="motivator-refresh-btn" class="motivator-btn" aria-label="Get new motivation">
+                            <span aria-hidden="true">🔄</span>
+                            <span>New Quote</span>
+                        </button>
+                        <button id="motivator-settings-btn" class="motivator-btn" aria-label="Motivator settings">
+                            <span aria-hidden="true">⚙️</span>
+                            <span>Settings</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="motivator-content">
+                    <div class="motivator-type" id="motivator-type">Quote</div>
+                    <div class="motivator-quote" id="motivator-quote">Loading motivation...</div>
+                    <div class="motivator-author" id="motivator-author">VisionFlow AI</div>
+                </div>
+                
+                <div class="motivator-stats">
+                    <div class="motivator-stat">
+                        <span class="motivator-stat-number" id="motivator-streak">0</span>
+                        <span class="motivator-stat-label">Day Streak</span>
+                    </div>
+                    <div class="motivator-stat">
+                        <span class="motivator-stat-number" id="motivator-total">0</span>
+                        <span class="motivator-stat-label">Total Quotes</span>
+                    </div>
+                    <div class="motivator-stat">
+                        <span class="motivator-stat-number" id="motivator-favorites">0</span>
+                        <span class="motivator-stat-label">Favorites</span>
+                    </div>
+                </div>
+                
+                <div class="motivator-progress">
+                    <div class="motivator-progress-header">
+                        <span class="motivator-progress-title">Weekly Goal</span>
+                        <span class="motivator-progress-value" id="motivator-progress-text">0/7 days</span>
+                    </div>
+                    <div class="motivator-progress-bar">
+                        <div class="motivator-progress-fill" id="motivator-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="motivator-settings hidden" id="motivator-settings-panel">
+                    <div class="motivator-setting-row">
+                        <span class="motivator-setting-label">Daily Notifications</span>
+                        <div class="motivator-toggle" id="motivator-notifications-toggle">
+                            <div class="motivator-toggle-slider"></div>
+                        </div>
+                    </div>
+                    <div class="motivator-setting-row">
+                        <span class="motivator-setting-label">Show on Startup</span>
+                        <div class="motivator-toggle active" id="motivator-startup-toggle">
+                            <div class="motivator-toggle-slider"></div>
+                        </div>
+                    </div>
+                    <div class="motivator-setting-row">
+                        <span class="motivator-setting-label">Frequency</span>
+                        <select class="motivator-frequency-select" id="motivator-frequency-select">
+                            <option value="daily">Daily</option>
+                            <option value="twice">Twice Daily</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                    </div>
+                    <div class="motivator-setting-row">
+                        <span class="motivator-setting-label">Motivation Type</span>
+                        <select class="motivator-frequency-select" id="motivator-type-select">
+                            <option value="all">All Types</option>
+                            <option value="quotes">Quotes Only</option>
+                            <option value="tips">Tips Only</option>
+                            <option value="affirmations">Affirmations Only</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: var(--spacing-md);">
+                    <button id="motivator-favorite-btn" class="motivator-btn" aria-label="Save to favorites">
+                        <span aria-hidden="true">❤️</span>
+                        <span>Save to Favorites</span>
+                    </button>
+                    <button id="motivator-share-btn" class="motivator-btn" aria-label="Share motivation">
+                        <span aria-hidden="true">📤</span>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </section>
+            
             <div class="tool-selector">
                 <label for="tool-select" class="tool-label">Choose Your AI Tool:</label>
                 <select id="tool-select" class="tool-select" aria-label="Select AI tool">
