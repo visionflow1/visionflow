@@ -365,6 +365,7 @@
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(10px);
+      cursor: pointer;
     }
 
     .back-link::before {
@@ -492,12 +493,76 @@
     <p>You have the right to access, update, or delete your personal information. Contact us at <a href="mailto:yabkalkidmalem15@gmail.com">yabkalkidmalem15@gmail.com</a> for any privacy-related requests.</p>
     <h2>Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. Please review this page periodically for changes.</p>
-    <a href="#" class="back-link" id="back-home-link">← Back to Home</a>
+    <div class="back-link" id="back-home-link">← <span id="back-text">Back to Home</span></div>
   </div>
 
   <script>
     // Enhanced JavaScript with animations and interactions
     document.addEventListener('DOMContentLoaded', function() {
+      // Smart navigation - detect where user came from and set appropriate back destination
+      function setupSmartNavigation() {
+        const backLink = document.getElementById('back-home-link');
+        const backText = document.getElementById('back-text');
+        const referrer = document.referrer;
+        const currentUrl = window.location.href;
+        
+        // Store the current page in session storage for future reference
+        sessionStorage.setItem('privacyPolicyReferrer', referrer);
+        
+        // Determine the appropriate back destination
+        let backDestination = 'landingpage.html'; // Default
+        let backLabel = 'Back to Home';
+        
+        // Check if user came from a specific page
+        if (referrer) {
+          if (referrer.includes('index.html') || referrer.includes('dashboard')) {
+            backDestination = 'index.html';
+            backLabel = 'Back to Dashboard';
+          } else if (referrer.includes('login.html') || referrer.includes('signin')) {
+            backDestination = 'login.html';
+            backLabel = 'Back to Login';
+          } else if (referrer.includes('signup.html') || referrer.includes('register')) {
+            backDestination = 'signup.html';
+            backLabel = 'Back to Sign Up';
+          } else if (referrer.includes('landingpage.html')) {
+            backDestination = 'landingpage.html';
+            backLabel = 'Back to Home';
+          } else if (referrer.includes('plan.html') || referrer.includes('pricing')) {
+            backDestination = 'plan.html';
+            backLabel = 'Back to Pricing';
+          } else if (referrer.includes('contact.html')) {
+            backDestination = 'contact.html';
+            backLabel = 'Back to Contact';
+          }
+        }
+        
+        // Also check localStorage for user authentication status
+        const isLoggedIn = localStorage.getItem('visionflowUser') || localStorage.getItem('token');
+        if (isLoggedIn && !referrer.includes('login') && !referrer.includes('signup')) {
+          backDestination = 'index.html';
+          backLabel = 'Back to Dashboard';
+        }
+        
+        // Update the back link text and destination
+        backText.textContent = backLabel;
+        
+        // Enhanced back link functionality with loading animation
+        backLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Add loading animation
+          this.style.opacity = '0.7';
+          this.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⟳</span> Loading...';
+          
+          setTimeout(() => {
+            window.location.href = backDestination;
+          }, 800);
+        });
+      }
+      
+      // Initialize smart navigation
+      setupSmartNavigation();
+
       // Parallax scrolling effect
       let ticking = false;
       window.addEventListener('scroll', () => {
@@ -539,24 +604,6 @@
       container.addEventListener('mouseleave', function() {
         this.style.transform = 'scale(1)';
         this.style.boxShadow = '0 8px 48px rgba(0, 0, 0, 0.15)';
-      });
-
-      // Enhanced back link functionality with loading animation
-      const backLink = document.getElementById('back-home-link');
-      backLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Add loading animation
-        this.style.opacity = '0.7';
-        this.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⟳</span> Loading...';
-        
-        setTimeout(() => {
-          if (localStorage.getItem('visionflowUser') || localStorage.getItem('token')) {
-            window.location.href = 'index.html';
-          } else {
-            window.location.href = 'landingpage.html';
-          }
-        }, 800);
       });
 
       // Enhanced animations on scroll
