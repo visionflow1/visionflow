@@ -630,6 +630,57 @@
             transform: translateY(-2px);
         }
 
+        /* Section Back Button */
+        .section-back-btn {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .section-back-btn:hover::before {
+            left: 100%;
+        }
+
+        .section-back-btn:hover, .section-back-btn:focus {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-back-btn .back-icon {
+            font-size: 1.125rem;
+            transition: transform var(--transition-base);
+        }
+
+        .section-back-btn:hover .back-icon {
+            transform: translateX(-3px);
+        }
+
         /* Auth Section */
         .auth-section {
             background: var(--gradient-glass);
@@ -1908,6 +1959,11 @@
         
         <!-- Business Tools Section -->
         <section id="business-tools-section" class="main-section hidden">
+            <button class="section-back-btn" onclick="navigation.showPage('dashboard')" aria-label="Back to Dashboard">
+                <span class="back-icon" aria-hidden="true">←</span>
+                <span>Back to Dashboard</span>
+            </button>
+            
             <div class="tools-grid">
                 <div class="tool-card" data-tool="cofounder">
                     <div class="tool-header">
@@ -2025,6 +2081,11 @@
         
         <!-- Design Tools Section -->
         <section id="design-tools-section" class="main-section hidden">
+            <button class="section-back-btn" onclick="navigation.showPage('dashboard')" aria-label="Back to Dashboard">
+                <span class="back-icon" aria-hidden="true">←</span>
+                <span>Back to Dashboard</span>
+            </button>
+            
             <div class="tools-grid">
                 <div class="tool-card" data-tool="logo">
                     <div class="tool-header">
@@ -2086,6 +2147,11 @@
         
         <!-- Marketing Tools Section -->
         <section id="marketing-tools-section" class="main-section hidden">
+            <button class="section-back-btn" onclick="navigation.showPage('dashboard')" aria-label="Back to Dashboard">
+                <span class="back-icon" aria-hidden="true">←</span>
+                <span>Back to Dashboard</span>
+            </button>
+            
             <div class="tools-grid">
                 <div class="tool-card" data-tool="adcopy">
                     <div class="tool-header">
@@ -2175,6 +2241,11 @@
         
         <!-- Content Tools Section -->
         <section id="content-tools-section" class="main-section hidden">
+            <button class="section-back-btn" onclick="navigation.showPage('dashboard')" aria-label="Back to Dashboard">
+                <span class="back-icon" aria-hidden="true">←</span>
+                <span>Back to Dashboard</span>
+            </button>
+            
             <div class="tools-grid">
                 <div class="tool-card" data-tool="landing">
                     <div class="tool-header">
@@ -2278,6 +2349,11 @@
         
         <!-- Individual Tool Section -->
         <section id="tool-section" class="main-section hidden">
+            <button class="section-back-btn" onclick="navigation.goBack()" aria-label="Go back to previous section">
+                <span class="back-icon" aria-hidden="true">←</span>
+                <span>Back to Tools</span>
+            </button>
+            
             <div class="tool-selector">
                 <label for="tool-select" class="tool-label">Current Tool:</label>
                 <select id="tool-select" class="tool-select" aria-label="Current AI tool" disabled>
