@@ -251,6 +251,7 @@
       position: relative;
       overflow: hidden;
       animation: fadeInUp 0.8s ease-out 0.8s both;
+      cursor: pointer;
     }
 
     .back-link::before {
@@ -831,10 +832,10 @@
         </div>
       </div>
       <nav style="text-align: center;">
-        <button class="back-link" onclick="redirectHome()" aria-label="Go back to home page">
+        <div class="back-link" id="smart-back-btn" aria-label="Go back to previous page">
           <span>←</span>
-          <span>Back to Home</span>
-        </button>
+          <span id="back-text">Back to Home</span>
+        </div>
       </nav>
     </header>
 
@@ -1014,7 +1015,7 @@
             If you have any questions about this Cookie Policy or our use of cookies, please contact us at:
           </p>
           <div class="contact-info">
-            <p><strong>Email:</strong> <a href="mailto:yabkalkidmalem15@gm..">yabkalkidmalem15@gm..</a></p>
+            <p><strong>Email:</strong> <a href="mailto:yabkalkidmalem15@gmail.com">yabkalkidmalem15@gmail.com</a></p>
             <p><strong>Contact Form:</strong> <a href="contact.html">Contact Us</a></p>
           </div>
         </div>
@@ -1048,6 +1049,72 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Smart navigation system
+      function setupSmartNavigation() {
+        const backBtn = document.getElementById('smart-back-btn');
+        const backText = document.getElementById('back-text');
+        const referrer = document.referrer;
+        
+        // Store the current page in session storage for future reference
+        sessionStorage.setItem('cookiePolicyReferrer', referrer);
+        
+        // Determine the appropriate back destination
+        let backDestination = 'landingpage.html'; // Default
+        let backLabel = 'Back to Home';
+        
+        // Check if user came from a specific page
+        if (referrer) {
+          if (referrer.includes('index.html') || referrer.includes('dashboard')) {
+            backDestination = 'index.html';
+            backLabel = 'Back to Dashboard';
+          } else if (referrer.includes('login.html') || referrer.includes('signin')) {
+            backDestination = 'login.html';
+            backLabel = 'Back to Login';
+          } else if (referrer.includes('signup.html') || referrer.includes('register')) {
+            backDestination = 'signup.html';
+            backLabel = 'Back to Sign Up';
+          } else if (referrer.includes('landingpage.html')) {
+            backDestination = 'landingpage.html';
+            backLabel = 'Back to Home';
+          } else if (referrer.includes('plan.html') || referrer.includes('pricing')) {
+            backDestination = 'plan.html';
+            backLabel = 'Back to Pricing';
+          } else if (referrer.includes('contact.html')) {
+            backDestination = 'contact.html';
+            backLabel = 'Back to Contact';
+          } else if (referrer.includes('privacy-policy.html')) {
+            backDestination = 'privacy-policy.html';
+            backLabel = 'Back to Privacy Policy';
+          }
+        }
+        
+        // Also check localStorage for user authentication status
+        const isLoggedIn = localStorage.getItem('visionflowUser') || localStorage.getItem('token');
+        if (isLoggedIn && !referrer.includes('login') && !referrer.includes('signup')) {
+          backDestination = 'index.html';
+          backLabel = 'Back to Dashboard';
+        }
+        
+        // Update the back link text and destination
+        backText.textContent = backLabel;
+        
+        // Enhanced back button functionality with loading animation
+        backBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Add loading animation
+          this.style.opacity = '0.7';
+          this.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⟳</span> Loading...';
+          
+          setTimeout(() => {
+            window.location.href = backDestination;
+          }, 800);
+        });
+      }
+      
+      // Initialize smart navigation
+      setupSmartNavigation();
+
       // Parallax scrolling effect
       let ticking = false;
       window.addEventListener('scroll', () => {
@@ -1148,15 +1215,6 @@
       setTimeout(typeWriter, 1200);
     });
 
-    function redirectHome() {
-      // Check for a login token in localStorage
-      if (localStorage.getItem('visionflowUser') || localStorage.getItem('token')) {
-        window.location.href = 'index.html';
-      } else {
-        window.location.href = 'landingpage.html';
-      }
-    }
-
     // Cookie banner functionality
     function showCookieBanner() {
       const banner = document.getElementById('cookie-banner');
@@ -1183,6 +1241,9 @@
           transform: translateY(100%);
           opacity: 0;
         }
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
       }
     `;
     document.head.appendChild(slideOutStyle);
