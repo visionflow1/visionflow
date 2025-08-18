@@ -713,9 +713,9 @@
         </div>
       </div>
       <nav style="text-align: center;">
-        <button class="back-link" onclick="redirectHome()" aria-label="Go back to home page">
+        <button class="back-link" onclick="smartRedirectHome()" aria-label="Go back to previous page">
           <span>←</span>
-          <span>Back to Home</span>
+          <span id="back-text">Back to Home</span>
         </button>
       </nav>
     </header>
@@ -959,6 +959,12 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Store navigation source when page loads
+      storeNavigationSource();
+      
+      // Update back button text based on source
+      updateBackButtonText();
+      
       // Parallax scrolling effect
       let ticking = false;
       window.addEventListener('scroll', () => {
@@ -1061,13 +1067,141 @@
       });
     });
 
-    function redirectHome() {
-      // Check for a login token in localStorage
-      if (localStorage.getItem('visionflowUser') || localStorage.getItem('token')) {
+    // Enhanced Smart Navigation System
+    function storeNavigationSource() {
+      // Get the referrer (where user came from)
+      const referrer = document.referrer;
+      const currentTime = Date.now();
+      
+      // Only store if referrer is from the same domain or if it's a direct navigation
+      if (referrer && (referrer.includes(window.location.hostname) || referrer === '')) {
+        const referrerPage = referrer.split('/').pop().split('?')[0] || 'unknown';
+        
+        // Store navigation source with timestamp
+        sessionStorage.setItem('visionflow_nav_source', JSON.stringify({
+          page: referrerPage,
+          timestamp: currentTime,
+          fullUrl: referrer
+        }));
+      }
+      
+      // Also check URL parameters for navigation source
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromParam = urlParams.get('from');
+      if (fromParam) {
+        sessionStorage.setItem('visionflow_nav_source', JSON.stringify({
+          page: fromParam,
+          timestamp: currentTime,
+          fullUrl: referrer,
+          explicit: true
+        }));
+      }
+    }
+
+    function updateBackButtonText() {
+      const backTextElement = document.getElementById('back-text');
+      const navSource = getNavigationSource();
+      
+      if (navSource) {
+        switch (navSource.page) {
+          case 'landingpage.html':
+          case 'landingpage':
+            backTextElement.textContent = 'Back to Landing';
+            break;
+          case 'login.html':
+          case 'login':
+            backTextElement.textContent = 'Back to Login';
+            break;
+          case 'index.html':
+          case 'index':
+          case 'dashboard.html':
+          case 'dashboard':
+            backTextElement.textContent = 'Back to Dashboard';
+            break;
+          case 'plan.html':
+          case 'plan':
+            backTextElement.textContent = 'Back to Pricing';
+            break;
+          case 'contact.html':
+          case 'contact':
+            backTextElement.textContent = 'Back to Contact';
+            break;
+          default:
+            backTextElement.textContent = 'Back to Home';
+        }
+      }
+    }
+
+    function getNavigationSource() {
+      try {
+        const stored = sessionStorage.getItem('visionflow_nav_source');
+        if (stored) {
+          const navData = JSON.parse(stored);
+          // Check if the stored navigation is recent (within last 30 minutes)
+          const thirtyMinutes = 30 * 60 * 1000;
+          if (Date.now() - navData.timestamp < thirtyMinutes) {
+            return navData;
+          }
+        }
+      } catch (e) {
+        console.log('Error reading navigation source:', e);
+      }
+      return null;
+    }
+
+    function smartRedirectHome() {
+      const navSource = getNavigationSource();
+      
+      // Priority 1: Check for explicit navigation source
+      if (navSource && navSource.explicit) {
+        window.location.href = navSource.page + '.html';
+        return;
+      }
+      
+      // Priority 2: Check for stored navigation source
+      if (navSource) {
+        switch (navSource.page) {
+          case 'landingpage.html':
+          case 'landingpage':
+            window.location.href = 'landingpage.html';
+            return;
+          case 'login.html':
+          case 'login':
+            window.location.href = 'login.html';
+            return;
+          case 'index.html':
+          case 'index':
+          case 'dashboard.html':
+          case 'dashboard':
+            window.location.href = 'index.html';
+            return;
+          case 'plan.html':
+          case 'plan':
+            window.location.href = 'plan.html';
+            return;
+          case 'contact.html':
+          case 'contact':
+            window.location.href = 'contact.html';
+            return;
+        }
+      }
+      
+      // Priority 3: Check authentication status
+      const isLoggedIn = localStorage.getItem('visionflowUser') || 
+                        localStorage.getItem('token') || 
+                        sessionStorage.getItem('visionflowUser') ||
+                        sessionStorage.getItem('token');
+      
+      if (isLoggedIn) {
         window.location.href = 'index.html';
       } else {
         window.location.href = 'landingpage.html';
       }
+    }
+
+    // Legacy function for backward compatibility
+    function redirectHome() {
+      smartRedirectHome();
     }
 
     // Smooth scroll for anchor links
@@ -1082,6 +1216,20 @@
           });
         }
       });
+    });
+
+    // Handle browser back button
+    window.addEventListener('popstate', function(event) {
+      // Store that user used browser back button
+      sessionStorage.setItem('visionflow_used_back_button', 'true');
+    });
+
+    // Clear navigation source when user navigates away
+    window.addEventListener('beforeunload', function() {
+      // Only clear if user is navigating to a different domain
+      if (!document.activeElement.href || !document.activeElement.href.includes(window.location.hostname)) {
+        sessionStorage.removeItem('visionflow_nav_source');
+      }
     });
   </script>
 </body>
