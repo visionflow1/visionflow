@@ -864,9 +864,9 @@
         </div>
       </div>
       <nav style="text-align: center;">
-        <a href="landingpage.html" class="back-link" aria-label="Go back to home page">
+        <a href="#" id="smart-back-link" class="back-link" aria-label="Go back to previous page">
           <span>←</span>
-          <span>Back to Home</span>
+          <span id="back-text">Back to Home</span>
         </a>
       </nav>
     </header>
@@ -982,8 +982,90 @@
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
   <script>
+    // Smart Navigation System
+    function initSmartNavigation() {
+      const backLink = document.getElementById('smart-back-link');
+      const backText = document.getElementById('back-text');
+      
+      // Get referrer information
+      const referrer = document.referrer;
+      const currentDomain = window.location.hostname;
+      
+      // Check if user came from within our site
+      let backUrl = 'landingpage.html'; // Default fallback
+      let backLabel = 'Back to Home';
+      
+      if (referrer && referrer.includes(currentDomain)) {
+        // Extract the page name from referrer
+        const referrerPath = new URL(referrer).pathname;
+        const referrerPage = referrerPath.split('/').pop() || 'landingpage.html';
+        
+        // Determine appropriate back destination and label
+        if (referrerPage.includes('login') || referrerPage.includes('signin')) {
+          backUrl = referrerPage;
+          backLabel = 'Back to Login';
+        } else if (referrerPage.includes('dashboard') || referrerPage.includes('app')) {
+          backUrl = referrerPage;
+          backLabel = 'Back to Dashboard';
+        } else if (referrerPage.includes('plan') || referrerPage.includes('pricing')) {
+          backUrl = referrerPage;
+          backLabel = 'Back to Pricing';
+        } else if (referrerPage.includes('landingpage') || referrerPage.includes('index')) {
+          backUrl = 'landingpage.html';
+          backLabel = 'Back to Home';
+        } else {
+          // For any other internal page
+          backUrl = referrerPage;
+          backLabel = 'Back to Previous Page';
+        }
+      }
+      
+      // Check localStorage for navigation context (fallback method)
+      const storedContext = localStorage.getItem('visionflow_nav_context');
+      if (storedContext && !referrer.includes(currentDomain)) {
+        const context = JSON.parse(storedContext);
+        if (context.page && context.timestamp && (Date.now() - context.timestamp < 300000)) { // 5 minutes
+          backUrl = context.page;
+          if (context.page.includes('login')) {
+            backLabel = 'Back to Login';
+          } else if (context.page.includes('dashboard')) {
+            backLabel = 'Back to Dashboard';
+          } else if (context.page.includes('plan')) {
+            backLabel = 'Back to Pricing';
+          }
+        }
+      }
+      
+      // Update the back link
+      backLink.href = backUrl;
+      backText.textContent = backLabel;
+      
+      // Store current page context for future navigation
+      localStorage.setItem('visionflow_nav_context', JSON.stringify({
+        page: 'contact.html',
+        timestamp: Date.now()
+      }));
+      
+      // Add click handler for smooth navigation
+      backLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Add loading animation
+        this.style.opacity = '0.7';
+        this.style.transform = 'translateY(-2px) scale(0.98)';
+        
+        // Navigate after brief delay for visual feedback
+        setTimeout(() => {
+          window.location.href = backUrl;
+        }, 200);
+      });
+    }
+
     // Enhanced JavaScript with more animations and interactions
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize smart navigation
+      initSmartNavigation();
+      
       // Parallax effect on scroll
       let ticking = false;
       window.addEventListener('scroll', () => {
