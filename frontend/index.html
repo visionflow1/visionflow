@@ -30,7 +30,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -423,6 +423,26 @@
             }
         }
 
+        @keyframes categoryCardHover {
+            from {
+                transform: translateY(0) scale(1);
+            }
+            to {
+                transform: translateY(-8px) scale(1.02);
+            }
+        }
+
+        @keyframes toolCardSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Layout Components */
         .container {
             max-width: 900px;
@@ -497,6 +517,45 @@
             animation: actionsSlide 0.8s ease-out 0.8s both;
         }
 
+        /* Navigation Breadcrumb */
+        .nav-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            animation: mainSlideIn 0.6s ease-out;
+        }
+
+        .breadcrumb-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .breadcrumb-item:hover {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
         /* Button Styles */
         .theme-toggle {
             display: flex;
@@ -547,7 +606,7 @@
             transform: rotate(180deg) scale(1.2);
         }
 
-        .logout-btn {
+        .logout-btn, .back-btn {
             background: var(--tertiary-color);
             color: var(--primary-color);
             border: 1.5px solid rgba(255, 215, 0, 0.3);
@@ -558,9 +617,13 @@
             transition: all var(--transition-base);
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(0.875rem, 2.5vw, 1rem);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
         }
 
-        .logout-btn:hover, .logout-btn:focus {
+        .logout-btn:hover, .logout-btn:focus, .back-btn:hover, .back-btn:focus {
             background: var(--gradient-secondary);
             color: var(--secondary-color);
             border-color: var(--primary-color);
@@ -788,6 +851,185 @@
             border-top: 2px solid currentColor;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+            animation: mainSlideIn 0.8s ease-out 0.5s both;
+        }
+
+        .category-card {
+            background: var(--gradient-glass);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary-color);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-lg);
+            display: block;
+            transition: transform var(--transition-base);
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .category-title {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .category-description {
+            color: var(--text-secondary);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .category-tools-count {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--primary-color);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-xl);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .tool-card {
+            background: var(--gradient-glass);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            animation: toolCardSlide 0.6s ease-out var(--delay, 0s) both;
+        }
+
+        .tool-card:nth-child(1) { --delay: 0.1s; }
+        .tool-card:nth-child(2) { --delay: 0.2s; }
+        .tool-card:nth-child(3) { --delay: 0.3s; }
+        .tool-card:nth-child(4) { --delay: 0.4s; }
+
+        .tool-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary-color);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            transition: transform var(--transition-base);
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .tool-title {
+            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tool-features li {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-xs);
+            padding-left: var(--spacing-lg);
+            position: relative;
+        }
+
+        .tool-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .tool-action {
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .tool-action:hover {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         /* Main Section */
@@ -1384,320 +1626,6 @@
         .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 9s; }
         .particle:nth-child(4) { left: 80%; animation-delay: -3s; animation-duration: 9s; }
 
-        /* Motivator Feature Styles */
-        .motivator-section {
-            background: var(--gradient-glass);
-            border-radius: var(--radius-xl);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            transition: all var(--transition-base);
-            animation: motivatorSlideIn 0.8s ease-out 0.6s both;
-        }
-
-        .motivator-section:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
-
-        @keyframes motivatorSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .motivator-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--spacing-lg);
-            padding-bottom: var(--spacing-md);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .motivator-title {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            color: var(--primary-color);
-            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .motivator-title-icon {
-            font-size: 1.5rem;
-            animation: motivatorIconPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes motivatorIconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .motivator-controls {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-
-        .motivator-btn {
-            background: var(--gradient-secondary);
-            color: var(--secondary-color);
-            border: none;
-            border-radius: var(--radius-md);
-            padding: var(--spacing-sm) var(--spacing-md);
-            cursor: pointer;
-            transition: all var(--transition-base);
-            font-size: 0.875rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-
-        .motivator-btn:hover {
-            background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .motivator-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .motivator-content {
-            text-align: center;
-            padding: var(--spacing-xl) var(--spacing-lg);
-            background: var(--tertiary-color);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            margin-bottom: var(--spacing-lg);
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all var(--transition-base);
-        }
-
-        .motivator-content:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .motivator-quote {
-            font-size: clamp(1rem, 2vw, 1.125rem);
-            line-height: 1.6;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-md);
-            font-style: italic;
-            animation: quoteFadeIn 0.6s ease-out;
-        }
-
-        @keyframes quoteFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .motivator-author {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-            animation: authorSlideIn 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes authorSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .motivator-type {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.2);
-            color: var(--primary-color);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--radius-sm);
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .motivator-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-lg);
-        }
-
-        .motivator-stat {
-            text-align: center;
-            padding: var(--spacing-md);
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            transition: all var(--transition-base);
-        }
-
-        .motivator-stat:hover {
-            background: rgba(255, 215, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .motivator-stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            display: block;
-        }
-
-        .motivator-stat-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: var(--spacing-xs);
-        }
-
-        .motivator-progress {
-            margin-top: var(--spacing-lg);
-            padding: var(--spacing-md);
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .motivator-progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .motivator-progress-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .motivator-progress-value {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .motivator-progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-        }
-
-        .motivator-progress-fill {
-            height: 100%;
-            background: var(--gradient-secondary);
-            border-radius: var(--radius-sm);
-            transition: width 0.6s ease;
-            animation: progressGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes progressGlow {
-            from { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-            to { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
-        }
-
-        .motivator-settings {
-            margin-top: var(--spacing-lg);
-            padding: var(--spacing-md);
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .motivator-setting-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .motivator-setting-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .motivator-setting-label {
-            font-size: 0.875rem;
-            color: var(--text-primary);
-        }
-
-        .motivator-toggle {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: var(--tertiary-color);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all var(--transition-base);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .motivator-toggle.active {
-            background: var(--gradient-secondary);
-        }
-
-        .motivator-toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 18px;
-            height: 18px;
-            background: var(--text-muted);
-            border-radius: 50%;
-            transition: all var(--transition-base);
-        }
-
-        .motivator-toggle.active .motivator-toggle-slider {
-            transform: translateX(20px);
-            background: var(--secondary-color);
-        }
-
-        .motivator-frequency-select {
-            background: var(--tertiary-color);
-            color: var(--primary-color);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all var(--transition-base);
-        }
-
-        .motivator-frequency-select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
-        }
-
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
@@ -1741,6 +1669,14 @@
                 grid-template-columns: 1fr;
             }
             
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .chat-box {
                 height: clamp(250px, 35vh, 350px);
             }
@@ -1772,6 +1708,10 @@
             .form-input, .form-select, .form-textarea, .chat-input {
                 font-size: 16px; /* Prevents zoom on iOS */
             }
+
+            .nav-breadcrumb {
+                flex-wrap: wrap;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1779,7 +1719,7 @@
                 padding: var(--spacing-sm);
             }
             
-            .auth-section, .tool-selector, .chat-container {
+            .auth-section, .tool-selector, .chat-container, .category-card, .tool-card {
                 padding: var(--spacing-lg);
             }
             
@@ -1858,11 +1798,20 @@
                     <span class="theme-icon" aria-hidden="true">🌙</span>
                     <span class="theme-text">Toggle Dark Mode</span>
                 </button>
+                <button id="back-btn" class="back-btn hidden" aria-label="Go back">
+                    <span aria-hidden="true">←</span>
+                    <span>Back</span>
+                </button>
                 <button id="logout-button" class="logout-btn hidden" aria-label="Logout">
                     <span>Logout</span>
                 </button>
             </div>
         </header>
+        
+        <!-- Navigation Breadcrumb -->
+        <nav id="nav-breadcrumb" class="nav-breadcrumb hidden" aria-label="Breadcrumb navigation">
+            <span class="breadcrumb-item active" id="breadcrumb-home">Dashboard</span>
+        </nav>
         
         <!-- Auth Section -->
         <section id="auth-section" class="auth-section">
@@ -1924,131 +1873,415 @@
             </div>
         </section>
         
-        <!-- Main App Section -->
-        <main id="main-section" class="main-section hidden" id="main-content">
-            <!-- Motivator Section -->
-            <section id="motivator-section" class="motivator-section hidden">
-                <div class="motivator-header">
-                    <h2 class="motivator-title">
-                        <span class="motivator-title-icon" aria-hidden="true">🚀</span>
-                        Daily Motivation
-                    </h2>
-                    <div class="motivator-controls">
-                        <button id="motivator-refresh-btn" class="motivator-btn" aria-label="Get new motivation">
-                            <span aria-hidden="true">🔄</span>
-                            <span>New Quote</span>
-                        </button>
-                        <button id="motivator-settings-btn" class="motivator-btn" aria-label="Motivator settings">
-                            <span aria-hidden="true">⚙️</span>
-                            <span>Settings</span>
-                        </button>
-                    </div>
+        <!-- Dashboard Section -->
+        <main id="dashboard-section" class="main-section hidden" id="main-content">
+            <div class="categories-grid">
+                <div class="category-card" data-category="business">
+                    <span class="category-icon" aria-hidden="true">🚀</span>
+                    <h3 class="category-title">Business Tools</h3>
+                    <p class="category-description">Launch and scale your startup with AI-powered business tools including cofounder chat and idea generation.</p>
+                    <span class="category-tools-count">8 Tools</span>
                 </div>
                 
-                <div class="motivator-content">
-                    <div class="motivator-type" id="motivator-type">Quote</div>
-                    <div class="motivator-quote" id="motivator-quote">Loading motivation...</div>
-                    <div class="motivator-author" id="motivator-author">VisionFlow AI</div>
+                <div class="category-card" data-category="design">
+                    <span class="category-icon" aria-hidden="true">🎨</span>
+                    <h3 class="category-title">Design & Branding</h3>
+                    <p class="category-description">Create stunning brands and designs with AI-powered logo generation and brand building tools.</p>
+                    <span class="category-tools-count">4 Tools</span>
                 </div>
                 
-                <div class="motivator-stats">
-                    <div class="motivator-stat">
-                        <span class="motivator-stat-number" id="motivator-streak">0</span>
-                        <span class="motivator-stat-label">Day Streak</span>
-                    </div>
-                    <div class="motivator-stat">
-                        <span class="motivator-stat-number" id="motivator-total">0</span>
-                        <span class="motivator-stat-label">Total Quotes</span>
-                    </div>
-                    <div class="motivator-stat">
-                        <span class="motivator-stat-number" id="motivator-favorites">0</span>
-                        <span class="motivator-stat-label">Favorites</span>
-                    </div>
+                <div class="category-card" data-category="marketing">
+                    <span class="category-icon" aria-hidden="true">📈</span>
+                    <h3 class="category-title">Marketing & Growth</h3>
+                    <p class="category-description">Boost your marketing with AI-generated ad copy, social strategies, and growth hacking ideas.</p>
+                    <span class="category-tools-count">6 Tools</span>
                 </div>
                 
-                <div class="motivator-progress">
-                    <div class="motivator-progress-header">
-                        <span class="motivator-progress-title">Weekly Goal</span>
-                        <span class="motivator-progress-value" id="motivator-progress-text">0/7 days</span>
+                <div class="category-card" data-category="content">
+                    <span class="category-icon" aria-hidden="true">✍️</span>
+                    <h3 class="category-title">Content & Copy</h3>
+                    <p class="category-description">Generate compelling content, landing pages, emails, and legal documents with AI assistance.</p>
+                    <span class="category-tools-count">7 Tools</span>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Business Tools Section -->
+        <section id="business-tools-section" class="main-section hidden">
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="cofounder">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🤝</span>
+                        <h3 class="tool-title">AI Cofounder Chat</h3>
                     </div>
-                    <div class="motivator-progress-bar">
-                        <div class="motivator-progress-fill" id="motivator-progress-fill" style="width: 0%"></div>
-                    </div>
+                    <p class="tool-description">Get strategic advice and brainstorm ideas with your AI cofounder for startup challenges.</p>
+                    <ul class="tool-features">
+                        <li>Strategic business advice</li>
+                        <li>Problem-solving assistance</li>
+                        <li>Startup mentorship</li>
+                    </ul>
+                    <button class="tool-action">Start Chat</button>
                 </div>
                 
-                <div class="motivator-settings hidden" id="motivator-settings-panel">
-                    <div class="motivator-setting-row">
-                        <span class="motivator-setting-label">Daily Notifications</span>
-                        <div class="motivator-toggle" id="motivator-notifications-toggle">
-                            <div class="motivator-toggle-slider"></div>
-                        </div>
+                <div class="tool-card" data-tool="idea">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">💡</span>
+                        <h3 class="tool-title">Idea Engine</h3>
                     </div>
-                    <div class="motivator-setting-row">
-                        <span class="motivator-setting-label">Show on Startup</span>
-                        <div class="motivator-toggle active" id="motivator-startup-toggle">
-                            <div class="motivator-toggle-slider"></div>
-                        </div>
-                    </div>
-                    <div class="motivator-setting-row">
-                        <span class="motivator-setting-label">Frequency</span>
-                        <select class="motivator-frequency-select" id="motivator-frequency-select">
-                            <option value="daily">Daily</option>
-                            <option value="twice">Twice Daily</option>
-                            <option value="weekly">Weekly</option>
-                        </select>
-                    </div>
-                    <div class="motivator-setting-row">
-                        <span class="motivator-setting-label">Motivation Type</span>
-                        <select class="motivator-frequency-select" id="motivator-type-select">
-                            <option value="all">All Types</option>
-                            <option value="quotes">Quotes Only</option>
-                            <option value="tips">Tips Only</option>
-                            <option value="affirmations">Affirmations Only</option>
-                        </select>
-                    </div>
+                    <p class="tool-description">Generate creative and profitable startup ideas tailored to your interests and market trends.</p>
+                    <ul class="tool-features">
+                        <li>Market-validated ideas</li>
+                        <li>Trend analysis</li>
+                        <li>Niche opportunities</li>
+                    </ul>
+                    <button class="tool-action">Generate Ideas</button>
                 </div>
                 
-                <div style="text-align: center; margin-top: var(--spacing-md);">
-                    <button id="motivator-favorite-btn" class="motivator-btn" aria-label="Save to favorites">
-                        <span aria-hidden="true">❤️</span>
-                        <span>Save to Favorites</span>
-                    </button>
-                    <button id="motivator-share-btn" class="motivator-btn" aria-label="Share motivation">
-                        <span aria-hidden="true">📤</span>
-                        <span>Share</span>
-                    </button>
+                <div class="tool-card" data-tool="ideatester">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🧪</span>
+                        <h3 class="tool-title">Idea Tester</h3>
+                    </div>
+                    <p class="tool-description">Validate your startup ideas with comprehensive market analysis and feasibility testing.</p>
+                    <ul class="tool-features">
+                        <li>Market validation</li>
+                        <li>Feasibility analysis</li>
+                        <li>Risk assessment</li>
+                    </ul>
+                    <button class="tool-action">Test Idea</button>
                 </div>
-            </section>
-            
+                
+                <div class="tool-card" data-tool="market">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📊</span>
+                        <h3 class="tool-title">Market Research</h3>
+                    </div>
+                    <p class="tool-description">Conduct thorough market research with competitor analysis and audience insights.</p>
+                    <ul class="tool-features">
+                        <li>Competitor analysis</li>
+                        <li>Target audience research</li>
+                        <li>Market trends</li>
+                    </ul>
+                    <button class="tool-action">Research Market</button>
+                </div>
+                
+                <div class="tool-card" data-tool="mvp">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🛠️</span>
+                        <h3 class="tool-title">MVP Planner</h3>
+                    </div>
+                    <p class="tool-description">Create detailed MVP launch plans with feature prioritization and development roadmaps.</p>
+                    <ul class="tool-features">
+                        <li>Feature prioritization</li>
+                        <li>Development roadmap</li>
+                        <li>Launch strategy</li>
+                    </ul>
+                    <button class="tool-action">Plan MVP</button>
+                </div>
+                
+                <div class="tool-card" data-tool="gtm">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🎯</span>
+                        <h3 class="tool-title">Go-to-Market Kit</h3>
+                    </div>
+                    <p class="tool-description">Develop comprehensive go-to-market strategies with launch plans and marketing tactics.</p>
+                    <ul class="tool-features">
+                        <li>Launch strategy</li>
+                        <li>Marketing tactics</li>
+                        <li>Customer acquisition</li>
+                    </ul>
+                    <button class="tool-action">Create Strategy</button>
+                </div>
+                
+                <div class="tool-card" data-tool="pitch">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📽️</span>
+                        <h3 class="tool-title">Pitch Deck Generator</h3>
+                    </div>
+                    <p class="tool-description">Generate compelling pitch decks that capture investor attention and secure funding.</p>
+                    <ul class="tool-features">
+                        <li>Investor-ready slides</li>
+                        <li>Compelling storytelling</li>
+                        <li>Financial projections</li>
+                    </ul>
+                    <button class="tool-action">Create Pitch</button>
+                </div>
+                
+                <div class="tool-card" data-tool="plan">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📋</span>
+                        <h3 class="tool-title">Business Plan Writer</h3>
+                    </div>
+                    <p class="tool-description">Create comprehensive business plans with financial forecasts and strategic analysis.</p>
+                    <ul class="tool-features">
+                        <li>Executive summary</li>
+                        <li>Financial forecasts</li>
+                        <li>Strategic analysis</li>
+                    </ul>
+                    <button class="tool-action">Write Plan</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Design Tools Section -->
+        <section id="design-tools-section" class="main-section hidden">
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="logo">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🎨</span>
+                        <h3 class="tool-title">AI Logo Generator</h3>
+                    </div>
+                    <p class="tool-description">Create professional, downloadable logos that perfectly represent your brand identity.</p>
+                    <ul class="tool-features">
+                        <li>Custom logo designs</li>
+                        <li>Multiple formats</li>
+                        <li>Brand-aligned aesthetics</li>
+                    </ul>
+                    <button class="tool-action">Generate Logo</button>
+                </div>
+                
+                <div class="tool-card" data-tool="brand">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🏷️</span>
+                        <h3 class="tool-title">Brand Builder</h3>
+                    </div>
+                    <p class="tool-description">Develop complete brand identities with names, slogans, colors, and brand guidelines.</p>
+                    <ul class="tool-features">
+                        <li>Brand naming</li>
+                        <li>Color palettes</li>
+                        <li>Brand guidelines</li>
+                    </ul>
+                    <button class="tool-action">Build Brand</button>
+                </div>
+                
+                <div class="tool-card" data-tool="name">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🏷️</span>
+                        <h3 class="tool-title">Product Name Generator</h3>
+                    </div>
+                    <p class="tool-description">Generate catchy, brandable product names that resonate with your target audience.</p>
+                    <ul class="tool-features">
+                        <li>Brandable names</li>
+                        <li>Domain availability</li>
+                        <li>Market-tested options</li>
+                    </ul>
+                    <button class="tool-action">Generate Names</button>
+                </div>
+                
+                <div class="tool-card" data-tool="valueprop">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">💎</span>
+                        <h3 class="tool-title">Value Proposition Generator</h3>
+                    </div>
+                    <p class="tool-description">Craft compelling value propositions that clearly communicate your unique benefits.</p>
+                    <ul class="tool-features">
+                        <li>Clear messaging</li>
+                        <li>Benefit-focused</li>
+                        <li>Customer-centric</li>
+                    </ul>
+                    <button class="tool-action">Create Value Prop</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Marketing Tools Section -->
+        <section id="marketing-tools-section" class="main-section hidden">
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="adcopy">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📢</span>
+                        <h3 class="tool-title">Ad Copy Generator</h3>
+                    </div>
+                    <p class="tool-description">Create high-converting ad copy for all major platforms with proven frameworks.</p>
+                    <ul class="tool-features">
+                        <li>Platform-optimized copy</li>
+                        <li>A/B test variants</li>
+                        <li>Conversion-focused</li>
+                    </ul>
+                    <button class="tool-action">Generate Ads</button>
+                </div>
+                
+                <div class="tool-card" data-tool="social">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📱</span>
+                        <h3 class="tool-title">Social Marketing Strategist</h3>
+                    </div>
+                    <p class="tool-description">Develop comprehensive social media strategies with content calendars and engagement tactics.</p>
+                    <ul class="tool-features">
+                        <li>Content calendars</li>
+                        <li>Platform strategies</li>
+                        <li>Engagement tactics</li>
+                    </ul>
+                    <button class="tool-action">Create Strategy</button>
+                </div>
+                
+                <div class="tool-card" data-tool="growth">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🚀</span>
+                        <h3 class="tool-title">Growth Hacking Ideas</h3>
+                    </div>
+                    <p class="tool-description">Discover creative, low-cost growth strategies to rapidly scale your business.</p>
+                    <ul class="tool-features">
+                        <li>Viral marketing tactics</li>
+                        <li>User acquisition</li>
+                        <li>Retention strategies</li>
+                    </ul>
+                    <button class="tool-action">Get Growth Ideas</button>
+                </div>
+                
+                <div class="tool-card" data-tool="community">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">👥</span>
+                        <h3 class="tool-title">Community Building Ideas</h3>
+                    </div>
+                    <p class="tool-description">Build engaged communities around your brand with proven engagement strategies.</p>
+                    <ul class="tool-features">
+                        <li>Community platforms</li>
+                        <li>Engagement strategies</li>
+                        <li>Content ideas</li>
+                    </ul>
+                    <button class="tool-action">Build Community</button>
+                </div>
+                
+                <div class="tool-card" data-tool="funding">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">💰</span>
+                        <h3 class="tool-title">Funding & Investor Outreach</h3>
+                    </div>
+                    <p class="tool-description">Craft compelling investor emails and funding strategies to secure capital.</p>
+                    <ul class="tool-features">
+                        <li>Investor emails</li>
+                        <li>Funding strategies</li>
+                        <li>Pitch preparation</li>
+                    </ul>
+                    <button class="tool-action">Get Funding Help</button>
+                </div>
+                
+                <div class="tool-card" data-tool="scale">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📈</span>
+                        <h3 class="tool-title">Scale Planner</h3>
+                    </div>
+                    <p class="tool-description">Create detailed scaling roadmaps with growth milestones and expansion strategies.</p>
+                    <ul class="tool-features">
+                        <li>Growth milestones</li>
+                        <li>Expansion strategies</li>
+                        <li>Resource planning</li>
+                    </ul>
+                    <button class="tool-action">Plan Scaling</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Content Tools Section -->
+        <section id="content-tools-section" class="main-section hidden">
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="landing">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🌐</span>
+                        <h3 class="tool-title">Landing Page Copy Generator</h3>
+                    </div>
+                    <p class="tool-description">Create high-converting landing page copy with compelling headlines and CTAs.</p>
+                    <ul class="tool-features">
+                        <li>Conversion-optimized</li>
+                        <li>Compelling headlines</li>
+                        <li>Strong CTAs</li>
+                    </ul>
+                    <button class="tool-action">Generate Copy</button>
+                </div>
+                
+                <div class="tool-card" data-tool="email">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📧</span>
+                        <h3 class="tool-title">Email & Outreach Generator</h3>
+                    </div>
+                    <p class="tool-description">Write persuasive cold emails and outreach messages that get responses.</p>
+                    <ul class="tool-features">
+                        <li>Cold email templates</li>
+                        <li>Personalization tips</li>
+                        <li>Follow-up sequences</li>
+                    </ul>
+                    <button class="tool-action">Write Emails</button>
+                </div>
+                
+                <div class="tool-card" data-tool="resume">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">📄</span>
+                        <h3 class="tool-title">Resume Generator</h3>
+                    </div>
+                    <p class="tool-description">Create ATS-optimized resumes that land interviews and showcase your skills.</p>
+                    <ul class="tool-features">
+                        <li>ATS-optimized</li>
+                        <li>Industry-specific</li>
+                        <li>Skills highlighting</li>
+                    </ul>
+                    <button class="tool-action">Generate Resume</button>
+                </div>
+                
+                <div class="tool-card" data-tool="legal">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">⚖️</span>
+                        <h3 class="tool-title">Legal/Terms Generator</h3>
+                    </div>
+                    <p class="tool-description">Generate compliant legal documents including privacy policies and terms of service.</p>
+                    <ul class="tool-features">
+                        <li>GDPR compliant</li>
+                        <li>Terms of service</li>
+                        <li>Privacy policies</li>
+                    </ul>
+                    <button class="tool-action">Generate Legal Docs</button>
+                </div>
+                
+                <div class="tool-card" data-tool="digitalproduct">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">💻</span>
+                        <h3 class="tool-title">Digital Product Finder</h3>
+                    </div>
+                    <p class="tool-description">Discover profitable digital product ideas for your niche and audience.</p>
+                    <ul class="tool-features">
+                        <li>Market research</li>
+                        <li>Profit potential</li>
+                        <li>Launch strategies</li>
+                    </ul>
+                    <button class="tool-action">Find Products</button>
+                </div>
+                
+                <div class="tool-card" data-tool="winning">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">🏆</span>
+                        <h3 class="tool-title">Find Winning Product</h3>
+                    </div>
+                    <p class="tool-description">Identify trending products with high profit potential and viral appeal.</p>
+                    <ul class="tool-features">
+                        <li>Trend analysis</li>
+                        <li>Profit margins</li>
+                        <li>Market demand</li>
+                    </ul>
+                    <button class="tool-action">Find Winners</button>
+                </div>
+                
+                <div class="tool-card" data-tool="validate">
+                    <div class="tool-header">
+                        <span class="tool-icon" aria-hidden="true">✅</span>
+                        <h3 class="tool-title">Problem/Solution Validator</h3>
+                    </div>
+                    <p class="tool-description">Validate your problem-solution fit with comprehensive market analysis.</p>
+                    <ul class="tool-features">
+                        <li>Problem validation</li>
+                        <li>Solution fit</li>
+                        <li>Market feedback</li>
+                    </ul>
+                    <button class="tool-action">Validate Idea</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Individual Tool Section -->
+        <section id="tool-section" class="main-section hidden">
             <div class="tool-selector">
-                <label for="tool-select" class="tool-label">Choose Your AI Tool:</label>
-                <select id="tool-select" class="tool-select" aria-label="Select AI tool">
-                    <option value="cofounder">AI Cofounder Chat</option>
-                    <option value="idea">Idea Engine</option>
-                    <option value="ideatester">Idea Tester</option>
-                    <option value="market">Market Research</option>
-                    <option value="mvp">MVP Planner</option>
-                    <option value="gtm">Go-to-Market Kit</option>
-                    <option value="brand">Brand Builder</option>
-                    <option value="step">Step-by-Step Guidance</option>
-                    <option value="pitch">Pitch Deck Generator</option>
-                    <option value="plan">Business Plan Writer</option>
-                    <option value="adcopy">Ad Copy Generator</option>
-                    <option value="logo">AI Logo Generator</option>
-                    <option value="resume">Resume Generator</option>
-                    <option value="winning">Find Winning Product</option>
-                    <option value="legal">AI Legal/Terms Generator</option>
-                    <option value="name">AI Product Name Generator</option>
-                    <option value="email">AI Email & Outreach Generator</option>
-                    <option value="landing">Landing Page Copy Generator</option>
-                    <option value="digitalproduct">Digital Product Finder</option>
-                    <option value="valueprop">AI Value Proposition Generator</option>
-                    <option value="validate">Problem/Solution Validator</option>
-                    <option value="growth">Growth Hacking Ideas</option>
-                    <option value="funding">Funding & Investor Outreach</option>
-                    <option value="community">Community Building Ideas</option>
-                    <option value="scale">Scale Planner</option>
-                    <option value="social">Social Marketing Strategist</option>
+                <label for="tool-select" class="tool-label">Current Tool:</label>
+                <select id="tool-select" class="tool-select" aria-label="Current AI tool" disabled>
+                    <option value="">Select a tool</option>
                 </select>
             </div>
             
@@ -2058,7 +2291,7 @@
                 <div id="chat-box" class="chat-box" role="log" aria-live="polite" aria-label="Chat conversation">
                     <div class="chat-welcome">
                         <h3>Welcome to VisionFlow AI! 🚀</h3>
-                        <p>Select a tool above and start building your business idea.</p>
+                        <p>Start chatting with your selected AI tool.</p>
                     </div>
                 </div>
                 
@@ -2108,7 +2341,7 @@
             <div id="favorites-list" class="favorites-list hidden" role="list" aria-label="Favorites list">
                 <!-- Favorites will be populated here -->
             </div>
-        </main>
+        </section>
     </div>
     
     <!-- Footer -->
@@ -2146,6 +2379,9 @@
             // Global variables
             let loggedInUser = null;
             let favorites = [];
+            let currentPage = 'auth';
+            let currentCategory = null;
+            let currentTool = null;
             
             // Tool prompts configuration
             const toolPrompts = {
@@ -2176,11 +2412,57 @@
                 community: "Give me ideas to build a community around my online course platform.",
                 social: "Create a 30-day Instagram strategy for a fitness brand.",
             };
+
+            // Category tool mappings
+            const categoryTools = {
+                business: ['cofounder', 'idea', 'ideatester', 'market', 'mvp', 'gtm', 'pitch', 'plan'],
+                design: ['logo', 'brand', 'name', 'valueprop'],
+                marketing: ['adcopy', 'social', 'growth', 'community', 'funding', 'scale'],
+                content: ['landing', 'email', 'resume', 'legal', 'digitalproduct', 'winning', 'validate']
+            };
+
+            // Tool names mapping
+            const toolNames = {
+                cofounder: "AI Cofounder Chat",
+                idea: "Idea Engine",
+                ideatester: "Idea Tester",
+                market: "Market Research",
+                mvp: "MVP Planner",
+                gtm: "Go-to-Market Kit",
+                brand: "Brand Builder",
+                step: "Step-by-Step Guidance",
+                pitch: "Pitch Deck Generator",
+                plan: "Business Plan Writer",
+                adcopy: "Ad Copy Generator",
+                logo: "AI Logo Generator",
+                resume: "Resume Generator",
+                winning: "Find Winning Product",
+                legal: "AI Legal/Terms Generator",
+                name: "AI Product Name Generator",
+                email: "AI Email & Outreach Generator",
+                landing: "Landing Page Copy Generator",
+                digitalproduct: "Digital Product Finder",
+                valueprop: "AI Value Proposition Generator",
+                validate: "Problem/Solution Validator",
+                growth: "Growth Hacking Ideas",
+                funding: "Funding & Investor Outreach",
+                community: "Community Building Ideas",
+                scale: "Scale Planner",
+                social: "Social Marketing Strategist",
+            };
             
             // Cache DOM elements for better performance
             const elements = {
                 authSection: document.getElementById('auth-section'),
-                mainSection: document.getElementById('main-section'),
+                dashboardSection: document.getElementById('dashboard-section'),
+                businessToolsSection: document.getElementById('business-tools-section'),
+                designToolsSection: document.getElementById('design-tools-section'),
+                marketingToolsSection: document.getElementById('marketing-tools-section'),
+                contentToolsSection: document.getElementById('content-tools-section'),
+                toolSection: document.getElementById('tool-section'),
+                navBreadcrumb: document.getElementById('nav-breadcrumb'),
+                breadcrumbHome: document.getElementById('breadcrumb-home'),
+                backBtn: document.getElementById('back-btn'),
                 logoutButton: document.getElementById('logout-button'),
                 toggleTheme: document.getElementById('toggle-theme'),
                 toolSelect: document.getElementById('tool-select'),
@@ -2205,6 +2487,154 @@
                 toastContainer: document.getElementById('toast-container'),
                 emailError: document.getElementById('email-error'),
                 passwordError: document.getElementById('password-error')
+            };
+            
+            // Navigation functions
+            const navigation = {
+                showPage(page) {
+                    // Hide all sections
+                    const sections = [
+                        elements.authSection,
+                        elements.dashboardSection,
+                        elements.businessToolsSection,
+                        elements.designToolsSection,
+                        elements.marketingToolsSection,
+                        elements.contentToolsSection,
+                        elements.toolSection
+                    ];
+                    
+                    sections.forEach(section => {
+                        if (section) section.classList.add('hidden');
+                    });
+                    
+                    // Show target section
+                    switch(page) {
+                        case 'auth':
+                            if (elements.authSection) elements.authSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.add('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.add('hidden');
+                            break;
+                        case 'dashboard':
+                            if (elements.dashboardSection) elements.dashboardSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.remove('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.add('hidden');
+                            navigation.updateBreadcrumb(['Dashboard']);
+                            break;
+                        case 'business-tools':
+                            if (elements.businessToolsSection) elements.businessToolsSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.remove('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.remove('hidden');
+                            navigation.updateBreadcrumb(['Dashboard', 'Business Tools']);
+                            break;
+                        case 'design-tools':
+                            if (elements.designToolsSection) elements.designToolsSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.remove('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.remove('hidden');
+                            navigation.updateBreadcrumb(['Dashboard', 'Design & Branding']);
+                            break;
+                        case 'marketing-tools':
+                            if (elements.marketingToolsSection) elements.marketingToolsSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.remove('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.remove('hidden');
+                            navigation.updateBreadcrumb(['Dashboard', 'Marketing & Growth']);
+                            break;
+                        case 'content-tools':
+                            if (elements.contentToolsSection) elements.contentToolsSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.remove('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.remove('hidden');
+                            navigation.updateBreadcrumb(['Dashboard', 'Content & Copy']);
+                            break;
+                        case 'tool':
+                            if (elements.toolSection) elements.toolSection.classList.remove('hidden');
+                            if (elements.navBreadcrumb) elements.navBreadcrumb.classList.remove('hidden');
+                            if (elements.backBtn) elements.backBtn.classList.remove('hidden');
+                            break;
+                    }
+                    
+                    currentPage = page;
+                },
+                
+                updateBreadcrumb(items) {
+                    if (!elements.navBreadcrumb) return;
+                    
+                    elements.navBreadcrumb.innerHTML = '';
+                    
+                    items.forEach((item, index) => {
+                        if (index > 0) {
+                            const separator = document.createElement('span');
+                            separator.className = 'breadcrumb-separator';
+                            separator.textContent = '>';
+                            elements.navBreadcrumb.appendChild(separator);
+                        }
+                        
+                        const breadcrumbItem = document.createElement('span');
+                        breadcrumbItem.className = `breadcrumb-item ${index === items.length - 1 ? 'active' : ''}`;
+                        breadcrumbItem.textContent = item;
+                        
+                        if (index === 0) {
+                            breadcrumbItem.style.cursor = 'pointer';
+                            breadcrumbItem.onclick = () => navigation.showPage('dashboard');
+                        }
+                        
+                        elements.navBreadcrumb.appendChild(breadcrumbItem);
+                    });
+                },
+                
+                goBack() {
+                    switch(currentPage) {
+                        case 'business-tools':
+                        case 'design-tools':
+                        case 'marketing-tools':
+                        case 'content-tools':
+                            navigation.showPage('dashboard');
+                            break;
+                        case 'tool':
+                            if (currentCategory) {
+                                navigation.showPage(`${currentCategory}-tools`);
+                            } else {
+                                navigation.showPage('dashboard');
+                            }
+                            break;
+                        default:
+                            navigation.showPage('dashboard');
+                    }
+                },
+                
+                openTool(toolId, categoryId = null) {
+                    currentTool = toolId;
+                    currentCategory = categoryId;
+                    
+                    // Update tool selector
+                    if (elements.toolSelect) {
+                        elements.toolSelect.innerHTML = `<option value="${toolId}">${toolNames[toolId] || toolId}</option>`;
+                        elements.toolSelect.value = toolId;
+                    }
+                    
+                    // Update breadcrumb
+                    const categoryName = {
+                        'business': 'Business Tools',
+                        'design': 'Design & Branding',
+                        'marketing': 'Marketing & Growth',
+                        'content': 'Content & Copy'
+                    }[categoryId] || 'Tools';
+                    
+                    navigation.updateBreadcrumb(['Dashboard', categoryName, toolNames[toolId] || toolId]);
+                    
+                    // Clear chat and show welcome
+                    if (elements.chatBox) {
+                        elements.chatBox.innerHTML = `
+                            <div class="chat-welcome">
+                                <h3>Welcome to ${toolNames[toolId] || toolId}! 🚀</h3>
+                                <p>Start chatting to get AI-powered assistance.</p>
+                            </div>
+                        `;
+                    }
+                    
+                    // Update prompt suggestion
+                    utils.updateToolUI();
+                    
+                    navigation.showPage('tool');
+                }
             };
             
             // Utility functions
@@ -2249,15 +2679,6 @@
                         elements.favoritesList.classList.add('hidden');
                         elements.favoritesList.innerHTML = '';
                     }
-                    
-                    if (elements.chatBox) {
-                        elements.chatBox.innerHTML = `
-                            <div class="chat-welcome">
-                                <h3>Welcome to VisionFlow AI! 🚀</h3>
-                                <p>Select a tool above and start building your business idea.</p>
-                            </div>
-                        `;
-                    }
                 },
                 
                 updateThemeButton() {
@@ -2271,9 +2692,8 @@
                 },
                 
                 updateToolUI() {
-                    if (elements.toolSelect && elements.promptSuggestion) {
-                        const selected = elements.toolSelect.value;
-                        elements.promptSuggestion.textContent = `💡 Example: ${toolPrompts[selected] || ""}`;
+                    if (elements.toolSelect && elements.promptSuggestion && currentTool) {
+                        elements.promptSuggestion.textContent = `💡 Example: ${toolPrompts[currentTool] || ""}`;
                     }
                 },
                 
@@ -2553,9 +2973,6 @@
                             elements.emailInput.value = "";
                             elements.passwordInput.value = "";
                             utils.showToast("Welcome to VisionFlow! Account created successfully.", 'success');
-                            setTimeout(() => {
-                                if (elements.userInput) elements.userInput.focus();
-                            }, 300);
                         } else {
                             utils.showToast(data.error || "Registration failed. Please try again.", 'error');
                             elements.emailInput.focus();
@@ -2628,9 +3045,6 @@
                             elements.emailInput.value = "";
                             elements.passwordInput.value = "";
                             utils.showToast("Welcome back to VisionFlow!", 'success');
-                            setTimeout(() => {
-                                if (elements.userInput) elements.userInput.focus();
-                            }, 300);
                         } else {
                             utils.showToast(data.error || "Login failed. Please check your credentials.", 'error');
                             elements.passwordInput.focus();
@@ -2661,11 +3075,8 @@
                     if (savedUser) {
                         try {
                             loggedInUser = JSON.parse(savedUser);
-                            if (elements.authSection) elements.authSection.classList.add("hidden");
-                            if (elements.mainSection) elements.mainSection.classList.remove("hidden");
+                            navigation.showPage('dashboard');
                             if (elements.logoutButton) elements.logoutButton.classList.remove("hidden");
-                            
-                            setTimeout(() => auth.loadChatHistory(), 100);
                         } catch (e) {
                             console.error('Error parsing saved user:', e);
                             localStorage.removeItem("visionflowUser");
@@ -2674,83 +3085,8 @@
                     } else {
                         loggedInUser = null;
                         utils.clearUserData();
-                        if (elements.mainSection) elements.mainSection.classList.add("hidden");
-                        if (elements.authSection) elements.authSection.classList.remove("hidden");
+                        navigation.showPage('auth');
                         if (elements.logoutButton) elements.logoutButton.classList.add("hidden");
-                    }
-                },
-                
-                async loadChatHistory() {
-                    if (!loggedInUser || !loggedInUser.email) {
-                        if (elements.chatBox) {
-                            elements.chatBox.innerHTML = `
-                                <div class="chat-welcome">
-                                    <h3>Welcome to VisionFlow AI! 🚀</h3>
-                                    <p>Select a tool above and start building your business idea.</p>
-                                </div>
-                            `;
-                        }
-                        return;
-                    }
-                    
-                    try {
-                        const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat-history", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ email: loggedInUser.email })
-                        });
-                        
-                        const data = await response.json();
-                        const history = data.history || [];
-                        
-                        if (elements.chatBox) {
-                            if (history.length === 0) {
-                                elements.chatBox.innerHTML = `
-                                    <div class="chat-welcome">
-                                        <h3>Welcome back to VisionFlow AI! 🚀</h3>
-                                        <p>Select a tool above and start building your business idea.</p>
-                                    </div>
-                                `;
-                            } else {
-                                let output = `<div style="text-align: center; margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.1); border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.2);">
-                                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Your Chat History</h3>
-                                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">Recent conversations with VisionFlow AI</p>
-                                </div>`;
-                                
-                                history.slice(-10).forEach((item, index) => {
-                                    output += `
-                                        <div style="margin-bottom: 20px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-radius: 8px; border-left: 3px solid var(--primary-color);">
-                                            <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 8px;">
-                                                Tool: <strong style="color: var(--primary-color);">${item.tool}</strong>
-                                            </div>
-                                            <p><strong style="color: var(--primary-color);">You:</strong> ${item.user_input}</p>
-                                            <p><strong style="color: var(--text-secondary);">VisionFlow:</strong></p>
-                                            <pre style="white-space: pre-wrap; word-wrap: break-word; margin: 8px 0;">${item.ai_reply}</pre>
-                                        </div>
-                                    `;
-                                });
-                                
-                                if (history.length > 10) {
-                                    output += `<div style="text-align: center; color: var(--text-muted); font-size: 0.875rem; margin-top: 20px;">
-                                        Showing last 10 conversations. Total: ${history.length}
-                                    </div>`;
-                                }
-                                
-                                elements.chatBox.innerHTML = output;
-                            }
-                            elements.chatBox.scrollTop = elements.chatBox.scrollHeight;
-                        }
-                    } catch (err) {
-                        console.error('Load chat history error:', err);
-                        if (elements.chatBox) {
-                            elements.chatBox.innerHTML = `
-                                <div class="chat-welcome">
-                                    <h3>Welcome back to VisionFlow AI! 🚀</h3>
-                                    <p>Select a tool above and start building your business idea.</p>
-                                    <p style="color: var(--error-color); font-size: 0.875rem; margin-top: 10px;">Unable to load chat history.</p>
-                                </div>
-                            `;
-                        }
                     }
                 },
                 
@@ -2951,17 +3287,16 @@
                         return;
                     }
                     
-                    if (!elements.userInput || !elements.toolSelect || !elements.chatBox) return;
+                    if (!elements.userInput || !currentTool || !elements.chatBox) return;
                     
                     const message = elements.userInput.value.trim();
-                    const tool = elements.toolSelect.value;
                     
                     if (!message) {
                         elements.userInput.focus();
                         return;
                     }
                     
-                    const fullPrompt = utils.generatePrompt(tool, message);
+                    const fullPrompt = utils.generatePrompt(currentTool, message);
                     
                     // Add user message to chat
                     elements.chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
@@ -2982,7 +3317,7 @@
                         const response = await fetch("https://visionflow-backend-vdjh.onrender.com/chat", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ message: fullPrompt, tool, email: loggedInUser.email })
+                            body: JSON.stringify({ message: fullPrompt, tool: currentTool, email: loggedInUser.email })
                         });
                         
                         if (!response.ok) {
@@ -2992,7 +3327,7 @@
                         const data = await response.json();
                         let responseHtml = "";
                         
-                        if (tool === "logo" && data.image) {
+                        if (currentTool === "logo" && data.image) {
                             responseHtml = `
                                 <p><strong>VisionFlow:</strong></p>
                                 <img id="generated-logo" src="${data.image}" alt="Generated Logo" style="max-width:100%; border-radius:8px; margin: 10px 0;" loading="lazy" />
@@ -3042,6 +3377,33 @@
                 if (elements.loginBtn) elements.loginBtn.onclick = auth.login;
                 if (elements.logoutButton) elements.logoutButton.onclick = auth.logout;
                 
+                // Navigation
+                if (elements.backBtn) elements.backBtn.onclick = navigation.goBack;
+                
+                // Category cards
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const category = this.dataset.category;
+                        navigation.showPage(`${category}-tools`);
+                    });
+                });
+                
+                // Tool cards
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const tool = this.dataset.tool;
+                        const section = this.closest('section');
+                        let category = null;
+                        
+                        if (section.id === 'business-tools-section') category = 'business';
+                        else if (section.id === 'design-tools-section') category = 'design';
+                        else if (section.id === 'marketing-tools-section') category = 'marketing';
+                        else if (section.id === 'content-tools-section') category = 'content';
+                        
+                        navigation.openTool(tool, category);
+                    });
+                });
+                
                 // Chat functionality
                 if (elements.chatForm) elements.chatForm.onsubmit = auth.handleChatSubmit;
                 
@@ -3066,7 +3428,6 @@
                     };
                 }
                 
-                if (elements.toolSelect) elements.toolSelect.onchange = utils.updateToolUI;
                 if (elements.userInput) elements.userInput.oninput = utils.updateCharCounter;
                 if (elements.passwordToggle) elements.passwordToggle.onclick = utils.togglePasswordVisibility;
                 
@@ -3074,15 +3435,17 @@
                 document.addEventListener('keydown', function(e) {
                     // Ctrl/Cmd + Enter to send message
                     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                        if (elements.chatForm && !elements.authSection.classList.contains('hidden') === false) {
+                        if (elements.chatForm && currentPage === 'tool') {
                             elements.chatForm.dispatchEvent(new Event('submit'));
                         }
                     }
                     
-                    // Escape to hide favorites
+                    // Escape to hide favorites or go back
                     if (e.key === 'Escape') {
                         if (elements.favoritesList && !elements.favoritesList.classList.contains('hidden')) {
                             elements.favoritesList.classList.add('hidden');
+                        } else if (currentPage !== 'auth' && currentPage !== 'dashboard') {
+                            navigation.goBack();
                         }
                     }
                 });
@@ -3143,7 +3506,6 @@
                 utils.updateThemeButton();
                 
                 attachEventHandlers();
-                utils.updateToolUI();
                 utils.updateCharCounter();
                 
                 // Performance optimization: lazy load images
@@ -3167,7 +3529,7 @@
                 
                 // Show welcome message after a delay
                 setTimeout(() => {
-                    if (elements.authSection && !elements.authSection.classList.contains('hidden')) {
+                    if (currentPage === 'auth') {
                         utils.showToast("Welcome to VisionFlow AI! Create an account to get started.", 'info', 5000);
                     }
                 }, 2000);
@@ -3176,6 +3538,7 @@
             // Expose functions globally for onclick handlers
             window.utils = utils;
             window.auth = auth;
+            window.navigation = navigation;
             
             // Service Worker registration for PWA
             if ('serviceWorker' in navigator) {
