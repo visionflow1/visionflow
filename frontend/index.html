@@ -124,10 +124,9 @@
             -moz-osx-font-smoothing: grayscale;
             opacity: 0;
             animation: pageLoadFadeIn 0.8s ease-out forwards;
-            overflow-x: hidden;
         }
 
-        /* Enhanced Animations */
+        /* Animations */
         @keyframes pageLoadFadeIn {
             from {
                 opacity: 0;
@@ -162,10 +161,8 @@
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
-            25% { transform: translateY(-3px) scale(1.02) rotate(2deg); }
-            50% { transform: translateY(-5px) scale(1.05) rotate(-1deg); }
-            75% { transform: translateY(-3px) scale(1.02) rotate(1deg); }
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
         }
 
         @keyframes textGlow {
@@ -173,7 +170,7 @@
                 text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
             }
             to {
-                text-shadow: 0 2px 16px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.1);
+                text-shadow: 0 2px 16px rgba(255, 215, 0, 0.3);
             }
         }
 
@@ -245,8 +242,8 @@
 
         @keyframes errorShake {
             0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         @keyframes buttonsSlide {
@@ -406,9 +403,7 @@
 
         @keyframes iconBounce {
             0%, 100% { transform: scale(1); }
-            25% { transform: scale(0.9); }
             50% { transform: scale(1.2); }
-            75% { transform: scale(1.1); }
         }
 
         @keyframes float {
@@ -448,105 +443,7 @@
             }
         }
 
-        /* New Enhanced Animations */
-        @keyframes emojiDance {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-10deg) scale(1.1); }
-            50% { transform: rotate(10deg) scale(1.2); }
-            75% { transform: rotate(-5deg) scale(1.1); }
-        }
-
-        @keyframes emojiWiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
-        }
-
-        @keyframes emojiPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3) rotate(10deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes sparkle {
-            0% { opacity: 0; transform: scale(0) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1) rotate(180deg); }
-            100% { opacity: 0; transform: scale(0) rotate(360deg); }
-        }
-
-        @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        @keyframes confetti {
-            0% { 
-                transform: translateY(-100vh) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-            100% { 
-                transform: translateY(100vh) rotate(720deg) scale(0);
-                opacity: 0;
-            }
-        }
-
-        @keyframes rainbow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1.2); }
-            75% { transform: scale(1.1); }
-        }
-
-        @keyframes slideInFromLeft {
-            0% { transform: translateX(-100%); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes slideInFromRight {
-            0% { transform: translateX(100%); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes zoomInRotate {
-            0% { transform: scale(0) rotate(180deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes morphBorder {
-            0%, 100% { border-radius: var(--radius-xl); }
-            25% { border-radius: 50px 10px; }
-            50% { border-radius: 10px 50px; }
-            75% { border-radius: 30px 60px 20px; }
-        }
-
-        @keyframes textShadowGlow {
-            0% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6); }
-            100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-        }
-
-        /* Enhanced Layout Components */
+        /* Layout Components */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -557,50 +454,14 @@
             backdrop-filter: blur(10px);
             min-height: 100vh;
             animation: containerSlideUp 0.6s ease-out 0.2s both;
-            position: relative;
-            overflow: hidden;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg, 
-                transparent, 
-                rgba(255, 215, 0, 0.05),
-                transparent
-            );
-            animation: shimmer 3s infinite ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: -100%; }
-        }
-
-        /* Enhanced Header Styles */
+        /* Header Styles */
         .header {
             padding: var(--spacing-xl) 0;
             border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             margin-bottom: var(--spacing-xl);
             animation: headerFadeIn 0.8s ease-out 0.4s both;
-            position: relative;
-        }
-
-        .header::after {
-            content: '✨🚀💫⭐🎯';
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            font-size: 1.2rem;
-            animation: emojiWiggle 2s ease-in-out infinite;
-            pointer-events: none;
         }
 
         .logo-header {
@@ -608,7 +469,6 @@
             align-items: center;
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-lg);
-            position: relative;
         }
 
         .vision-logo {
@@ -621,39 +481,16 @@
             padding: var(--spacing-sm);
             object-fit: contain;
             transition: all var(--transition-base);
-            animation: logoFloat 4s ease-in-out infinite;
-            position: relative;
-            z-index: 2;
-        }
-
-        .vision-logo::before {
-            content: '🎯';
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            font-size: 1.5rem;
-            animation: emojiPop 2s ease-in-out infinite;
-            z-index: 3;
+            animation: logoFloat 3s ease-in-out infinite;
         }
 
         .vision-logo:hover {
             transform: scale(1.1) rotate(5deg);
             box-shadow: var(--shadow-glow), 0 0 30px rgba(255, 215, 0, 0.4);
-            animation: rainbow 2s linear infinite;
         }
 
         .brand-info {
             flex: 1;
-            position: relative;
-        }
-
-        .brand-info::after {
-            content: '🚀';
-            position: absolute;
-            top: 10px;
-            right: -30px;
-            font-size: 2rem;
-            animation: emojiDance 3s ease-in-out infinite;
         }
 
         .brand-title {
@@ -663,12 +500,6 @@
             margin: 0;
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
             animation: textGlow 2s ease-in-out infinite alternate;
-            background: linear-gradient(45deg, var(--primary-color), #FFE55C, var(--primary-color));
-            background-size: 200% 200%;
-            animation: textGlow 2s ease-in-out infinite alternate, gradientShift 3s ease-in-out infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .brand-subtitle {
@@ -677,12 +508,6 @@
             margin: 0;
             font-weight: 500;
             animation: subtitleSlide 0.8s ease-out 0.6s both;
-            position: relative;
-        }
-
-        .brand-subtitle::before {
-            content: '💡 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .header-actions {
@@ -692,7 +517,7 @@
             animation: actionsSlide 0.8s ease-out 0.8s both;
         }
 
-        /* Enhanced Navigation Breadcrumb */
+        /* Navigation Breadcrumb */
         .nav-breadcrumb {
             display: flex;
             align-items: center;
@@ -703,14 +528,6 @@
             border-radius: var(--radius-lg);
             border: 1px solid rgba(255, 215, 0, 0.2);
             animation: mainSlideIn 0.6s ease-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-breadcrumb::before {
-            content: '🏠';
-            margin-right: var(--spacing-sm);
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .breadcrumb-item {
@@ -722,13 +539,11 @@
             border-radius: var(--radius-sm);
             transition: all var(--transition-base);
             cursor: pointer;
-            position: relative;
         }
 
         .breadcrumb-item:hover {
             background: rgba(255, 215, 0, 0.2);
             color: var(--primary-color);
-            transform: translateY(-2px) scale(1.05);
         }
 
         .breadcrumb-item.active {
@@ -736,18 +551,12 @@
             font-weight: 600;
         }
 
-        .breadcrumb-item.active::after {
-            content: ' ✨';
-            animation: sparkle 1.5s ease-in-out infinite;
-        }
-
         .breadcrumb-separator {
             color: var(--text-muted);
             font-size: 0.875rem;
-            animation: emojiWiggle 1.5s ease-in-out infinite;
         }
 
-        /* Enhanced Button Styles */
+        /* Button Styles */
         .theme-toggle {
             display: flex;
             align-items: center;
@@ -778,35 +587,23 @@
             transition: left 0.6s;
         }
 
-        .theme-toggle::after {
-            content: '✨';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            font-size: 0.8rem;
-            animation: sparkle 2s ease-in-out infinite;
-        }
-
         .theme-toggle:hover::before {
             left: 100%;
         }
 
         .theme-toggle:hover, .theme-toggle:focus {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-2px) scale(1.05);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
-            animation: rainbow 1s linear infinite;
         }
 
         .theme-icon {
             font-size: 1.125rem;
             transition: transform var(--transition-base);
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .theme-toggle:hover .theme-icon {
             transform: rotate(180deg) scale(1.2);
-            animation: emojiDance 0.5s ease-in-out;
         }
 
         .logout-btn, .back-btn {
@@ -824,38 +621,16 @@
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-sm);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logout-btn::before, .back-btn::before {
-            content: '👋';
-            position: absolute;
-            top: -20px;
-            right: 5px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
-        .back-btn::before {
-            content: '🏠';
-        }
-
-        .logout-btn:hover::before, .back-btn:hover::before {
-            top: -5px;
-            opacity: 1;
-            animation: emojiPop 0.5s ease-in-out;
         }
 
         .logout-btn:hover, .logout-btn:focus, .back-btn:hover, .back-btn:focus {
             background: var(--gradient-secondary);
             color: var(--secondary-color);
             border-color: var(--primary-color);
-            transform: translateY(-2px) scale(1.05);
+            transform: translateY(-2px);
         }
 
-        /* Enhanced Section Back Button */
+        /* Section Back Button */
         .section-back-btn {
             background: var(--gradient-secondary);
             color: var(--secondary-color);
@@ -887,24 +662,8 @@
             transition: left 0.6s;
         }
 
-        .section-back-btn::after {
-            content: '🏠';
-            position: absolute;
-            top: -10px;
-            right: 10px;
-            font-size: 1rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
         .section-back-btn:hover::before {
             left: 100%;
-        }
-
-        .section-back-btn:hover::after {
-            top: -2px;
-            opacity: 1;
-            animation: emojiPop 0.5s ease-in-out;
         }
 
         .section-back-btn:hover, .section-back-btn:focus {
@@ -916,15 +675,13 @@
         .section-back-btn .back-icon {
             font-size: 1.125rem;
             transition: transform var(--transition-base);
-            animation: emojiWiggle 1.5s ease-in-out infinite;
         }
 
         .section-back-btn:hover .back-icon {
-            transform: translateX(-3px) scale(1.2);
-            animation: emojiDance 0.5s ease-in-out;
+            transform: translateX(-3px);
         }
 
-        /* Enhanced Auth Section */
+        /* Auth Section */
         .auth-section {
             background: var(--gradient-glass);
             border-radius: var(--radius-2xl);
@@ -935,18 +692,6 @@
             margin-bottom: var(--spacing-2xl);
             animation: authSlideIn 0.8s ease-out 1s both;
             transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .auth-section::before {
-            content: '🎯✨🚀💡🎨';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.2rem;
-            animation: emojiWiggle 2s ease-in-out infinite;
-            pointer-events: none;
         }
 
         .auth-section:hover {
@@ -960,17 +705,6 @@
             font-size: clamp(1.875rem, 4vw, 2.25rem);
             font-family: 'Playfair Display', serif;
             animation: titlePulse 0.8s ease-out 1.2s both;
-            position: relative;
-        }
-
-        .auth-title::before {
-            content: '🎉 ';
-            animation: emojiDance 2s ease-in-out infinite;
-        }
-
-        .auth-title::after {
-            content: ' ✨';
-            animation: sparkle 1.5s ease-in-out infinite;
         }
 
         .auth-description {
@@ -978,12 +712,6 @@
             margin-bottom: var(--spacing-xl);
             font-size: clamp(1rem, 2.5vw, 1.125rem);
             animation: descriptionSlide 0.8s ease-out 1.4s both;
-            position: relative;
-        }
-
-        .auth-description::before {
-            content: '🔐 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .auth-form {
@@ -997,7 +725,6 @@
         .form-group {
             text-align: left;
             animation: formGroupSlide 0.6s ease-out var(--delay, 1.6s) both;
-            position: relative;
         }
 
         .form-group:nth-child(1) { --delay: 1.6s; }
@@ -1010,17 +737,6 @@
             margin-bottom: var(--spacing-sm);
             font-size: 0.875rem;
             transition: all var(--transition-base);
-            position: relative;
-        }
-
-        .form-label::before {
-            content: '📧';
-            margin-right: var(--spacing-xs);
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
-        .form-label:has(+ input[type="password"])::before {
-            content: '🔒';
         }
 
         .form-input, .form-select, .form-textarea {
@@ -1039,9 +755,8 @@
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1), 0 0 20px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
             transform: translateY(-2px) scale(1.02);
-            animation: morphBorder 2s ease-in-out infinite;
         }
 
         .form-input::placeholder {
@@ -1054,7 +769,7 @@
             transform: translateY(-2px);
         }
 
-        /* Enhanced Password Input Container */
+        /* Password Input Container */
         .password-input-container {
             position: relative;
         }
@@ -1079,7 +794,6 @@
             color: var(--primary-color);
             background: rgba(255, 215, 0, 0.1);
             transform: translateY(-50%) scale(1.1);
-            animation: emojiPop 0.3s ease-in-out;
         }
 
         .password-toggle:focus {
@@ -1099,18 +813,12 @@
             transition: all var(--transition-base);
             transform: translateY(-5px);
             opacity: 0;
-            position: relative;
         }
 
         .error-message:not(:empty) {
             transform: translateY(0);
             opacity: 1;
             animation: errorShake 0.5s ease-out;
-        }
-
-        .error-message:not(:empty)::before {
-            content: '❌ ';
-            animation: emojiWiggle 1s ease-in-out infinite;
         }
 
         .auth-buttons {
@@ -1120,7 +828,7 @@
             animation: buttonsSlide 0.8s ease-out 2s both;
         }
 
-        /* Enhanced Button Component */
+        /* Button Component */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -1150,24 +858,8 @@
             transition: left 0.6s;
         }
 
-        .btn::after {
-            content: '✨';
-            position: absolute;
-            top: -10px;
-            right: -5px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
         .btn:hover::before {
             left: 100%;
-        }
-
-        .btn:hover::after {
-            opacity: 1;
-            top: -2px;
-            animation: sparkle 0.8s ease-in-out;
         }
 
         .btn-primary {
@@ -1180,7 +872,6 @@
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
             transform: translateY(-3px) scale(1.02);
             box-shadow: var(--shadow-lg);
-            animation: heartbeat 0.6s ease-in-out;
         }
 
         .btn-secondary {
@@ -1213,7 +904,7 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Enhanced Categories Grid */
+        /* Categories Grid */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1246,31 +937,14 @@
             transition: left 0.6s;
         }
 
-        .category-card::after {
-            content: '⚡🎯✨💫🚀';
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
         .category-card:hover::before {
             left: 100%;
-        }
-
-        .category-card:hover::after {
-            opacity: 1;
-            animation: emojiDance 1s ease-in-out;
         }
 
         .category-card:hover {
             box-shadow: var(--shadow-xl);
             transform: translateY(-8px) scale(1.02);
             border-color: var(--primary-color);
-            animation: morphBorder 2s ease-in-out infinite;
         }
 
         .category-icon {
@@ -1278,12 +952,10 @@
             margin-bottom: var(--spacing-lg);
             display: block;
             transition: transform var(--transition-base);
-            animation: emojiWiggle 3s ease-in-out infinite;
         }
 
         .category-card:hover .category-icon {
             transform: scale(1.2) rotate(5deg);
-            animation: emojiDance 0.8s ease-in-out;
         }
 
         .category-title {
@@ -1292,23 +964,6 @@
             color: var(--primary-color);
             margin-bottom: var(--spacing-md);
             font-family: 'Playfair Display', serif;
-            position: relative;
-        }
-
-        .category-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            transition: width var(--transition-base);
-        }
-
-        .category-card:hover .category-title::after {
-            width: 100%;
         }
 
         .category-description {
@@ -1326,21 +981,9 @@
             border-radius: var(--radius-xl);
             font-size: 0.875rem;
             font-weight: 600;
-            position: relative;
-            transition: all var(--transition-base);
         }
 
-        .category-tools-count::before {
-            content: '🔢 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
-        .category-card:hover .category-tools-count {
-            background: rgba(255, 215, 0, 0.3);
-            transform: scale(1.1);
-        }
-
-        /* Enhanced Tools Grid */
+        /* Tools Grid */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1357,30 +1000,12 @@
             transition: all var(--transition-base);
             cursor: pointer;
             animation: toolCardSlide 0.6s ease-out var(--delay, 0s) both;
-            position: relative;
-            overflow: hidden;
         }
 
         .tool-card:nth-child(1) { --delay: 0.1s; }
         .tool-card:nth-child(2) { --delay: 0.2s; }
         .tool-card:nth-child(3) { --delay: 0.3s; }
         .tool-card:nth-child(4) { --delay: 0.4s; }
-
-        .tool-card::after {
-            content: '💫✨⭐';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
-        .tool-card:hover::after {
-            opacity: 1;
-            animation: emojiDance 1s ease-in-out;
-        }
 
         .tool-card:hover {
             box-shadow: var(--shadow-xl);
@@ -1398,12 +1023,10 @@
         .tool-icon {
             font-size: 2rem;
             transition: transform var(--transition-base);
-            animation: emojiWiggle 3s ease-in-out infinite;
         }
 
         .tool-card:hover .tool-icon {
             transform: scale(1.1) rotate(5deg);
-            animation: emojiDance 0.6s ease-in-out;
         }
 
         .tool-title {
@@ -1411,7 +1034,6 @@
             font-weight: 700;
             color: var(--primary-color);
             margin: 0;
-            position: relative;
         }
 
         .tool-description {
@@ -1432,18 +1054,13 @@
             margin-bottom: var(--spacing-xs);
             padding-left: var(--spacing-lg);
             position: relative;
-            animation: slideInFromLeft 0.6s ease-out var(--li-delay, 0s) both;
         }
 
-        .tool-features li:nth-child(1) { --li-delay: 0.1s; }
-        .tool-features li:nth-child(2) { --li-delay: 0.2s; }
-        .tool-features li:nth-child(3) { --li-delay: 0.3s; }
-
         .tool-features li::before {
-            content: '✅';
+            content: '✓';
             position: absolute;
             left: 0;
-            animation: emojiPop 2s ease-in-out infinite;
+            color: var(--success-color);
             font-weight: bold;
         }
 
@@ -1458,26 +1075,15 @@
             transition: all var(--transition-base);
             width: 100%;
             font-family: 'Montserrat', sans-serif;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-action::before {
-            content: '🚀 ';
-            transition: all var(--transition-base);
-        }
-
-        .tool-action:hover::before {
-            animation: emojiPop 0.5s ease-in-out;
         }
 
         .tool-action:hover {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
-        /* Enhanced Main Section */
+        /* Main Section */
         .main-section {
             display: flex;
             flex-direction: column;
@@ -1492,16 +1098,6 @@
             box-shadow: var(--shadow-md);
             border: 1px solid rgba(255, 215, 0, 0.2);
             transition: all var(--transition-base);
-            position: relative;
-        }
-
-        .tool-selector::after {
-            content: '🎯';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .tool-selector:hover {
@@ -1516,11 +1112,6 @@
             margin-bottom: var(--spacing-md);
             font-size: clamp(1rem, 2.5vw, 1.125rem);
             animation: labelGlow 2s ease-in-out infinite alternate;
-        }
-
-        .tool-label::before {
-            content: '🔧 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .tool-select {
@@ -1554,12 +1145,6 @@
             margin-bottom: var(--spacing-lg);
             animation: suggestionPulse 1s ease-out;
             transition: all var(--transition-base);
-            position: relative;
-        }
-
-        .prompt-suggestion::before {
-            content: '💡 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .prompt-suggestion:hover {
@@ -1567,7 +1152,7 @@
             transform: translateX(5px);
         }
 
-        /* Enhanced Chat Container */
+        /* Chat Container */
         .chat-container {
             background: var(--gradient-glass);
             border-radius: var(--radius-xl);
@@ -1575,16 +1160,6 @@
             box-shadow: var(--shadow-md);
             border: 1px solid rgba(255, 215, 0, 0.2);
             transition: all var(--transition-base);
-            position: relative;
-        }
-
-        .chat-container::after {
-            content: '💬✨';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.2rem;
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .chat-container:hover {
@@ -1629,15 +1204,6 @@
             color: var(--text-secondary);
             padding: var(--spacing-xl);
             animation: welcomeFloat 0.8s ease-out;
-            position: relative;
-        }
-
-        .chat-welcome::before {
-            content: '🎉🚀✨';
-            display: block;
-            font-size: 2rem;
-            margin-bottom: var(--spacing-md);
-            animation: emojiDance 2s ease-in-out infinite;
         }
 
         .chat-welcome h3 {
@@ -1702,25 +1268,9 @@
             transform: translate(-50%, -50%);
         }
 
-        .chat-send-btn::after {
-            content: '🚀';
-            position: absolute;
-            top: -15px;
-            right: -5px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
         .chat-send-btn:hover::before {
             width: 100%;
             height: 100%;
-        }
-
-        .chat-send-btn:hover::after {
-            opacity: 1;
-            top: -5px;
-            animation: emojiPop 0.5s ease-in-out;
         }
 
         .chat-send-btn:hover, .chat-send-btn:focus {
@@ -1737,8 +1287,7 @@
         }
 
         .chat-send-btn:hover .send-icon {
-            transform: translateX(2px) scale(1.2);
-            animation: emojiPop 0.3s ease-in-out;
+            transform: translateX(2px);
         }
 
         .input-counter {
@@ -1747,15 +1296,9 @@
             font-size: 0.875rem;
             margin-top: var(--spacing-xs);
             transition: all var(--transition-base);
-            position: relative;
         }
 
-        .input-counter::before {
-            content: '📝 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
-        /* Enhanced Action Grid */
+        /* Action Grid */
         .action-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1792,24 +1335,8 @@
             transition: left 0.5s;
         }
 
-        .action-btn::after {
-            content: '✨';
-            position: absolute;
-            top: -8px;
-            right: 5px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
         .action-btn:hover::before {
             left: 100%;
-        }
-
-        .action-btn:hover::after {
-            opacity: 1;
-            top: -2px;
-            animation: sparkle 0.8s ease-in-out;
         }
 
         .action-btn:hover, .action-btn:focus {
@@ -1822,19 +1349,17 @@
         .action-icon {
             font-size: 1.125rem;
             transition: transform var(--transition-base);
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .action-btn:hover .action-icon {
             transform: scale(1.2) rotate(5deg);
-            animation: emojiDance 0.5s ease-in-out;
         }
 
         .action-text {
             font-size: 0.875rem;
         }
 
-        /* Enhanced Favorites */
+        /* Favorites */
         .favorites-list {
             background: var(--gradient-glass);
             border-radius: var(--radius-xl);
@@ -1845,17 +1370,6 @@
             max-height: 400px;
             overflow-y: auto;
             animation: favoritesSlideIn 0.6s ease-out;
-            position: relative;
-        }
-
-        .favorites-list::before {
-            content: '⭐ Favorites ';
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            font-weight: 600;
-            color: var(--primary-color);
-            animation: textShadowGlow 2s ease-in-out infinite;
         }
 
         .favorites-list li {
@@ -1868,20 +1382,10 @@
             word-wrap: break-word;
             animation: favoriteItemSlide 0.4s ease-out;
             transition: all var(--transition-base);
-            position: relative;
-            margin-top: var(--spacing-2xl);
-        }
-
-        .favorites-list li::before {
-            content: '💫';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .favorites-list li:hover {
-            transform: translateX(5px) scale(1.02);
+            transform: translateX(5px);
             box-shadow: var(--shadow-md);
         }
 
@@ -1900,30 +1404,14 @@
             border: none;
             cursor: pointer;
             transition: all var(--transition-base);
-            position: relative;
-        }
-
-        .favorites-list button::after {
-            content: '✨';
-            position: absolute;
-            top: -8px;
-            right: -5px;
-            font-size: 0.7rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
-        .favorites-list button:hover::after {
-            opacity: 1;
-            animation: sparkle 0.6s ease-in-out;
         }
 
         .favorites-list button:hover {
             background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-2px) scale(1.05);
+            transform: translateY(-2px);
         }
 
-        /* Enhanced Footer */
+        /* Footer */
         .site-footer {
             background: var(--gradient-glass);
             border-top: 1px solid rgba(255, 215, 0, 0.2);
@@ -1931,17 +1419,6 @@
             margin-top: var(--spacing-3xl);
             border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
             animation: footerSlideUp 0.8s ease-out 0.8s both;
-            position: relative;
-        }
-
-        .site-footer::before {
-            content: '🌟✨🎯🚀💫';
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 1.2rem;
-            animation: emojiWiggle 3s ease-in-out infinite;
-            pointer-events: none;
         }
 
         .footer-inner {
@@ -1956,17 +1433,10 @@
             color: var(--primary-color);
             margin-bottom: var(--spacing-lg);
             animation: brandPulse 2s ease-in-out infinite alternate;
-            position: relative;
-        }
-
-        .footer-brand::before {
-            content: '💎 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .footer-highlight {
             color: var(--primary-color);
-            animation: textShadowGlow 3s ease-in-out infinite;
         }
 
         .footer-nav {
@@ -2000,31 +1470,14 @@
             transform: translateX(-50%);
         }
 
-        .footer-link::before {
-            content: '🔗';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all var(--transition-base);
-        }
-
         .footer-link:hover::after {
             width: 80%;
-        }
-
-        .footer-link:hover::before {
-            opacity: 1;
-            top: -8px;
-            animation: emojiPop 0.5s ease-in-out;
         }
 
         .footer-link:hover, .footer-link:focus {
             background: rgba(255, 215, 0, 0.2);
             color: var(--accent-color);
-            transform: translateY(-2px) scale(1.05);
+            transform: translateY(-2px);
         }
 
         .footer-tagline {
@@ -2032,20 +1485,9 @@
             color: var(--text-secondary);
             font-style: italic;
             animation: taglineGlow 3s ease-in-out infinite alternate;
-            position: relative;
         }
 
-        .footer-tagline::before {
-            content: '🚀 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
-        .footer-tagline::after {
-            content: ' 💫';
-            animation: sparkle 2s ease-in-out infinite;
-        }
-
-        /* Enhanced Loading Overlay */
+        /* Loading Overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -2070,17 +1512,6 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: var(--spacing-lg);
-            position: relative;
-        }
-
-        .loading-spinner::after {
-            content: '⚡';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.2rem;
-            animation: emojiWiggle 1s ease-in-out infinite;
         }
 
         .loading-text {
@@ -2088,20 +1519,9 @@
             font-size: clamp(1rem, 2.5vw, 1.125rem);
             font-weight: 600;
             animation: loadingPulse 1.5s ease-in-out infinite;
-            position: relative;
         }
 
-        .loading-text::before {
-            content: '⏳ ';
-            animation: emojiWiggle 1.5s ease-in-out infinite;
-        }
-
-        .loading-text::after {
-            content: ' ✨';
-            animation: sparkle 1.5s ease-in-out infinite;
-        }
-
-        /* Enhanced Toast Notifications */
+        /* Toast Notifications */
         .toast-container {
             position: fixed;
             top: var(--spacing-lg);
@@ -2122,23 +1542,10 @@
             max-width: 350px;
             animation: toastSlideIn 0.3s ease-out;
             transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .toast::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            animation: shimmer 2s infinite;
         }
 
         .toast:hover {
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px);
         }
 
         .toast.toast-success {
@@ -2182,25 +1589,14 @@
 
         .toast-close:hover {
             color: var(--primary-color);
-            transform: rotate(90deg) scale(1.2);
+            transform: rotate(90deg);
         }
 
-        /* Enhanced Chat Message Styles */
+        /* Chat Message Styles */
         .chat-box p {
             margin-bottom: var(--spacing-md);
             padding: var(--spacing-sm) 0;
             animation: messageSlideIn 0.4s ease-out;
-            position: relative;
-        }
-
-        .chat-box p:has(strong:contains("You:"))::before {
-            content: '👤 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
-        }
-
-        .chat-box p:has(strong:contains("VisionFlow:"))::before {
-            content: '🤖 ';
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .chat-box strong {
@@ -2222,15 +1618,6 @@
             word-wrap: break-word;
             border: 1px solid rgba(255, 215, 0, 0.1);
             animation: codeBlockSlide 0.5s ease-out;
-            position: relative;
-        }
-
-        .chat-box pre::before {
-            content: '📝';
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            animation: emojiWiggle 2s ease-in-out infinite;
         }
 
         .chat-box img {
@@ -2241,16 +1628,13 @@
             box-shadow: var(--shadow-md);
             animation: imageZoomIn 0.6s ease-out;
             transition: transform var(--transition-base);
-            border: 2px solid rgba(255, 215, 0, 0.2);
         }
 
         .chat-box img:hover {
             transform: scale(1.02);
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-lg);
         }
 
-        /* Enhanced Utility Classes */
+        /* Utility Classes */
         .hidden { 
             display: none !important; 
         }
@@ -2267,7 +1651,7 @@
             border: 0;
         }
 
-        /* Enhanced Floating particles background effect */
+        /* Floating particles background effect */
         .particles {
             position: fixed;
             top: 0;
@@ -2276,117 +1660,24 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            opacity: 0.4;
+            opacity: 0.3;
         }
 
         .particle {
             position: absolute;
-            width: 3px;
-            height: 3px;
+            width: 2px;
+            height: 2px;
             background: var(--primary-color);
             border-radius: 50%;
-            animation: float 8s infinite linear;
-            box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+            animation: float 6s infinite linear;
         }
 
-        .particle::before {
-            content: '✨';
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            font-size: 0.8rem;
-            animation: emojiWiggle 3s ease-in-out infinite;
-        }
+        .particle:nth-child(1) { left: 20%; animation-delay: -0.5s; animation-duration: 7s; }
+        .particle:nth-child(2) { left: 40%; animation-delay: -1s; animation-duration: 8s; }
+        .particle:nth-child(3) { left: 60%; animation-delay: -2s; animation-duration: 9s; }
+        .particle:nth-child(4) { left: 80%; animation-delay: -3s; animation-duration: 9s; }
 
-        .particle:nth-child(1) { 
-            left: 10%; 
-            animation-delay: -0.5s; 
-            animation-duration: 7s; 
-        }
-        .particle:nth-child(2) { 
-            left: 30%; 
-            animation-delay: -1s; 
-            animation-duration: 8s; 
-        }
-        .particle:nth-child(3) { 
-            left: 50%; 
-            animation-delay: -2s; 
-            animation-duration: 9s; 
-        }
-        .particle:nth-child(4) { 
-            left: 70%; 
-            animation-delay: -3s; 
-            animation-duration: 10s; 
-        }
-        .particle:nth-child(5) { 
-            left: 90%; 
-            animation-delay: -1.5s; 
-            animation-duration: 7.5s; 
-        }
-
-        /* Additional Animated Elements */
-        .magic-cursor {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            font-size: 1.5rem;
-            animation: emojiWiggle 1s ease-in-out infinite;
-            transition: all 0.1s ease;
-        }
-
-        .confetti-burst {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .confetti-piece {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: var(--primary-color);
-            animation: confetti 3s ease-out forwards;
-        }
-
-        .confetti-piece:nth-child(odd) {
-            background: #ff6b6b;
-        }
-
-        .confetti-piece:nth-child(3n) {
-            background: #4ecdc4;
-        }
-
-        .confetti-piece:nth-child(4n) {
-            background: #45b7d1;
-        }
-
-        .confetti-piece:nth-child(5n) {
-            background: #f39c12;
-        }
-
-        /* Success/Error Animation Enhancements */
-        .success-animation {
-            animation: bounceIn 0.6s ease-out, heartbeat 1s ease-in-out 0.6s;
-        }
-
-        .error-animation {
-            animation: errorShake 0.5s ease-out, zoomInRotate 0.3s ease-out;
-        }
-
-        /* Typewriter effect for loading text */
-        .typewriter {
-            overflow: hidden;
-            border-right: 2px solid var(--primary-color);
-            white-space: nowrap;
-            animation: typewriter 3s steps(40, end), blink 0.75s step-end infinite;
-        }
-
-        /* Mobile Responsive Enhancements */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: var(--spacing-md);
@@ -2472,20 +1763,6 @@
             .nav-breadcrumb {
                 flex-wrap: wrap;
             }
-
-            /* Mobile-specific animations */
-            .category-card:hover, .tool-card:hover {
-                transform: translateY(-4px) scale(1.01);
-            }
-            
-            .particle {
-                width: 2px;
-                height: 2px;
-            }
-            
-            .particle::before {
-                font-size: 0.6rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -2506,10 +1783,6 @@
                 padding: var(--spacing-sm);
                 font-size: 0.875rem;
             }
-            
-            .header::after, .auth-section::before {
-                font-size: 1rem;
-            }
         }
 
         /* High contrast mode */
@@ -2523,60 +1796,28 @@
             }
         }
 
-        /* Reduced motion preferences */
+        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-            
             body {
                 opacity: 1;
                 animation: none;
             }
-            
-            .particle, .magic-cursor {
-                display: none;
-            }
         }
 
-        /* Focus indicators enhancement */
+        /* Focus indicators */
         *:focus {
             outline: 2px solid var(--primary-color);
             outline-offset: 2px;
-            animation: textShadowGlow 1s ease-in-out;
         }
 
         button:focus, input:focus, select:focus, textarea:focus {
             outline: 2px solid var(--primary-color);
             outline-offset: 2px;
-            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
-        }
-
-        /* Print styles */
-        @media print {
-            .particles, .magic-cursor, .confetti-burst,
-            .header::after, .auth-section::before,
-            .tool-card::after, .category-card::after {
-                display: none !important;
-            }
-        }
-
-        /* Dark mode specific enhancements */
-        body:not(.light-mode) .container::before {
-            background: linear-gradient(
-                90deg, 
-                transparent, 
-                rgba(255, 215, 0, 0.08),
-                transparent
-            );
-        }
-
-        /* Light mode specific enhancements */
-        body.light-mode .particle {
-            background: #bfa14a;
-            box-shadow: 0 0 6px rgba(191, 161, 74, 0.5);
         }
     </style>
 </head>
@@ -2590,14 +1831,7 @@
         <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
-        <div class="particle"></div>
     </div>
-    
-    <!-- Magic Cursor (will be positioned via JS) -->
-    <div class="magic-cursor" aria-hidden="true">✨</div>
-    
-    <!-- Confetti Burst Container -->
-    <div class="confetti-burst" id="confetti-burst" aria-hidden="true"></div>
     
     <div class="container">
         <!-- Header -->
@@ -3197,14 +2431,14 @@
                 <a href="plan.html" class="footer-link">Pricing</a>
                 <a href="contact.html" class="footer-link">Contact</a>
             </nav>
-            <div class="footer-tagline">Built by entrepreneurs, for entrepreneurs</div>
+            <div class="footer-tagline">Built by entrepreneurs, for entrepreneurs 🚀</div>
         </div>
     </footer>
     
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="loading-overlay hidden" role="alert" aria-busy="true">
         <div class="loading-spinner" aria-hidden="true"></div>
-        <p class="loading-text typewriter">Processing your request...</p>
+        <p class="loading-text">Processing your request...</p>
     </div>
     
     <!-- Toast Notifications -->
@@ -3328,97 +2562,8 @@
                 loadingOverlay: document.getElementById('loading-overlay'),
                 toastContainer: document.getElementById('toast-container'),
                 emailError: document.getElementById('email-error'),
-                passwordError: document.getElementById('password-error'),
-                magicCursor: document.querySelector('.magic-cursor'),
-                confettiBurst: document.getElementById('confetti-burst')
+                passwordError: document.getElementById('password-error')
             };
-            
-            // Enhanced Animation Functions
-            const animations = {
-                createConfetti(x, y) {
-                    if (!elements.confettiBurst) return;
-                    
-                    const colors = ['#FFD700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f39c12'];
-                    const emojis = ['🎉', '✨', '🎊', '💫', '⭐', '🌟'];
-                    
-                    for (let i = 0; i < 15; i++) {
-                        const confetti = document.createElement('div');
-                        
-                        if (Math.random() > 0.7) {
-                            confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                            confetti.style.fontSize = '12px';
-                        } else {
-                            confetti.className = 'confetti-piece';
-                            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                        }
-                        
-                        confetti.style.left = x + (Math.random() - 0.5) * 100 + 'px';
-                        confetti.style.top = y + 'px';
-                        confetti.style.animationDelay = Math.random() * 0.3 + 's';
-                        confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                        
-                        elements.confettiBurst.appendChild(confetti);
-                        
-                        setTimeout(() => {
-                            if (confetti.parentNode) {
-                                confetti.parentNode.removeChild(confetti);
-                            }
-                        }, 3000);
-                    }
-                },
-                
-                updateMagicCursor(x, y) {
-                    if (elements.magicCursor && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                        elements.magicCursor.style.left = x + 'px';
-                        elements.magicCursor.style.top = y + 'px';
-                        
-                        // Change cursor emoji based on page
-                        const cursors = {
-                            auth: '🔐',
-                            dashboard: '🎯',
-                            'business-tools': '🚀',
-                            'design-tools': '🎨',
-                            'marketing-tools': '📈',
-                            'content-tools': '✍️',
-                            tool: '💡'
-                        };
-                        
-                        elements.magicCursor.textContent = cursors[currentPage] || '✨';
-                    }
-                },
-                
-                addSuccessAnimation(element) {
-                    if (element) {
-                        element.classList.add('success-animation');
-                        setTimeout(() => {
-                            element.classList.remove('success-animation');
-                        }, 1200);
-                    }
-                },
-                
-                addErrorAnimation(element) {
-                    if (element) {
-                        element.classList.add('error-animation');
-                        setTimeout(() => {
-                            element.classList.remove('error-animation');
-                        }, 800);
-                    }
-                }
-            };
-            
-            // Enhanced Mouse Tracking
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.addEventListener('mousemove', function(e) {
-                    animations.updateMagicCursor(e.clientX, e.clientY);
-                });
-                
-                // Add click confetti on buttons
-                document.addEventListener('click', function(e) {
-                    if (e.target.matches('button, .btn, .category-card, .tool-card')) {
-                        animations.createConfetti(e.clientX, e.clientY);
-                    }
-                });
-            }
             
             // Navigation functions
             const navigation = {
@@ -3568,23 +2713,14 @@
                 }
             };
             
-            // Enhanced Utility functions
+            // Utility functions
             const utils = {
                 showToast(message, type = 'success', duration = 5000) {
                     const toast = document.createElement('div');
                     toast.className = `toast toast-${type}`;
-                    
-                    // Add emoji based on type
-                    const typeEmoji = {
-                        success: '✅',
-                        error: '❌',
-                        warning: '⚠️',
-                        info: 'ℹ️'
-                    };
-                    
                     toast.innerHTML = `
                         <div class="toast-content">
-                            <span class="toast-icon" aria-hidden="true">${typeEmoji[type] || '📢'}</span>
+                            <span class="toast-icon" aria-hidden="true">${type === 'success' ? '✅' : '❌'}</span>
                             <span class="toast-message">${message}</span>
                             <button class="toast-close" onclick="this.parentNode.parentNode.remove()" aria-label="Close notification">×</button>
                         </div>
@@ -3592,21 +2728,9 @@
                     
                     elements.toastContainer.appendChild(toast);
                     
-                    // Add success/error animation
-                    if (type === 'success') {
-                        animations.addSuccessAnimation(toast);
-                    } else if (type === 'error') {
-                        animations.addErrorAnimation(toast);
-                    }
-                    
                     setTimeout(() => {
                         if (toast.parentNode) {
-                            toast.style.animation = 'toastSlideIn 0.3s ease-out reverse';
-                            setTimeout(() => {
-                                if (toast.parentNode) {
-                                    toast.parentNode.removeChild(toast);
-                                }
-                            }, 300);
+                            toast.parentNode.removeChild(toast);
                         }
                     }, duration);
                 },
@@ -3614,12 +2738,6 @@
                 showLoading(show = true) {
                     if (elements.loadingOverlay) {
                         elements.loadingOverlay.classList.toggle('hidden', !show);
-                        
-                        // Add typewriter effect to loading text
-                        const loadingText = elements.loadingOverlay.querySelector('.loading-text');
-                        if (loadingText && show) {
-                            loadingText.classList.add('typewriter');
-                        }
                     }
                 },
                 
@@ -3657,17 +2775,8 @@
                 
                 updateCharCounter() {
                     if (elements.userInput && elements.charCount) {
-                        const length = elements.userInput.value.length;
-                        elements.charCount.textContent = length;
-                        
-                        // Color coding for character count
-                        if (length > 450) {
-                            elements.charCount.style.color = 'var(--error-color)';
-                        } else if (length > 400) {
-                            elements.charCount.style.color = 'var(--warning-color)';
-                        } else {
-                            elements.charCount.style.color = 'var(--text-muted)';
-                        }
+                        elements.charCount.textContent = elements.userInput.value.length;
+                        elements.charCount.style.color = elements.userInput.value.length > 400 ? 'var(--warning-color)' : 'var(--text-muted)';
                     }
                 },
                 
@@ -3678,9 +2787,6 @@
                         elements.passwordToggle.innerHTML = `<span aria-hidden="true">${isPassword ? '🙈' : '👁️'}</span>`;
                         elements.passwordToggle.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
                         elements.passwordToggle.setAttribute('title', isPassword ? 'Hide password' : 'Show password');
-                        
-                        // Add animation
-                        animations.addSuccessAnimation(elements.passwordToggle);
                     }
                 },
                 
@@ -3722,7 +2828,7 @@
                 
                 async saveFavorite(question, answer) {
                     if (!loggedInUser || !loggedInUser.email) {
-                        utils.showToast("Please login to save favorites. 😊", 'error');
+                        utils.showToast("Please login to save favorites.", 'error');
                         return;
                     }
                     
@@ -3736,24 +2842,23 @@
                         const data = await response.json();
                         
                         if (data.message) {
-                            utils.showToast(`${data.message} 🌟`, 'success', 3000);
-                            animations.createConfetti(window.innerWidth / 2, window.innerHeight / 2);
+                            utils.showToast(data.message, 'success', 3000);
                         } else {
-                            utils.showToast(`${data.error || "Failed to save favorite."} 😢`, 'error');
+                            utils.showToast(data.error || "Failed to save favorite.", 'error');
                         }
                     } catch (err) {
                         console.error('Save favorite error:', err);
-                        utils.showToast("Network error. Please try again. 🔄", 'error');
+                        utils.showToast("Network error. Please try again.", 'error');
                     }
                 },
                 
                 async deleteFavorite(question) {
                     if (!loggedInUser || !loggedInUser.email) {
-                        utils.showToast("Please login to delete favorites. 🔐", 'error');
+                        utils.showToast("Please login to delete favorites.", 'error');
                         return;
                     }
                     
-                    if (!confirm("Are you sure you want to delete this favorite? 🗑️")) {
+                    if (!confirm("Are you sure you want to delete this favorite?")) {
                         return;
                     }
                     
@@ -3767,21 +2872,21 @@
                         const data = await response.json();
                         
                         if (data.message) {
-                            utils.showToast(`${data.message} ✨`, 'success', 3000);
+                            utils.showToast(data.message, 'success', 3000);
                             auth.viewFavorites(); // Refresh the list
                         } else {
-                            utils.showToast(`${data.error || "Failed to delete favorite."} 😢`, 'error');
+                            utils.showToast(data.error || "Failed to delete favorite.", 'error');
                         }
                     } catch (err) {
                         console.error('Delete favorite error:', err);
-                        utils.showToast("Network error. Please try again. 🔄", 'error');
+                        utils.showToast("Network error. Please try again.", 'error');
                     }
                 },
                 
                 async downloadLogo(format) {
                     const img = document.getElementById("generated-logo");
                     if (!img || !img.src) {
-                        utils.showToast("No logo found to download. 🎨", 'error');
+                        utils.showToast("No logo found to download.", 'error');
                         return;
                     }
                     
@@ -3799,7 +2904,7 @@
                             link.click();
                             document.body.removeChild(link);
                             URL.revokeObjectURL(url);
-                            utils.showToast("Logo downloaded as PNG! 🎨✨", 'success', 3000);
+                            utils.showToast("Logo downloaded as PNG!", 'success', 3000);
                         } else {
                             const url = URL.createObjectURL(blob);
                             const image = new Image();
@@ -3819,14 +2924,13 @@
                                 link.click();
                                 document.body.removeChild(link);
                                 URL.revokeObjectURL(url);
-                                utils.showToast("Logo downloaded as JPG! 🖼️✨", 'success', 3000);
+                                utils.showToast("Logo downloaded as JPG!", 'success', 3000);
                             };
                             image.src = url;
                         }
-                        animations.createConfetti(window.innerWidth / 2, 100);
                     } catch (err) {
                         console.error('Logo download error:', err);
-                        utils.showToast("Failed to download logo. Please try again. 😞", 'error');
+                        utils.showToast("Failed to download logo. Please try again.", 'error');
                     } finally {
                         utils.showLoading(false);
                     }
@@ -3835,8 +2939,7 @@
                 copyToClipboard(text) {
                     if (navigator.clipboard && window.isSecureContext) {
                         navigator.clipboard.writeText(text).then(() => {
-                            utils.showToast("Copied to clipboard! 📋✨", 'success', 2000);
-                            animations.createConfetti(window.innerWidth / 2, window.innerHeight / 3);
+                            utils.showToast("Copied to clipboard!", 'success', 2000);
                         }).catch(err => {
                             console.error('Copy error:', err);
                             utils.fallbackCopyTextToClipboard(text);
@@ -3859,14 +2962,13 @@
                     try {
                         const successful = document.execCommand('copy');
                         if (successful) {
-                            utils.showToast("Copied to clipboard! 📋✨", 'success', 2000);
-                            animations.createConfetti(window.innerWidth / 2, window.innerHeight / 3);
+                            utils.showToast("Copied to clipboard!", 'success', 2000);
                         } else {
-                            utils.showToast("Failed to copy to clipboard. 😞", 'error');
+                            utils.showToast("Failed to copy to clipboard.", 'error');
                         }
                     } catch (err) {
                         console.error('Fallback copy error:', err);
-                        utils.showToast("Failed to copy to clipboard. 😞", 'error');
+                        utils.showToast("Failed to copy to clipboard.", 'error');
                     }
                     
                     document.body.removeChild(textArea);
@@ -3882,15 +2984,14 @@
                         link.click();
                         document.body.removeChild(link);
                         URL.revokeObjectURL(link.href);
-                        animations.createConfetti(window.innerWidth / 2, 100);
                     } catch (err) {
                         console.error('Download error:', err);
-                        utils.showToast("Error downloading file. Please try again. 😞", 'error');
+                        utils.showToast("Error downloading file. Please try again.", 'error');
                     }
                 }
             };
             
-            // Enhanced Authentication functions
+            // Authentication functions
             const auth = {
                 async register() {
                     if (!elements.emailInput || !elements.passwordInput || !elements.signupBtn || !elements.loginBtn) return;
@@ -3905,21 +3006,17 @@
                     if (!email) {
                         elements.emailError.textContent = 'Email is required.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.emailInput);
                     } else if (!utils.isValidEmail(email)) {
                         elements.emailError.textContent = 'Please enter a valid email address.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.emailInput);
                     }
                     
                     if (!password) {
                         elements.passwordError.textContent = 'Password is required.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.passwordInput);
                     } else if (!utils.isValidPassword(password)) {
                         elements.passwordError.textContent = 'Password must be at least 8 characters long.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.passwordInput);
                     }
                     
                     if (hasError) {
@@ -3951,19 +3048,15 @@
                             auth.restoreSession();
                             elements.emailInput.value = "";
                             elements.passwordInput.value = "";
-                            utils.showToast("Welcome to VisionFlow! Account created successfully. 🎉🚀", 'success');
-                            animations.createConfetti(window.innerWidth / 2, window.innerHeight / 2);
-                            animations.addSuccessAnimation(elements.signupBtn);
+                            utils.showToast("Welcome to VisionFlow! Account created successfully.", 'success');
                         } else {
-                            utils.showToast(`${data.error || "Registration failed. Please try again."} 😞`, 'error');
+                            utils.showToast(data.error || "Registration failed. Please try again.", 'error');
                             elements.emailInput.focus();
-                            animations.addErrorAnimation(elements.signupBtn);
                         }
                     } catch (err) {
-                        utils.showToast("Network error. Please check your connection and try again. 🔄", 'error');
+                        utils.showToast("Network error. Please check your connection and try again.", 'error');
                         console.error('Registration error:', err);
                         elements.emailInput.focus();
-                        animations.addErrorAnimation(elements.signupBtn);
                     } finally {
                         elements.signupBtn.disabled = false;
                         elements.loginBtn.disabled = false;
@@ -3985,21 +3078,17 @@
                     if (!email) {
                         elements.emailError.textContent = 'Email is required.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.emailInput);
                     } else if (!utils.isValidEmail(email)) {
                         elements.emailError.textContent = 'Please enter a valid email address.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.emailInput);
                     }
                     
                     if (!password) {
                         elements.passwordError.textContent = 'Password is required.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.passwordInput);
                     } else if (!utils.isValidPassword(password)) {
                         elements.passwordError.textContent = 'Password must be at least 8 characters long.';
                         hasError = true;
-                        animations.addErrorAnimation(elements.passwordInput);
                     }
                     
                     if (hasError) {
@@ -4031,19 +3120,15 @@
                             auth.restoreSession();
                             elements.emailInput.value = "";
                             elements.passwordInput.value = "";
-                            utils.showToast("Welcome back to VisionFlow! 🎉✨", 'success');
-                            animations.createConfetti(window.innerWidth / 2, window.innerHeight / 2);
-                            animations.addSuccessAnimation(elements.loginBtn);
+                            utils.showToast("Welcome back to VisionFlow!", 'success');
                         } else {
-                            utils.showToast(`${data.error || "Login failed. Please check your credentials."} 😞`, 'error');
+                            utils.showToast(data.error || "Login failed. Please check your credentials.", 'error');
                             elements.passwordInput.focus();
-                            animations.addErrorAnimation(elements.loginBtn);
                         }
                     } catch (err) {
-                        utils.showToast("Network error. Please check your connection and try again. 🔄", 'error');
+                        utils.showToast("Network error. Please check your connection and try again.", 'error');
                         console.error('Login error:', err);
                         elements.emailInput.focus();
-                        animations.addErrorAnimation(elements.loginBtn);
                     } finally {
                         elements.signupBtn.disabled = false;
                         elements.loginBtn.disabled = false;
@@ -4057,7 +3142,7 @@
                     loggedInUser = null;
                     utils.clearUserData();
                     auth.restoreSession();
-                    utils.showToast("You've been logged out successfully. 👋✨", 'success');
+                    utils.showToast("You've been logged out successfully.", 'success');
                 },
                 
                 restoreSession() {
@@ -4083,7 +3168,7 @@
                 
                 async viewFavorites() {
                     if (!loggedInUser || !loggedInUser.email) {
-                        utils.showToast("Please login to view favorites. 🔐", 'error');
+                        utils.showToast("Please login to view favorites.", 'error');
                         return;
                     }
                     
@@ -4107,7 +3192,7 @@
                                 elements.favoritesList.innerHTML = `
                                     <div style="text-align: center; padding: 40px; color: var(--text-muted);">
                                         <p>📂 No favorites saved yet.</p>
-                                        <p>Start a conversation and save responses to see them here! ✨</p>
+                                        <p>Start a conversation and save responses to see them here!</p>
                                     </div>
                                 `;
                             } else {
@@ -4130,13 +3215,12 @@
                                 
                                 // Scroll to favorites
                                 elements.favoritesList.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                utils.showToast(`Found ${favorites.length} favorites. 🌟`, 'success', 3000);
-                                animations.createConfetti(window.innerWidth / 2, 200);
+                                utils.showToast(`Found ${favorites.length} favorites.`, 'success', 3000);
                             }
                         }
                     } catch (err) {
                         console.error('View favorites error:', err);
-                        utils.showToast("Network error. Please try again. 🔄", 'error');
+                        utils.showToast("Network error. Please try again.", 'error');
                     } finally {
                         utils.showLoading(false);
                     }
@@ -4144,11 +3228,11 @@
                 
                 async clearFavorites() {
                     if (!loggedInUser || !loggedInUser.email) {
-                        utils.showToast("Please login to clear favorites. 🔐", 'error');
+                        utils.showToast("Please login to clear favorites.", 'error');
                         return;
                     }
                     
-                    if (!confirm("Are you sure you want to clear all favorites? This action cannot be undone. 🗑️💔")) {
+                    if (!confirm("Are you sure you want to clear all favorites? This action cannot be undone.")) {
                         return;
                     }
                     
@@ -4164,18 +3248,18 @@
                         const data = await response.json();
                         
                         if (data.message) {
-                            utils.showToast(`${data.message} 🧹✨`, 'success');
+                            utils.showToast(data.message, 'success');
                             if (elements.favoritesList) {
                                 elements.favoritesList.classList.add('hidden');
                                 elements.favoritesList.innerHTML = "";
                             }
                             favorites = []; // Clear the local favorites array
                         } else {
-                            utils.showToast(`${data.error || "Failed to clear favorites."} 😞`, 'error');
+                            utils.showToast(data.error || "Failed to clear favorites.", 'error');
                         }
                     } catch (err) {
                         console.error('Clear favorites error:', err);
-                        utils.showToast("Network error. Please try again. 🔄", 'error');
+                        utils.showToast("Network error. Please try again.", 'error');
                     } finally {
                         utils.showLoading(false);
                     }
@@ -4183,18 +3267,18 @@
                 
                 exportToTXT() {
                     if (favorites.length === 0) {
-                        utils.showToast("No favorites to export. Start saving some responses first! 📝💫", 'warning');
+                        utils.showToast("No favorites to export. Start saving some responses first!", 'warning');
                         return;
                     }
                     
                     const content = favorites.map(f => `Q: ${f.question}\nA: ${f.answer}\n\n---\n\n`).join("");
                     utils.downloadFile("visionflow-favorites.txt", content);
-                    utils.showToast("Favorites exported to TXT file! 📄✨", 'success', 3000);
+                    utils.showToast("Favorites exported to TXT file!", 'success', 3000);
                 },
                 
                 exportToCSV() {
                     if (favorites.length === 0) {
-                        utils.showToast("No favorites to export. Start saving some responses first! 📊💫", 'warning');
+                        utils.showToast("No favorites to export. Start saving some responses first!", 'warning');
                         return;
                     }
                     
@@ -4202,12 +3286,12 @@
                         `"${f.question.replace(/"/g, '""')}","${f.answer.replace(/"/g, '""')}"`
                     ).join("\n");
                     utils.downloadFile("visionflow-favorites.csv", csv);
-                    utils.showToast("Favorites exported to CSV file! 📈✨", 'success', 3000);
+                    utils.showToast("Favorites exported to CSV file!", 'success', 3000);
                 },
                 
                 exportToPDF() {
                     if (favorites.length === 0) {
-                        utils.showToast("No favorites to export. Start saving some responses first! 🖨️💫", 'warning');
+                        utils.showToast("No favorites to export. Start saving some responses first!", 'warning');
                         return;
                     }
                     
@@ -4219,7 +3303,7 @@
                         // Add title
                         doc.setFontSize(18);
                         doc.setTextColor(255, 215, 0);
-                        doc.text("VisionFlow AI - Favorites ✨", 20, y);
+                        doc.text("VisionFlow AI - Favorites", 20, y);
                         y += 20;
                         
                         doc.setFontSize(12);
@@ -4248,11 +3332,10 @@
                         });
                         
                         doc.save("visionflow-favorites.pdf");
-                        utils.showToast("Favorites exported to PDF file! 🖨️✨", 'success', 3000);
-                        animations.createConfetti(window.innerWidth / 2, 100);
+                        utils.showToast("Favorites exported to PDF file!", 'success', 3000);
                     } catch (err) {
                         console.error('PDF export error:', err);
-                        utils.showToast("Error exporting to PDF. Please try again. 😞", 'error');
+                        utils.showToast("Error exporting to PDF. Please try again.", 'error');
                     }
                 },
                 
@@ -4261,7 +3344,7 @@
                     
                     const savedUser = localStorage.getItem("visionflowUser");
                     if (!savedUser) {
-                        utils.showToast("Please login or sign up first. 🔐", 'error');
+                        utils.showToast("Please login or sign up first.", 'error');
                         auth.restoreSession();
                         return;
                     }
@@ -4269,13 +3352,13 @@
                     try {
                         loggedInUser = JSON.parse(savedUser);
                     } catch (e) {
-                        utils.showToast("Please login or sign up first. 🔐", 'error');
+                        utils.showToast("Please login or sign up first.", 'error');
                         auth.restoreSession();
                         return;
                     }
                     
                     if (!loggedInUser || !loggedInUser.email) {
-                        utils.showToast("Please login or sign up first. 🔐", 'error');
+                        utils.showToast("Please login or sign up first.", 'error');
                         auth.restoreSession();
                         return;
                     }
@@ -4286,21 +3369,20 @@
                     
                     if (!message) {
                         elements.userInput.focus();
-                        animations.addErrorAnimation(elements.userInput);
                         return;
                     }
                     
                     const fullPrompt = utils.generatePrompt(currentTool, message);
                     
                     // Add user message to chat
-                    elements.chatBox.innerHTML += `<p>👤 <strong>You:</strong> ${message}</p>`;
+                    elements.chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
                     elements.userInput.value = "";
                     utils.updateCharCounter();
                     
                     // Show loading state
                     if (elements.sendBtn) {
                         elements.sendBtn.disabled = true;
-                        elements.sendBtn.innerHTML = '<span class="send-icon" aria-hidden="true">⏳</span>';
+                        elements.sendBtn.innerHTML = '<span class="send-icon" aria-hidden="true">⟳</span>';
                         elements.sendBtn.style.opacity = '0.6';
                     }
                     
@@ -4323,8 +3405,8 @@
                         
                         if (currentTool === "logo" && data.image) {
                             responseHtml = `
-                                <p>🤖 <strong>VisionFlow:</strong></p>
-                                <img id="generated-logo" src="${data.image}" alt="Generated Logo" style="max-width:100%; border-radius:8px; margin: 10px 0; border: 2px solid rgba(255, 215, 0, 0.2);" loading="lazy" />
+                                <p><strong>VisionFlow:</strong></p>
+                                <img id="generated-logo" src="${data.image}" alt="Generated Logo" style="max-width:100%; border-radius:8px; margin: 10px 0;" loading="lazy" />
                                 <br><br>
                                 <button onclick="utils.saveFavorite('${message.replace(/'/g, "\\'")}', '${data.image}')" style="margin-right: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">💾 Save to Favorites</button>
                                 <button onclick="utils.downloadLogo('png')" style="margin-right: 10px; padding: 8px 16px; background: var(--tertiary-color); color: var(--primary-color); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; cursor: pointer; font-weight: 600;">⬇️ Download PNG</button>
@@ -4333,26 +3415,25 @@
                         } else if (data.reply) {
                             const safereply = data.reply.replace(/`/g, "\\`").replace(/'/g, "\\'");
                             responseHtml = `
-                                <p>🤖 <strong>VisionFlow:</strong></p>
+                                <p><strong>VisionFlow:</strong></p>
                                 <pre style="white-space: pre-wrap; word-wrap: break-word;">${data.reply}</pre>
                                 <button onclick="utils.saveFavorite('${message.replace(/'/g, "\\'")}', \`${safereply}\`)" style="margin-top: 10px; padding: 8px 16px; background: var(--gradient-secondary); color: var(--secondary-color); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">💾 Save to Favorites</button>
                             `;
                         } else {
-                            responseHtml = `<p>🤖 <strong>VisionFlow:</strong> I apologize, but I encountered an issue processing your request. Please try again. 😅</p>`;
+                            responseHtml = `<p><strong>VisionFlow:</strong> I apologize, but I encountered an issue processing your request. Please try again.</p>`;
                         }
                         
                         elements.chatBox.innerHTML += responseHtml;
                         elements.chatBox.scrollTop = elements.chatBox.scrollHeight;
                         
-                        // Show success toast and confetti
-                        utils.showToast("Response generated successfully! 🎉✨", 'success', 3000);
-                        animations.createConfetti(window.innerWidth / 2, 200);
+                        // Show success toast
+                        utils.showToast("Response generated successfully!", 'success', 3000);
                         
                     } catch (err) {
                         console.error('Chat error:', err);
-                        elements.chatBox.innerHTML += `<p>🤖 <strong>VisionFlow:</strong> <span style="color: var(--error-color);">I'm experiencing technical difficulties. Please check your connection and try again. 🔧💫</span></p>`;
+                        elements.chatBox.innerHTML += `<p><strong>VisionFlow:</strong> <span style="color: var(--error-color);">I'm experiencing technical difficulties. Please check your connection and try again.</span></p>`;
                         elements.chatBox.scrollTop = elements.chatBox.scrollHeight;
-                        utils.showToast("Error communicating with AI. Please try again. 🤖😞", 'error');
+                        utils.showToast("Error communicating with AI. Please try again.", 'error');
                     } finally {
                         // Reset loading state
                         if (elements.sendBtn) {
@@ -4360,10 +3441,7 @@
                             elements.sendBtn.innerHTML = '<span class="send-icon" aria-hidden="true">→</span>';
                             elements.sendBtn.style.opacity = '1';
                         }
-                        if (elements.userInput) {
-                            elements.userInput.focus();
-                            animations.addSuccessAnimation(elements.userInput);
-                        }
+                        if (elements.userInput) elements.userInput.focus();
                     }
                 }
             };
@@ -4383,7 +3461,6 @@
                     card.addEventListener('click', function() {
                         const category = this.dataset.category;
                         navigation.showPage(`${category}-tools`);
-                        animations.addSuccessAnimation(this);
                     });
                 });
                 
@@ -4400,7 +3477,6 @@
                         else if (section.id === 'content-tools-section') category = 'content';
                         
                         navigation.openTool(tool, category);
-                        animations.addSuccessAnimation(this);
                     });
                 });
                 
@@ -4425,15 +3501,13 @@
                             localStorage.setItem('theme', 'light');
                         }
                         utils.updateThemeButton();
-                        animations.addSuccessAnimation(elements.toggleTheme);
-                        animations.createConfetti(window.innerWidth / 2, 100);
                     };
                 }
                 
                 if (elements.userInput) elements.userInput.oninput = utils.updateCharCounter;
                 if (elements.passwordToggle) elements.passwordToggle.onclick = utils.togglePasswordVisibility;
                 
-                // Enhanced Keyboard shortcuts
+                // Keyboard shortcuts
                 document.addEventListener('keydown', function(e) {
                     // Ctrl/Cmd + Enter to send message
                     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -4450,13 +3524,6 @@
                             navigation.goBack();
                         }
                     }
-                    
-                    // Space to trigger confetti (Easter egg)
-                    if (e.code === 'Space' && e.ctrlKey && e.shiftKey) {
-                        e.preventDefault();
-                        animations.createConfetti(window.innerWidth / 2, window.innerHeight / 2);
-                        utils.showToast("🎉 Surprise! You found the confetti shortcut! ✨", 'success', 3000);
-                    }
                 });
                 
                 // Form validation and navigation
@@ -4471,16 +3538,8 @@
                     elements.emailInput.addEventListener('blur', function() {
                         if (this.value && !utils.isValidEmail(this.value)) {
                             elements.emailError.textContent = 'Please enter a valid email address.';
-                            animations.addErrorAnimation(this);
                         } else {
                             elements.emailError.textContent = '';
-                        }
-                    });
-                    
-                    elements.emailInput.addEventListener('input', function() {
-                        if (elements.emailError.textContent && utils.isValidEmail(this.value)) {
-                            elements.emailError.textContent = '';
-                            animations.addSuccessAnimation(this);
                         }
                     });
                 }
@@ -4496,16 +3555,8 @@
                     elements.passwordInput.addEventListener('blur', function() {
                         if (this.value && !utils.isValidPassword(this.value)) {
                             elements.passwordError.textContent = 'Password must be at least 8 characters long.';
-                            animations.addErrorAnimation(this);
                         } else {
                             elements.passwordError.textContent = '';
-                        }
-                    });
-                    
-                    elements.passwordInput.addEventListener('input', function() {
-                        if (elements.passwordError.textContent && utils.isValidPassword(this.value)) {
-                            elements.passwordError.textContent = '';
-                            animations.addSuccessAnimation(this);
                         }
                     });
                 }
@@ -4516,52 +3567,24 @@
                         this.style.height = 'auto';
                         this.style.height = Math.min(this.scrollHeight, 120) + 'px';
                     });
-                    
-                    elements.userInput.addEventListener('focus', function() {
-                        animations.addSuccessAnimation(this);
-                    });
                 }
-                
-                // Add hover effects with confetti for buttons
-                document.querySelectorAll('button, .btn').forEach(button => {
-                    let hoverTimeout;
-                    
-                    button.addEventListener('mouseenter', function() {
-                        hoverTimeout = setTimeout(() => {
-                            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                                const rect = this.getBoundingClientRect();
-                                animations.createConfetti(
-                                    rect.left + rect.width / 2,
-                                    rect.top + rect.height / 2
-                                );
-                            }
-                        }, 1000); // Show confetti after 1 second of hovering
-                    });
-                    
-                    button.addEventListener('mouseleave', function() {
-                        clearTimeout(hoverTimeout);
-                    });
-                });
             }
             
-            // Enhanced initialization function
+            // Initialize app
             function initializeApp() {
                 auth.restoreSession();
                 
-                // Restore theme with animation
+                // Restore theme
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme === 'light') {
                     document.body.classList.add('light-mode');
-                    setTimeout(() => {
-                        animations.createConfetti(window.innerWidth / 2, 100);
-                    }, 1000);
                 }
                 utils.updateThemeButton();
                 
                 attachEventHandlers();
                 utils.updateCharCounter();
                 
-                // Performance optimization: lazy load images with animation
+                // Performance optimization: lazy load images
                 setTimeout(() => {
                     const images = document.querySelectorAll('img[loading="lazy"]');
                     if ('IntersectionObserver' in window) {
@@ -4571,7 +3594,6 @@
                                     const img = entry.target;
                                     img.src = img.dataset.src || img.src;
                                     img.classList.remove('lazy');
-                                    animations.addSuccessAnimation(img);
                                     imageObserver.unobserve(img);
                                 }
                             });
@@ -4581,118 +3603,41 @@
                     }
                 }, 1000);
                 
-                // Enhanced welcome message with animation
+                // Show welcome message after a delay
                 setTimeout(() => {
                     if (currentPage === 'auth') {
-                        utils.showToast("Welcome to VisionFlow AI! Create an account to get started. 🚀✨", 'info', 6000);
-                        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                            animations.createConfetti(window.innerWidth / 2, window.innerHeight / 4);
-                        }
+                        utils.showToast("Welcome to VisionFlow AI! Create an account to get started.", 'info', 5000);
                     }
-                }, 2500);
-                
-                // Add periodic sparkle effects
-                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    setInterval(() => {
-                        if (Math.random() > 0.7) { // 30% chance every interval
-                            const x = Math.random() * window.innerWidth;
-                            const y = Math.random() * (window.innerHeight / 2);
-                            
-                            const sparkle = document.createElement('div');
-                            sparkle.style.position = 'fixed';
-                            sparkle.style.left = x + 'px';
-                            sparkle.style.top = y + 'px';
-                            sparkle.style.fontSize = '1rem';
-                            sparkle.style.pointerEvents = 'none';
-                            sparkle.style.zIndex = '9999';
-                            sparkle.textContent = ['✨', '💫', '⭐', '🌟'][Math.floor(Math.random() * 4)];
-                            sparkle.style.animation = 'sparkle 2s ease-out forwards';
-                            
-                            document.body.appendChild(sparkle);
-                            
-                            setTimeout(() => {
-                                if (sparkle.parentNode) {
-                                    sparkle.parentNode.removeChild(sparkle);
-                                }
-                            }, 2000);
-                        }
-                    }, 5000); // Every 5 seconds
-                }
+                }, 2000);
             }
             
             // Expose functions globally for onclick handlers
             window.utils = utils;
             window.auth = auth;
             window.navigation = navigation;
-            window.animations = animations;
             
             // Service Worker registration for PWA
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/sw.js').then(function(registration) {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                        utils.showToast("App is ready for offline use! 📱✨", 'info', 3000);
                     }, function(err) {
                         console.log('ServiceWorker registration failed: ', err);
                     });
                 });
             }
             
-            // Enhanced online/offline status handling
+            // Handle online/offline status
             window.addEventListener('online', function() {
-                utils.showToast("Connection restored! You're back online! 🌐✨", 'success', 3000);
-                animations.createConfetti(window.innerWidth / 2, 100);
+                utils.showToast("Connection restored!", 'success', 3000);
             });
             
             window.addEventListener('offline', function() {
-                utils.showToast("You're offline. Some features may not work. 📡💔", 'warning', 5000);
-            });
-            
-            // Enhanced visibility change handling
-            document.addEventListener('visibilitychange', function() {
-                if (!document.hidden && currentPage !== 'auth') {
-                    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                        setTimeout(() => {
-                            animations.createConfetti(window.innerWidth / 2, 100);
-                        }, 500);
-                    }
-                }
+                utils.showToast("You're offline. Some features may not work.", 'warning', 5000);
             });
             
             // Start the app when DOM is loaded
             document.addEventListener("DOMContentLoaded", initializeApp);
-            
-            // Add a fun Easter egg - Konami code
-            let konamiCode = [];
-            const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-            
-            document.addEventListener('keydown', function(e) {
-                konamiCode.push(e.code);
-                
-                if (konamiCode.length > konamiSequence.length) {
-                    konamiCode.shift();
-                }
-                
-                if (konamiCode.length === konamiSequence.length && 
-                    konamiCode.every((key, index) => key === konamiSequence[index])) {
-                    
-                    // Trigger massive confetti explosion
-                    for (let i = 0; i < 50; i++) {
-                        setTimeout(() => {
-                            animations.createConfetti(
-                                Math.random() * window.innerWidth,
-                                Math.random() * window.innerHeight
-                            );
-                        }, i * 100);
-                    }
-                    
-                    utils.showToast("🎉 KONAMI CODE ACTIVATED! 🎊 You've unlocked the ultimate celebration mode! 🚀✨🌟", 'success', 8000);
-                    
-                    // Reset the code
-                    konamiCode = [];
-                }
-            });
-            
         })();
     </script>
 </body>
